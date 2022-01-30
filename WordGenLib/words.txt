@@ -1706,6 +1706,7 @@ aragonese
 arak
 araneae
 arb
+arbed
 arbiter
 arbiters
 arbitrage
@@ -2516,6 +2517,7 @@ backtalk
 backtalks
 backtrack
 backtracked
+backtracking
 backtracks
 backup
 backups
@@ -2739,6 +2741,7 @@ bannings
 bannister
 bannisters
 bans
+bansed
 banshee
 banshees
 bantam
@@ -2899,6 +2902,7 @@ basins
 bask
 basked
 baskerville
+baskervilles
 basket
 basketball
 basketballs
@@ -4540,6 +4544,8 @@ breathed
 breather
 breathers
 breathes
+breathing
+breathings
 breathlessness
 breathlessnesses
 breaths
@@ -6451,6 +6457,7 @@ chimney
 chimneys
 china
 chinaman
+chinas
 chinatown
 chinaware
 chinawares
@@ -9003,7 +9010,10 @@ cruds
 cruet
 cruets
 cruise
+cruised
 cruiser
+cruisers
+cruises
 cruising
 cruller
 crullers
@@ -14079,6 +14089,7 @@ fistfighting
 fistfights
 fistful
 fistfuls
+fisting
 fists
 fistula
 fistulas
@@ -14522,6 +14533,7 @@ footed
 footer
 footers
 footfall
+footfalls
 footie
 footing
 footings
@@ -15360,6 +15372,7 @@ garters
 garth
 garuda
 gascon
+gascones
 gaseous
 gases
 gash
@@ -16113,6 +16126,8 @@ grackle
 grackles
 grad
 graded
+grader
+graders
 grades
 gradient
 gradients
@@ -16798,6 +16813,7 @@ hallowing
 hallows
 hallucinogen
 hallucinogenic
+hallucinogenics
 hallucinogens
 hallway
 hallways
@@ -16820,6 +16836,7 @@ hamburg
 hamburger
 hamburgers
 hame
+hameer
 hamlet
 hamlets
 hammam
@@ -17273,6 +17290,7 @@ helipad
 heliport
 heliports
 hellcat
+hellcats
 hellen
 heller
 hellespont
@@ -19443,6 +19461,7 @@ intricately
 intrinsic
 intrinsically
 intro
+introd
 introduce
 introduced
 introduces
@@ -19532,6 +19551,7 @@ invitational
 invitations
 invite
 invited
+invitees
 inviter
 invites
 invoice
@@ -19832,6 +19852,7 @@ jeffs
 jejunum
 jell
 jelled
+jelling
 jello
 jells
 jellyfish
@@ -20682,6 +20703,7 @@ laertes
 lag
 lager
 lagers
+lages
 laggard
 laggards
 laggin
@@ -20864,6 +20886,7 @@ lateness
 latenesses
 latent
 later
+lates
 latex
 latexes
 lathe
@@ -21167,6 +21190,7 @@ lessors
 lest
 leste
 lester
+lestes
 let
 letch
 letches
@@ -21391,6 +21415,8 @@ limitations
 limited
 limitedly
 limiteds
+limiter
+limiters
 limiting
 limitings
 limits
@@ -22368,6 +22394,7 @@ margery
 marges
 margin
 marginal
+marginals
 margins
 margrave
 marguerite
@@ -22655,6 +22682,7 @@ maunders
 mausoleum
 mausoleums
 mauve
+mauves
 maven
 mavens
 maverick
@@ -25071,6 +25099,7 @@ odd
 oddball
 oddballs
 odder
+odds
 ode
 odell
 odes
@@ -27832,6 +27861,7 @@ positrons
 posits
 poss
 posse
+posser
 posses
 possession
 possessions
@@ -28366,6 +28396,7 @@ probity
 problem
 problematic
 problematical
+problems
 proboscis
 proboscises
 procedural
@@ -28913,6 +28944,7 @@ purify
 purifying
 purim
 puritan
+puritans
 purity
 purl
 purled
@@ -30120,6 +30152,7 @@ regrets
 regrettable
 regrettably
 regular
+regulares
 regularity
 regularize
 regularized
@@ -31175,6 +31208,7 @@ roam
 roamed
 roamer
 roamers
+roaming
 roams
 roast
 roasted
@@ -33343,6 +33377,7 @@ sightsee
 sightseeing
 sightseeings
 sightseer
+sightseers
 sigma
 sigmas
 signal
@@ -33991,6 +34026,7 @@ smooching
 smoochings
 smoothed
 smoothen
+smoothened
 smoother
 smoothers
 smoothie
@@ -34398,6 +34434,7 @@ sort
 sorted
 sorter
 sorters
+sortes
 sorting
 sortings
 sorts
@@ -34818,6 +34855,7 @@ spooking
 spooks
 spool
 spooled
+spooling
 spools
 spoon
 spooned
@@ -35116,6 +35154,7 @@ standees
 stander
 standers
 standing
+standings
 standout
 standpoint
 standpoints
@@ -36644,6 +36683,7 @@ takeouts
 takeover
 takeovers
 taker
+takers
 takes
 takin
 taking
@@ -36966,6 +37006,7 @@ teeters
 teeth
 teethe
 teethed
+teether
 teethes
 teething
 teethings

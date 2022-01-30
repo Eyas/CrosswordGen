@@ -277,7 +277,6 @@ aralia
 aram naharaim
 aranuka
 arashi
-arbed
 arbirlot
 arborea
 arbun
@@ -420,7 +419,6 @@ bacchanalia
 bacchanalias
 baccharis
 backspread
-backtracking
 backwaxed
 baconsthorpe
 badgeworth
@@ -484,7 +482,6 @@ baneswarpur
 bangbily
 banglabandha
 bangxing
-bansed
 baoji
 baragash
 barajevo
@@ -511,7 +508,6 @@ basauti
 basenji
 bashidang
 basilika
-baskervilles
 basoko
 bass bar
 bass bumpers
@@ -763,8 +759,6 @@ bransat
 brantes
 brasnorte
 breakstep
-breathing
-breathings
 brecknockshire
 brega
 bregma
@@ -1051,7 +1045,6 @@ chigirtma
 chilcacetus
 child actor
 chilekovo
-chinas
 chinawal
 chintila
 chippiparai
@@ -1224,9 +1217,6 @@ crocodylus
 cronce
 crossosomataceae
 cruis
-cruised
-cruisers
-cruises
 crupies
 crust punk
 cryptologia
@@ -1746,7 +1736,6 @@ firuzeh
 firuziyeh
 fiserv
 fiskardo
-fisting
 fiyenovka
 flagellum
 flakavatnet
@@ -1767,7 +1756,6 @@ fontanafredda
 fontenotte
 fonteny
 foodex
-footfalls
 footrope
 forallac
 forceps
@@ -1838,7 +1826,6 @@ garnethill
 garrincha
 gartow
 garzigliana
-gascones
 gashchenka
 gasherbrum
 gasker
@@ -1979,8 +1966,6 @@ gouera
 governmentality
 gphoto
 graceland
-grader
-graders
 graimbouville
 grajewo
 grale
@@ -2072,11 +2057,9 @@ halilu
 haliotoidea
 halkan
 hallaton
-hallucinogenics
 halswell
 hamade
 hamdara
-hameer
 hamgam
 hanadi
 hanau
@@ -2134,7 +2117,6 @@ heineken
 heistenbach
 heleosaurus
 heliotropium
-hellcats
 helldone
 helochelys
 hemerodromiinae
@@ -2305,9 +2287,7 @@ inostrancevia
 insulinoma
 insulinomas
 interchannel
-introd
 invitee
-invitees
 ipaumirim
 ipsala
 ipsapirone
@@ -2388,7 +2368,6 @@ javanmard
 jayac
 jazimaq
 jazz funk
-jelling
 jelly falls
 jennersdorf
 jetconnect
@@ -2788,7 +2767,6 @@ labotas
 labourgade
 lacrimosa
 lagenida
-lages
 laglio
 lahaymeix
 lahayville
@@ -2831,7 +2809,6 @@ lasiosphaeriaceae
 lasiurus
 lastebasse
 lasztonya
-lates
 latignano
 latindex
 latveria
@@ -2878,7 +2855,6 @@ lesmont
 lesoparkovaya
 lessingham
 lestek
-lestes
 lestyukhin
 letermovir
 leumanang
@@ -2913,8 +2889,6 @@ likey
 lillooet
 limenitidinae
 limici
-limiter
-limiters
 lindome
 linearizability
 linenfold
@@ -3150,7 +3124,6 @@ marfleet
 margaretting
 margaritiferidae
 marghita
-marginals
 marhia
 mariapfarr
 marilao
@@ -3199,7 +3172,6 @@ matyushkino
 matzoquiles
 maulette
 mauressargues
-mauves
 mavalli
 mavinakere
 mavlu
@@ -3705,7 +3677,6 @@ ochaya
 ochicha
 oconostota
 octal
-odds
 odds ratio
 oeceoclades
 oegopsida
@@ -4104,7 +4075,6 @@ popscene
 populares
 portogruaro
 posanges
-posser
 post capitalism
 postbanken
 postilion
@@ -4143,7 +4113,6 @@ prissani
 pritchel
 pro forma
 probainognathia
-problems
 proctoscopy
 progenitor
 progenitors
@@ -4205,7 +4174,6 @@ punkalaidun
 puppigerus
 purism
 purisms
-puritans
 purvi
 puscifer
 pustike
@@ -4329,7 +4297,6 @@ referendary
 reggada
 reggiolo
 regin
-regulares
 regulus
 reichsautobahn
 reinheim
@@ -4372,7 +4339,6 @@ ritzerau
 rivarossa
 riveris
 rixensart
-roaming
 robattle
 robilante
 robledollano
@@ -4707,7 +4673,6 @@ siemiatycze
 sieradowo
 sieroczyn
 sightline
-sightseers
 sigmaringendorf
 sigmoidoscopy
 signau
@@ -4732,7 +4697,6 @@ simonsbath
 simpletext
 simushir
 sinalco
-sines
 singhabad
 sinogold
 sinopoli
@@ -4767,7 +4731,6 @@ slimicide
 slipcase
 slurpee
 smaragdus
-smoothened
 snagging
 snaphance
 snehaloka
@@ -4801,7 +4764,6 @@ sorata
 sorbie
 soresina
 sorkhehvand
-sortes
 soshangane
 sotodosos
 sotonikha
@@ -4832,7 +4794,6 @@ spirobolida
 spitamenes
 spiv
 spivs
-spooling
 spyware
 squalane
 squalodon
@@ -4844,7 +4805,6 @@ stabroek
 stadacona
 stakhanovets
 stakkato
-standings
 stanfour
 stapari
 stapenhill
@@ -4980,7 +4940,6 @@ tagicetus
 tagnone
 taifals
 tailhac
-takers
 takio
 taksin
 talange
@@ -5042,7 +5001,6 @@ tazarah
 teano
 techint
 tedizolid
-teether
 tegernheim
 teinkin
 teinmata
