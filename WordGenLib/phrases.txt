@@ -1,5 +1,4 @@
 a new hope
-aaa
 aarp
 abba
 abbasid
@@ -1610,7 +1609,3 @@ zitis
 zmw
 zucchini
 zucchinis
-zzz
-zzzed
-zzzing
-zzzs

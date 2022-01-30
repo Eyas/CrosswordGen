@@ -6,11 +6,9 @@ a burton
 a capella
 a cappella
 a capriccio
-a cock horse
 a damn sight
 a day after the fair
 a fortiori
-a fuck sight
 a go go
 a good deal
 a great deal
@@ -45,18 +43,6 @@ aaland islands
 aalands
 aardwolf
 aardwolves
-ab
-ab absurdo
-ab aeterno
-ab extra
-ab inconvenienti
-ab init
-ab initio
-ab intestato
-ab intra
-ab invito
-ab ovo
-ab utili
 abaci
 aback
 abackward
@@ -315,14 +301,9 @@ absently
 absentmindedly
 absentmindedness
 absentmindednesses
-absitively
-absitively posilutely
-absitively posolutely
 abso bloody lutely
-abso fucking lutely
 absobloodylutely
 absofreakinlutely
-absofuckinglutely
 absolutist
 absolutistically
 absolutists
@@ -3689,7 +3670,6 @@ as best one can
 as far as
 as far as one knows
 as follows
-as fuck
 as gaeilge
 as good as
 as good as dead
@@ -23442,17 +23422,6 @@ ftmfw
 fubsily
 fuchsia
 fuchsias
-fuck
-fuck off
-fuck you
-fuckably
-fucked
-fucked up
-fuckheadedly
-fucking
-fuckingly
-fucks
-fucktardedly
 fucus
 fucuses
 fuddle
@@ -24794,7 +24763,6 @@ gnostically
 gnotobiotically
 go
 go far
-go fuck yourself
 go out
 go to
 go tos
@@ -38483,9 +38451,6 @@ mother in law
 mother nature
 motherboard
 motherboards
-motherfreaking
-motherfucking
-motherfuckingly
 motheringly
 motherliness
 motherlinesses
@@ -46308,7 +46273,6 @@ porkiest
 porkily
 porkishly
 porky
-pornographically
 porosimetrically
 porosities
 porosity
@@ -62387,11 +62351,6 @@ transrectally
 transregionally
 transrenally
 transsclerally
-transsexual
-transsexualism
-transsexualisms
-transsexually
-transsexuals
 transship
 transshipment
 transshipments
@@ -64743,7 +64702,6 @@ unfroze
 unfrozen
 unfruitful
 unfruitfully
-unfuckably
 unfulfillably
 unfulfilled
 unfully
