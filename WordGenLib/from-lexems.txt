@@ -224,7 +224,6 @@ abseils
 absence
 absences
 absent mindedly
-absentmindedly
 absentmindedness
 abso bloody lutely
 absolutist
@@ -298,7 +297,6 @@ academies
 academy board
 academy boards
 acanthus
-acapella
 acausally
 acca
 acceding
@@ -328,7 +326,6 @@ accessorily
 accessory
 accidence
 accidences
-accidentally on purpose
 accidently
 acclimatise
 acclimatised
@@ -408,7 +405,6 @@ acetaminophens
 acetylation
 acetylations
 acetylcholinesterase
-acetylcholinesterases
 acetyltransferase
 acetyltransferases
 acey deucey
@@ -862,7 +858,6 @@ aethers
 aetiologically
 aetiologies
 aetiology
-aetiopathogenetically
 affabilities
 affability
 affable
@@ -1035,7 +1030,6 @@ agnosticism
 agnosticisms
 agnostics
 agog
-agogo
 agone
 agonies
 agonisingly
@@ -1091,7 +1085,6 @@ ahmad
 ahmads
 ahmed
 ahmeds
-ahold
 ahoy
 aid
 aid dependent
@@ -1172,7 +1165,6 @@ al niente
 alack
 alacrities
 alacrity
-alamode
 alanine
 alanines
 alarmingly
@@ -1208,7 +1200,6 @@ alewife
 alewives
 alfred
 alfreds
-alfresco
 algally
 algebraic
 algebraical
@@ -1372,7 +1363,6 @@ allotropes
 allotropic
 allotropically
 allotting
-allover
 allow
 allowable
 allowably
@@ -1415,7 +1405,6 @@ alonely
 along
 along the way
 aloofly
-alot
 aloud
 alp
 alpaca
@@ -1605,7 +1594,6 @@ among other things
 amongst
 amoralities
 amorally
-amornings
 amorous
 amorously
 amorphously
@@ -1732,7 +1720,6 @@ anaphoric
 anaphorically
 anaphylactic
 anaphylactically
-anarcha feministically
 anarchical
 anarchically
 anarchies
@@ -1757,7 +1744,6 @@ anatomies
 anatomist
 anatomists
 anatomizing
-anatomopathologically
 ance
 ancestorially
 ancestrally
@@ -1881,7 +1867,6 @@ anilines
 animadversion
 animadversions
 animal ethics
-animal ethics committee
 animalcule
 animalcules
 animalistically
@@ -2106,7 +2091,6 @@ anthropocentric
 anthropocentrically
 anthropogenic
 anthropogenically
-anthropogeographically
 anthropoid
 anthropoids
 anthropologies
@@ -2148,7 +2132,6 @@ anticipatively
 anticipatorily
 anticlimactically
 anticlinally
-anticlockwise
 anticlockwisely
 anticly
 anticoagulant
@@ -2165,8 +2148,6 @@ antidotally
 antidote
 antidotes
 antiently
-antiferroelectrically
-antiferromagnetically
 antifreeze
 antifreezes
 antifungally
@@ -2238,7 +2219,6 @@ antiseptically
 antiseptics
 antiserum
 antiserums
-antisocial
 antisocially
 antispasmodic
 antispasmodics
@@ -2290,11 +2270,7 @@ anyplace
 anyplace else
 anything
 anything but
-anytime
-anytime now
-anytime soon
 anyting
-anyway
 anyways
 anywhere else
 anywhere on earth
@@ -2333,7 +2309,6 @@ apical
 apically
 apices
 apiculture
-aplenty
 apocalypse
 apocalypses
 apocalyptically
@@ -2532,7 +2507,6 @@ approximators
 appurtenance
 appurtenances
 appurtenant
-apriori
 apron
 aprons
 apropos
@@ -3061,7 +3035,6 @@ asterisms
 astern
 asteroid
 asteroids
-asteroseismologically
 asteroseismology
 asthma
 asthmas
@@ -3111,7 +3084,6 @@ astrophysics
 astutely
 astuteness
 astuter
-aswell
 aswing
 asymmetric
 asymmetrical
@@ -3308,7 +3280,6 @@ augmentation
 augmentations
 augmentative
 augmentatively
-augmented intelligence
 augsburg
 auguries
 august
@@ -3395,8 +3366,6 @@ autocomplete
 autocompleted
 autocompletes
 autocompleting
-autocorrelation
-autocorrelations
 autocracies
 autocracy
 autocratically
@@ -3635,13 +3604,9 @@ backdoor
 backdoors
 backdrop
 backdrops
-backend
-backends
 backfield
 backfields
 backhand
-backhanded
-backhandedly
 backhanding
 backhands
 backhoe
@@ -4610,7 +4575,6 @@ bigly
 bigness
 bigotedly
 bigotly
-bigtime
 bijectively
 bijou
 bilabial
@@ -4816,7 +4780,6 @@ biomolecularly
 biomolecule
 biomolecules
 biomorphically
-bionanotechnologically
 bionic
 bionically
 bionics
@@ -4990,7 +4953,6 @@ bivouacked
 bivouacking
 bivouackings
 biweeklies
-biweekly
 bizarreness
 blabbed
 black and white
@@ -5454,8 +5416,6 @@ bookmobile
 bookmobiles
 bookplate
 bookplates
-bookshelf
-bookshelves
 bookshop
 bookshops
 bookstall
@@ -5897,7 +5857,6 @@ broadcloth
 broadcloths
 broader
 broadest
-broadmindedly
 broadness
 broads
 broadsheet
@@ -6031,7 +5990,6 @@ buckler
 bucklers
 buckling
 buckminsterfullerene
-buckminsterfullerenes
 buckram
 buckrammed
 buckramming
@@ -6241,7 +6199,6 @@ businesslikely
 businessman
 businessmen
 businesspeople
-businessperson
 businesspersons
 businesswoman
 businesswomen
@@ -6635,7 +6592,6 @@ cannonades
 cannonading
 cannonball
 cannonballs
-cannot
 cannula
 cannulas
 canny
@@ -6837,7 +6793,6 @@ cardiomyopathy
 cardioprotective
 cardiopulmonary
 cardiothoracic
-cardiotocographically
 cardiovascularly
 cards
 cardsharp
@@ -7226,8 +7181,6 @@ cell nuclei
 cell nucleus
 cell phone
 cell phones
-cellphone
-cellphones
 cellularly
 cellulite
 cellulites
@@ -7594,17 +7547,13 @@ chemise
 chemises
 chemistries
 chemnitz
-chemoarchitectonically
 chemoattractant
 chemoattractants
 chemoautotrophically
 chemoenzymatically
-chemoheterotrophically
 chemoinformatically
-chemolithotrophically
 chemometrically
 chemometrics
-chemoorganotrophically
 chemoprophylaxis
 chemoradiation
 chemoreception
@@ -7674,7 +7623,6 @@ chicles
 chicly
 chicories
 chief
-chief executive officer
 chiefly
 chiefs
 chieftainship
@@ -7819,8 +7767,6 @@ cholangiography
 cholangitis
 cholecystectomies
 cholecystectomy
-cholecystographically
-choledochoduodenostomy
 cholera
 choleras
 choleric
@@ -7922,7 +7868,6 @@ chronicler
 chroniclers
 chronicles
 chronicling
-chronoamperometrically
 chronobiologies
 chronobiology
 chronograph
@@ -7933,7 +7878,6 @@ chronologically
 chronologies
 chronology
 chronometrically
-chronostratigraphically
 chronotropically
 chrysanthemum
 chrysanthemums
@@ -7995,7 +7939,6 @@ cinchona
 cinchonas
 cincture
 cinctures
-cinefluorographically
 cinema
 cinemas
 cinematographically
@@ -8246,7 +8189,6 @@ climactically
 climate
 climate change
 climate change denial
-climate change feedback
 climate conscious
 climate debt
 climate justice
@@ -8286,7 +8228,6 @@ clinical research
 clinically
 clinician
 clinicians
-clinicopathologically
 clinics
 cliometrically
 clipped
@@ -8599,7 +8540,6 @@ cognate
 cognately
 cognates
 cognisantly
-cognitive augmentation
 cognizable
 cognizably
 cognizance
@@ -8648,8 +8588,6 @@ coincidental
 coincidentally
 coincidently
 coinciding
-coinfection
-coinfections
 coinsurance
 coinsurances
 coir
@@ -8994,8 +8932,6 @@ commutations
 commutative
 commutatively
 comodo
-comorbidities
-comorbidity
 comorbidly
 comoros
 compact disk
@@ -9033,7 +8969,6 @@ comparison
 comparisons
 compartmental
 compartmentalization
-compartmentalizations
 compartmentalizing
 compartmentally
 compass
@@ -9947,13 +9882,11 @@ cooperates
 cooperating
 cooperation
 cooperative
-cooperatively
 cooperativeness
 cooperatives
 cooperativity
 cooperator
 cooperators
-coordinately
 coordinating
 coordination
 coordinations
@@ -10308,8 +10241,6 @@ counterblast
 counterblasts
 counterclockwisely
 counterculturally
-counterculture
-countercultures
 countercyclically
 counterexample
 counterexamples
@@ -10345,7 +10276,6 @@ counterpoising
 counterproductive
 counterproductively
 counterrevolution
-counterrevolutionaries
 counterrevolutionary
 counterrevolutions
 countersign
@@ -10363,7 +10293,6 @@ counterstrike
 counterstrikes
 counterstriking
 countersunk
-countertransferentially
 countervail
 countervailed
 countervailing
@@ -10682,7 +10611,6 @@ crispness
 crisps
 criss cross
 criss cross applesauce
-crisscross
 crisscrossed
 crisscrosses
 crisscrossing
@@ -10756,7 +10684,6 @@ crossbar
 crossbars
 crossbeam
 crossbeams
-crossborder
 crossbreed
 crossbreeding
 crossbreedings
@@ -10785,7 +10712,6 @@ crossway
 crossways
 crosswind
 crosswinds
-crosswise
 crossword
 crosswords
 crotchet
@@ -11204,7 +11130,6 @@ cyclooxygenases
 cyclopedia
 cyclopedias
 cyclopedically
-cyclostratigraphically
 cyclotomically
 cyder
 cyders
@@ -11236,7 +11161,6 @@ cystically
 cysticercosis
 cystidia
 cystitis
-cytoarchitectonically
 cytoarchitecturally
 cytoarchitecture
 cytoarchitectures
@@ -11453,7 +11377,6 @@ datable
 datamine
 datamined
 datamines
-datamining
 dataset
 datasets
 datatype
@@ -12280,9 +12203,7 @@ dendrite
 dendrites
 dendritic
 dendritically
-dendrochronologically
 dendrochronology
-dendroclimatologically
 dendrogram
 dendrograms
 dendrology
@@ -12372,7 +12293,6 @@ departmentally
 departs
 departure
 departures
-depatriarchalizations
 dependably
 dependencies
 dependent
@@ -13966,7 +13886,6 @@ dorsolateral
 dorsolaterally
 dorsomedially
 dorsoventral
-dorsoventrally
 dortmund
 dos a dos
 dosa
@@ -14056,7 +13975,6 @@ downgraded
 downgrades
 downgrading
 downhearted
-downheartedly
 downhill
 downhills
 downier
@@ -14367,7 +14285,6 @@ dumbness
 dumbstruck
 dumbwaiter
 dumbwaiters
-dumdum
 dumdums
 dummied
 dummies
@@ -14610,7 +14527,6 @@ ebola treatments
 ebola virus
 ebola viruses
 ebolas
-ebolavirus
 ebonies
 ebony
 ebullience
@@ -14630,7 +14546,6 @@ echinoderm
 echinoderms
 echinoid
 echinoids
-echocardiographically
 echocardiographies
 echocardiography
 echoic
@@ -14837,7 +14752,6 @@ egg cup
 egg cups
 eggbeater
 eggbeaters
-eggcrated
 egged
 egging
 eggs
@@ -14930,7 +14844,6 @@ elapsing
 elastically
 elasticities
 elasticized
-elastohydrodynamically
 elastomer
 elastomerically
 elastomers
@@ -14977,7 +14890,6 @@ electrocardiogram
 electrocardiograms
 electrocardiograph
 electrocardiographic
-electrocardiographies
 electrocardiographs
 electrocardiography
 electrocatalytically
@@ -14993,21 +14905,14 @@ electrodermally
 electrodes
 electrodiagnosis
 electrodiagnostic
-electrodiagnostically
 electrodialysis
 electrodynamic
 electrodynamically
 electrodynamics
 electroencephalogram
-electroencephalograms
-electroencephalograph
-electroencephalographic
-electroencephalographs
-electroencephalography
 electroforming
 electrogenically
 electrohydraulically
-electrohydrodynamically
 electrokinetically
 electroluminescence
 electroluminescences
@@ -15024,13 +14929,11 @@ electromagnets
 electromechanical
 electromechanically
 electromechanics
-electrometallurgically
 electromobilities
 electromobility
 electromotive
 electromyogram
 electromyograms
-electromyographically
 electromyography
 electron
 electron microscope
@@ -15042,15 +14945,12 @@ electronic
 electronically
 electronics
 electrons
-electrooculographically
 electrooptically
 electrophilically
 electrophoresis
 electrophoretically
-electrophotographically
 electrophysical
 electrophysiological
-electrophysiologically
 electrophysiology
 electroplate
 electroplated
@@ -15919,7 +15819,6 @@ epipelagically
 epiphanically
 epiphanies
 epiphany
-epiphenomenalistically
 epiphenomenally
 epiphenomenon
 epiphyseal
@@ -16264,7 +16163,6 @@ ethics committees
 ethics review
 ethics review board
 ethics review boards
-ethics review committee
 ethics reviews
 ethnically
 ethnicities
@@ -16287,19 +16185,16 @@ ethnographically
 ethnography
 ethnohistorically
 ethnolinguistically
-ethnologistsexecutors
 ethnology
 ethnomedical
 ethnomedically
 ethnomedicinally
 ethnomedicine
 ethnomedicines
-ethnomethodologically
 ethnomusicologically
 ethnomusicology
 ethnonym
 ethnonyms
-ethnopharmacologically
 ethnophilosophies
 ethnophilosophy
 ethnoreligiously
@@ -16316,8 +16211,6 @@ etiologic
 etiological
 etiologically
 etiologies
-etiophysiopathogeneses
-etiophysiopathogenesis
 etiquette
 etiquettes
 etna
@@ -16370,7 +16263,6 @@ euro zone
 eurocentric
 eurocentrically
 europeanly
-eurozone
 eusocially
 eustatic
 eustatically
@@ -16465,10 +16357,8 @@ every so often
 every time
 every which way
 every which where
-everyday
 everyman
 everything
-everytime
 everyway
 everywhere
 everywhere else
@@ -16921,7 +16811,6 @@ exquisiteness
 ext
 extemporally
 extemporaneously
-extempore
 extemporization
 extemporizations
 extemporize
@@ -16967,14 +16856,12 @@ extra
 extracellular
 extracellularly
 extrachromosomally
-extraconstitutionally
 extracorporeal
 extracorporeally
 extracranially
 extractable
 extractive
 extractively
-extracytoplasmatically
 extracytoplasmically
 extradite
 extradited
@@ -17092,10 +16979,7 @@ face to face
 face up
 facebook
 facebooks
-facedown
 facelessly
-facemask
-facemasks
 facepalm
 facepalming
 facepalms
@@ -17192,7 +17076,6 @@ fairily
 fairy tale
 fairyland
 fairylands
-fairytale
 fairytales
 faithful
 faithfully
@@ -17433,7 +17316,6 @@ federating
 federatively
 feeble
 feeble mindedly
-feeblemindedly
 feebleness
 feebler
 feebly
@@ -18204,7 +18086,6 @@ fluoroquinolones
 fluoroscope
 fluoroscopes
 fluoroscopically
-fluorospectrometrically
 flurries
 flus
 fluting
@@ -18368,7 +18249,6 @@ for dear life
 for ever
 for ever and ever
 for ever more
-for evermore
 for good and all
 for hours
 for instance
@@ -18452,7 +18332,6 @@ foregrounding
 foregroundings
 foregrounds
 forehand
-forehanded
 forehands
 foreign
 foreigner
@@ -18505,11 +18384,8 @@ foretellings
 foretells
 forethought
 forethoughts
-forever
 forever after
 forever and a day
-forever and ever
-forevermore
 foreward
 forewarn
 forewarned
@@ -19038,7 +18914,6 @@ fullest
 fulling
 fullness
 fulls
-fulltime
 fully well
 fulminantly
 fulminate
@@ -19242,8 +19117,6 @@ gaining
 gainly
 galactic
 galactically
-galactosyltransferase
-galactosyltransferases
 galaxies
 galaxy
 galena
@@ -19416,7 +19289,6 @@ gassings
 gastrically
 gastroenteritis
 gastroenterological
-gastroenterologically
 gastroenterologies
 gastrointestinally
 gastronome
@@ -19971,7 +19843,6 @@ glossiness
 glossolalia
 glossolalias
 glottal
-glottochronologically
 gloucester
 gloucesters
 glowingly
@@ -20148,7 +20019,6 @@ goodbye stage
 goodies
 goodish
 goodly
-goodnight
 goodwill
 goodwills
 goody
@@ -20812,7 +20682,6 @@ gyrfalcons
 gyri
 gyromagnetically
 gyroscopically
-gyrotrigonometrically
 gyrus
 haarlem
 hab or nab
@@ -21323,7 +21192,6 @@ headcounts
 headedly
 header
 headers
-headfirst
 headgear
 headgears
 headhunter
@@ -21440,7 +21308,6 @@ heartiness
 heartlessness
 heartly
 heartrending
-heartrendingly
 hearts
 heartsick
 heartsickness
@@ -21668,7 +21535,6 @@ hens
 hentai
 hepatically
 hepatobiliary
-hepatogastroenterology
 hepatologist
 hepatologists
 hepatology
@@ -22000,7 +21866,6 @@ histological
 histologically
 histologist
 histologists
-histomorphometrically
 histone
 histones
 histopathologically
@@ -22339,7 +22204,6 @@ horseplay
 horseplays
 horserace
 horseraces
-horseracing
 horsewhip
 horsewhipped
 horsewhipping
@@ -22494,7 +22358,6 @@ hullabaloos
 human
 human caused
 human ethics committee
-human ethics committees
 human experimentation
 human made
 human participant
@@ -22641,7 +22504,6 @@ hydrocarbons
 hydrocephalus
 hydrochloride
 hydrochlorides
-hydroclimatologically
 hydrocolloid
 hydrocolloids
 hydrodynamic
@@ -22749,7 +22611,6 @@ hyperbolically
 hyperboloid
 hyperboloids
 hypercholesterolemia
-hypercholesterolemias
 hypercritical
 hypercritically
 hyperdrive
@@ -22767,7 +22628,6 @@ hypergolically
 hypergraph
 hypergraphs
 hyperhomocysteinemia
-hyperhomocysteinemias
 hyperkinetically
 hyperlink
 hyperlinks
@@ -22780,7 +22640,6 @@ hyperoxia
 hyperplane
 hyperplanes
 hyperresponsiveness
-hyperresponsivenesses
 hypersensitive
 hypersensitively
 hypersensitivities
@@ -23264,17 +23123,13 @@ immunodeficiencies
 immunodeficiency
 immunodeficient
 immunodominantly
-immunoelectrophoreses
-immunoelectrophoresis
 immunofluorescence
 immunofluorescently
-immunofluorometrically
 immunogenetically
 immunogenically
 immunogenicities
 immunogenicity
 immunohematology
-immunohistochemically
 immunohistochemistry
 immunolocalization
 immunologic
@@ -23283,15 +23138,12 @@ immunologically
 immunologist
 immunologists
 immunology
-immunonephelometrically
 immunopathology
-immunopharmacologically
 immunoprecipitation
 immunoprecipitations
 immunoreactively
 immunoreactivity
 immunoregulatory
-immunoscintigraphically
 immunostaining
 immunosuppression
 immunosuppressively
@@ -23299,8 +23151,6 @@ immunotherapeutic
 immunotherapeutics
 immunotherapies
 immunotherapy
-immunoturbidimetrically
-immunoturbidometrically
 immuring
 immutabilities
 immutably
@@ -23698,7 +23548,6 @@ inauspicious
 inauspiciously
 inauthentic
 inauthentically
-inbetween
 inborn
 inbound
 inbounds
@@ -23807,7 +23656,6 @@ incompetently
 incomplete
 incompletely
 incompleteness
-incomprehensibilities
 incomprehensibility
 incomprehensively
 incompressible
@@ -24277,7 +24125,6 @@ informants
 informatically
 informatics
 information
-information processing
 informational
 informationally
 informations
@@ -24776,7 +24623,6 @@ intercostally
 intercourse
 interculturally
 interdenominational
-interdenominationally
 interdentally
 interdepartmental
 interdepartmentally
@@ -24821,7 +24667,6 @@ interiorly
 interjacently
 interjectionally
 interjectively
-interjurisdictionally
 interleave
 interleaved
 interleaves
@@ -24881,7 +24726,6 @@ internally
 internationalism
 internationalisms
 internationalization
-internationalizations
 internationalize
 internationalized
 internationalizes
@@ -24996,7 +24840,6 @@ interventional
 interventionally
 interventionism
 interventionisms
-interventionistically
 interventions
 intervertebrally
 intervocalic
@@ -25037,9 +24880,7 @@ intracranially
 intractabilities
 intractability
 intractably
-intracytoplasmatically
 intracytoplasmically
-intradenominationally
 intradermally
 intraductally
 intraepithelially
@@ -25073,11 +24914,9 @@ intrapsychically
 intraspecifically
 intraspinally
 intrastate
-intratelencephalically
 intrathecally
 intrathoracically
 intratumorally
-intrauterine
 intrauterinely
 intravaginally
 intravascularly
@@ -25133,7 +24972,6 @@ intuitionistically
 inundating
 inundation
 inundations
-inure
 inured
 inures
 inuring
@@ -25421,7 +25259,6 @@ isomorphisms
 isomorphously
 isorhythmically
 isostatically
-isostoichiometrically
 isostructurally
 isotherm
 isothermal
@@ -25481,7 +25318,6 @@ iteratives
 itinerantly
 itineraries
 itinerary
-itis
 itumbiara
 ity
 ive
@@ -25491,7 +25327,6 @@ ivories
 ivory
 ivory coast
 ivy
-iwis
 izba
 izbas
 ize
@@ -26033,10 +25868,6 @@ kicking and screaming
 kicking hard
 kickstand
 kickstands
-kickstart
-kickstarted
-kickstarting
-kickstarts
 kid
 kidded
 kidding aside
@@ -26995,8 +26826,6 @@ lifeboat
 lifeboats
 lifecourse
 lifecourses
-lifecycle
-lifecycles
 lifehacker
 lifehackers
 lifelessly
@@ -27035,7 +26864,6 @@ lightenings
 lightens
 lightest
 lightheadedly
-lightheartedly
 lightheartedness
 lighthouse
 lighthouses
@@ -27149,8 +26977,6 @@ linemen
 lines
 linesman
 linesmen
-lineup
-lineups
 lingeringly
 lingerly
 lingo
@@ -27246,7 +27072,6 @@ lithologically
 lithologies
 lithology
 lithosphere
-lithostratigraphically
 lithuania
 lithuanian
 lithuanians
@@ -27336,7 +27161,6 @@ lobbying
 lobectomies
 lobotomies
 local ethics committee
-local ethics committees
 localities
 locality
 localization
@@ -27445,8 +27269,6 @@ longitudinally
 longly
 longshoremen
 longstanding
-longtermly
-longtime
 longueur
 longueurs
 lookbook
@@ -27567,7 +27389,6 @@ lowliest
 lowlily
 lowliness
 lowly
-lowlying
 loxodromically
 loyal
 loyalist
@@ -27725,7 +27546,6 @@ lychgates
 lying
 lyingly
 lyings
-lymphangiographically
 lymphatic
 lymphatically
 lymphedema
@@ -27738,7 +27558,6 @@ lymphocytic
 lymphoid
 lymphopenia
 lymphopenias
-lymphoscintigraphically
 lynn
 lynns
 lynx
@@ -27905,7 +27724,6 @@ magnetizations
 magnetizing
 magneto
 magnetoelectrically
-magnetohydrodynamically
 magnetohydrodynamics
 magnetoresistance
 magnetoresistances
@@ -28946,7 +28764,6 @@ metagenomically
 metagenomics
 metalanguage
 metalanguages
-metalexicographically
 metalinguistically
 metalled
 metallic
@@ -29084,7 +28901,6 @@ micro organisms
 microaerophilically
 microalga
 microalgae
-microangiographically
 microarray
 microarrays
 microbead
@@ -29105,7 +28921,6 @@ microbreweries
 microbrewery
 microbubble
 microbubbles
-microcalorimetrically
 microcanonically
 microcapsule
 microcapsules
@@ -29127,18 +28942,15 @@ microcirculations
 microclimate
 microclimates
 microclimatically
-microclimatologically
 microcode
 microcodes
 microcosm
 microcosmic
 microcosmically
 microcosms
-microdensitometrically
 microdot
 microdots
 microeconomics
-microelectromechanical
 microelectronically
 microengineering
 microenvironment
@@ -29160,14 +28972,12 @@ microfinances
 microfluidic
 microfluidically
 microfluidics
-microfluorimetrically
 microglia
 microgram
 micrographically
 microgravity
 microinjection
 microinjections
-microiontophoretically
 microlocally
 micromachine
 micromachines
@@ -29176,7 +28986,6 @@ micrometeorite
 micrometeorites
 micrometeoroid
 micrometeoroids
-micrometeorologically
 micrometer
 micrometers
 micromorphologically
@@ -29185,8 +28994,6 @@ micromotors
 micronic
 micronutrient
 micronutrients
-microorganism
-microorganisms
 micropaleontology
 microparticle
 microparticles
@@ -30242,7 +30049,6 @@ more cost effective
 more cost efficient
 more costly
 more counterintuitive
-more counterproductive
 more crevicular
 more cross modal
 more cryptic
@@ -30369,7 +30175,6 @@ more illustrative
 more immense
 more imminent
 more immoral
-more immunocytochemical
 more immunodeficient
 more impeded
 more implausible
@@ -30430,9 +30235,7 @@ more lentiviral
 more long term
 more low hanging
 more low lying
-more lowlying
 more luminous
-more machine actionable
 more machine readable
 more macroscopic
 more malaria endemic
@@ -30457,7 +30260,6 @@ more monogamous
 more monosynaptic
 more morphometric
 more mountainous
-more multi disciplinary
 more multi stage
 more multidimensional
 more multilateral
@@ -30480,7 +30282,6 @@ more neutral
 more next generation
 more nitrous
 more non antiviral
-more non congratulatory
 more non invasive
 more non linear
 more non scientific
@@ -30488,7 +30289,6 @@ more non symptomatic
 more nonadiabatic
 more noncommercial
 more nongovernmental
-more nonpharmaceutical
 more nonrandom
 more notable
 more noticeable
@@ -30629,7 +30429,6 @@ more topobathymetric
 more topographical
 more topological
 more trait based
-more transdisciplinary
 more transformational
 more translocated
 more transversal
@@ -30740,7 +30539,6 @@ morphometrics
 morphometries
 morphometry
 morphophonemically
-morphophysiologically
 morphosyntactically
 morris
 morrises
@@ -30897,7 +30695,6 @@ most cost effective
 most cost efficient
 most costly
 most counterintuitive
-most counterproductive
 most crevicular
 most cross modal
 most cryptic
@@ -31024,7 +30821,6 @@ most illustrative
 most immense
 most imminent
 most immoral
-most immunocytochemical
 most immunodeficient
 most impeded
 most implausible
@@ -31085,9 +30881,7 @@ most lentiviral
 most long term
 most low hanging
 most low lying
-most lowlying
 most luminous
-most machine actionable
 most machine readable
 most macroscopic
 most malaria endemic
@@ -31112,7 +30906,6 @@ most monogamous
 most monosynaptic
 most morphometric
 most mountainous
-most multi disciplinary
 most multi stage
 most multidimensional
 most multilateral
@@ -31134,7 +30927,6 @@ most neutral
 most next generation
 most nitrous
 most non antiviral
-most non congratulatory
 most non invasive
 most non linear
 most non scientific
@@ -31142,7 +30934,6 @@ most non symptomatic
 most nonadiabatic
 most noncommercial
 most nongovernmental
-most nonpharmaceutical
 most nonrandom
 most notable
 most noticeable
@@ -31281,7 +31072,6 @@ most topobathymetric
 most topographical
 most topological
 most trait based
-most transdisciplinary
 most transformational
 most translocated
 most transversal
@@ -31508,8 +31298,6 @@ muckrakings
 mucocutaneously
 mucopolysaccharide
 mucopolysaccharides
-mucopolysaccharidoses
-mucopolysaccharidosis
 mucosa
 mucosal
 mucosally
@@ -31609,7 +31397,6 @@ multilingually
 multimeric
 multimerization
 multimerizations
-multimethodologically
 multimodally
 multinational
 multinationally
@@ -31649,7 +31436,6 @@ multispecialty
 multispectral
 multispectrally
 multistability
-multistage
 multistages
 multistory
 multisyllabically
@@ -31820,7 +31606,6 @@ myanmar
 mycobacteria
 mycobacterial
 mycobacterially
-mycobacteriologically
 mycobacterium
 mycological
 mycologically
@@ -31830,7 +31615,6 @@ mycology
 mycorrhizally
 myelin
 myelitis
-myeloarchitectonically
 myelodysplasia
 myelodysplasias
 myelodysplastic
@@ -32354,7 +32138,6 @@ neurodynamics
 neuroeconomics
 neuroectodermally
 neuroendocrine
-neuroendocrinologists
 neuroengineering
 neuroethically
 neuroethics
@@ -32391,7 +32174,6 @@ neuropathologically
 neuropathologies
 neuropathology
 neuropathy
-neuropharmacologically
 neuropharmacologies
 neuropharmacology
 neurophilosophies
@@ -32404,8 +32186,6 @@ neuroprotectively
 neuropsychiatrically
 neuropsychologically
 neuropsychology
-neuropsychopharmacology
-neuroradiographically
 neurorehabilitation
 neuroscientifically
 neuroses
@@ -32524,7 +32304,6 @@ newsy
 next door
 next generation
 next year
-nextdoor
 nextly
 niacin
 niacins
@@ -32785,7 +32564,6 @@ nonaligned
 nonalignment
 nonalignments
 nonassociatively
-nonbinary
 nonbiologically
 nonbreeding
 noncanonically
@@ -32797,7 +32575,6 @@ nonchalance
 nonchalances
 nonchalant
 nonchalantly
-noncharacteristically
 nonclassically
 nonclinical
 nonclinically
@@ -32839,7 +32616,6 @@ none the less
 nonentities
 nonentity
 nonenzymatically
-nonetheless
 nonexclusively
 nonfatal
 nonfatally
@@ -32903,8 +32679,6 @@ nonperson
 nonpersons
 nonperturbatively
 nonpharmacologically
-nonphenomenologically
-nonphotosynthetically
 nonphysically
 nonplus
 nonpluses
@@ -32925,7 +32699,6 @@ nonproliferations
 nonpublic
 nonradiatively
 nonradioactive
-nonrandom
 nonrandomly
 nonreactively
 nonrecursively
@@ -32934,7 +32707,6 @@ nonrelativistically
 nonreligiously
 nonrenewable
 nonrepresentational
-nonrepresentationally
 nonresident
 nonresidential
 nonresidents
@@ -32959,8 +32731,6 @@ nonspecialists
 nonspecifically
 nonstandard
 nonstandardly
-nonstereospecifically
-nonstructural
 nonsurgical
 nonsurgically
 nonsymmetrically
@@ -33041,7 +32811,6 @@ northumbrian
 northward
 northwardly
 northwards
-northwesterly
 northwestern
 northwestward
 northwestwardly
@@ -33169,7 +32938,6 @@ now and then
 now now
 now or never
 now you mention it
-nowadays
 nowcasting
 nowhere
 nowhere else
@@ -33201,7 +32969,6 @@ nuclei
 nucleic
 nucleocapsid
 nucleocapsids
-nucleocytoplasmically
 nucleoli
 nucleolus
 nucleon
@@ -33610,7 +33377,6 @@ offensively
 offensiveness
 offer and acceptance
 offertories
-offhandedly
 office
 officeholder
 officeholders
@@ -33642,13 +33408,10 @@ offshoring
 offside
 offsides
 offspring
-offstage
 offstages
-offworld
 oft times
 oftenly
 oftentime
-ofttimes
 oganesson
 ogler
 oglers
@@ -33789,7 +33552,6 @@ on time
 on top
 onager
 onagers
-onboard
 onboarding
 onboards
 once again
@@ -33847,7 +33609,6 @@ onetime
 ongoing
 ongoingly
 onion
-online
 onlooker
 onlookers
 only
@@ -33864,7 +33625,6 @@ onrush
 onrushes
 onscreen
 onsite
-onstage
 ontario
 ontically
 onto
@@ -33908,7 +33668,6 @@ open sciences
 open source
 opencast
 openhearted
-openheartedly
 opening
 openings
 openly
@@ -34109,7 +33868,6 @@ organizers
 organizes
 organizing
 organogenesis
-organoheterotrophically
 organoid
 organoids
 organoleptically
@@ -34185,7 +33943,6 @@ orthologously
 orthologs
 orthology
 orthopaedically
-orthopantomographically
 orthopedic
 orthopedically
 orthopedics
@@ -34892,8 +34649,6 @@ pajama
 pajamas
 paladin
 paladins
-palaeobiogeographically
-palaeoceanographically
 palaeoclimatically
 palaeoecologically
 palaeogeography
@@ -34955,7 +34710,6 @@ paleozoology
 palest
 palestine
 palestinian
-palestinian territories
 palestinians
 paleways
 palewise
@@ -35774,7 +35528,6 @@ pencils
 pendently
 pendulous
 pendulously
-penecontemporaneously
 penetrabilities
 penetrability
 penetrable
@@ -36018,7 +35771,6 @@ peripheries
 periphery
 periphrasis
 periphrastic
-periphrastic definition
 periphrastically
 periplasmically
 periportally
@@ -36323,7 +36075,6 @@ pharmacokinetics
 pharmacologically
 pharmacophore
 pharmacophores
-pharmacotherapeutically
 pharmacotherapies
 pharmacotherapy
 pharyngeal
@@ -36429,7 +36180,6 @@ phonically
 phonier
 phonies
 phonily
-phonocardiographically
 phonograph
 phonographically
 phonographs
@@ -36450,7 +36200,6 @@ phosphatically
 phosphatidylcholine
 phosphatidylcholines
 phosphatidylinositol
-phosphatidylinositols
 phosphoinositide
 phosphoinositides
 phospholipase
@@ -36502,8 +36251,6 @@ photodynamic
 photodynamically
 photoelectric
 photoelectrically
-photoelectrochemically
-photoelectrochemistry
 photoelectron
 photoelectrons
 photoengraving
@@ -36517,10 +36264,8 @@ photographic
 photographically
 photographies
 photography
-photoheterotrophically
 photojournalist
 photojournalists
-photolithographically
 photoluminescence
 photoluminescences
 photolytically
@@ -36532,11 +36277,9 @@ photometrically
 photometrics
 photometries
 photometry
-photomicrographically
 photonic
 photonically
 photonics
-photoorganotrophically
 photoperiodically
 photoperiodism
 photoperiodisms
@@ -36551,8 +36294,6 @@ photorefractively
 photosensitively
 photosensitivities
 photosensitivity
-photospectrometrically
-photospectroscopically
 photostat
 photostatically
 photostats
@@ -36627,7 +36368,6 @@ physiologic
 physiologies
 physiopathologies
 physiopathology
-physiotherapeutically
 physiotherapies
 phytochemically
 phytochemistry
@@ -36635,7 +36375,6 @@ phytogeographically
 phytopathological
 phytopathologically
 phytopathology
-phytopharmacologically
 phytoplankton
 phytosociologically
 piacenza
@@ -37235,7 +36974,6 @@ poincianas
 poinsettia
 poinsettias
 point blank
-pointblank
 pointedly
 pointedness
 pointillism
@@ -37405,7 +37143,6 @@ polyoxometalate
 polyoxometalates
 polypeptide
 polypeptides
-polypharmacologically
 polyphonic
 polyphonically
 polyphonies
@@ -37428,7 +37165,6 @@ polysyllabic
 polysyllabically
 polysynthetically
 polytechnically
-polytetrafluoroethylene
 polytheism
 polytheisms
 polytheist
@@ -37661,12 +37397,9 @@ posteriorly
 posterities
 posterity
 posterodorsally
-posterodorsolaterally
 posterolaterally
-posterolateroventrally
 posteromedially
 posteroventrally
-posteroventrolaterally
 postglacially
 postgraduate
 postgraduates
@@ -37707,7 +37440,6 @@ postsecondary
 poststructurally
 postsurgically
 postsynaptically
-posttranscriptionally
 posttranslationally
 posttraumatically
 postulate
@@ -37718,7 +37450,6 @@ postulation
 postulations
 posturally
 postvocalically
-postwar
 postzygotically
 potash
 potashes
@@ -37987,7 +37718,6 @@ preeclampsia
 preedy
 preeminence
 preeminences
-preeminently
 preempt
 preempted
 preempting
@@ -38042,7 +37772,6 @@ prehensily
 prehistorically
 prehistories
 prehospitally
-preindustrial
 preindustrially
 prejudging
 prejudgment
@@ -38863,7 +38592,6 @@ proto
 protocol number
 protocol numbers
 protohistory
-proton proton collision
 protoplanet
 protoplanets
 protoplast
@@ -39023,11 +38751,9 @@ psychopathological
 psychopathologically
 psychopathologies
 psychopathy
-psychopharmacologically
 psychopharmacologies
 psychopharmacology
 psychophysically
-psychophysiologically
 psychoses
 psychosis
 psychosocial
@@ -39035,7 +38761,6 @@ psychosocially
 psychosomatic
 psychosomatically
 psychosomatics
-psychotherapeutically
 psychotherapies
 psychotic
 psychotically
@@ -39709,7 +39434,6 @@ radiographer
 radiographers
 radiographically
 radiographs
-radioimmunochemically
 radioing
 radioisotope
 radioisotopes
@@ -39726,7 +39450,6 @@ radionavigations
 radionuclide
 radionuclides
 radiopharmaceutical
-radiopharmaceutically
 radiopharmaceuticals
 radiophone
 radiophones
@@ -39945,7 +39668,6 @@ rasped
 rasps
 raster
 rasters
-rasterstereographically
 ratable
 ratatouille
 ratatouilles
@@ -40107,7 +39829,6 @@ reallocates
 reallocating
 reallocation
 reallocations
-really
 realpolitik
 realpolitiks
 realties
@@ -40413,7 +40134,6 @@ recounts
 recreant
 recreantly
 recreants
-recreating
 recreationally
 recreatively
 recrimination
@@ -40595,12 +40315,6 @@ reek
 reeked
 reeking
 reeks
-reelect
-reelected
-reelecting
-reelection
-reelections
-reelects
 reely
 reemerging
 reenact
@@ -40829,10 +40543,6 @@ regretfully
 regretted
 regretting
 regrew
-regroup
-regrouped
-regrouping
-regroups
 regrow
 regrowing
 regrown
@@ -40908,7 +40618,6 @@ reincarnating
 reined
 reinfection
 reinfections
-reinforcement learning
 reinforcing
 reining
 reinstall
@@ -41752,8 +41461,6 @@ retrorocket
 retrorockets
 retrospection
 retrospections
-retrotranscriptionally
-retrotranspositionally
 retroviral
 retrovirally
 retrovirus
@@ -41776,10 +41483,6 @@ reunions
 reusabilities
 reusability
 reusably
-reuse
-reused
-reuses
-reusing
 reutlingen
 revaluation
 revaluations
@@ -42279,7 +41982,6 @@ roster
 rosters
 rostra
 rostrally
-rostroventrolaterally
 rosy
 rotaries
 rotarily
@@ -42327,7 +42029,6 @@ roughnesses
 roughshod
 rouging
 round about
-roundabout
 roundaboutly
 roundabouts
 roundel
@@ -43363,7 +43064,6 @@ sea level rise
 sea levels
 sea shanties
 sea shanty
-sea surface temperature
 seabird
 seabirds
 seaborgium
@@ -43817,10 +43517,7 @@ semi final
 semi finals
 semi weekly
 semiannual
-semiannually
 semiarid
-semiautobiographically
-semiautomatically
 semiautonomously
 semibreve
 semibreves
@@ -43836,10 +43533,8 @@ semicontinuously
 semidefinitely
 semidiurnally
 semiempirically
-semifinal
 semifinalist
 semifinalists
-semifinals
 semimonthlies
 semimonthly
 seminal
@@ -43878,7 +43573,6 @@ semitropical
 semivowel
 semivowels
 semiweeklies
-semiweekly
 sempiternal
 sempiternally
 semplice
@@ -44413,8 +44107,6 @@ shortest
 shortfall
 shortfalls
 shorthand
-shorthanded
-shorthandedly
 shorthands
 shorthorn
 shorthorns
@@ -44424,7 +44116,6 @@ shortlist
 shortlisted
 shortlisting
 shortlists
-shortsightedly
 shortsightedness
 shot
 shot up
@@ -44519,11 +44210,8 @@ shurely
 shut out
 shut outs
 shut up
-shutout
-shutouts
 shuts up
 shutting up
-shuttleworth foundation
 shuttling
 sibeh
 sibilant
@@ -44638,7 +44326,6 @@ signatures
 signboard
 signboards
 signed
-signed informed consent
 signer
 signers
 signet
@@ -44786,7 +44473,6 @@ single minded
 single mindedly
 single mindedness
 single mindednesses
-singlehanded
 singlely
 singleness
 singlenesses
@@ -44884,7 +44570,6 @@ skeet
 skeets
 skeletal
 skeletally
-skeletochronologically
 skeptically
 sketch
 sketchbook
@@ -45422,15 +45107,12 @@ societies
 society
 socio economic
 socio economically
-socioanthropologically
 sociobiologically
 sociobiology
 sociocultural
 socioculturally
 sociodemographic
 sociodemographically
-socioeconomic
-socioeconomically
 socioemotionally
 sociohistorically
 sociolegally
@@ -45469,7 +45151,6 @@ soft mindedly
 soft spoken
 softest
 softhearted
-softheartedly
 softies
 softly
 softly softly
@@ -45737,7 +45418,6 @@ south westerly
 south yemen
 southampton
 southamptons
-southeasterly
 southeastward
 southeastwardly
 southeastwards
@@ -45913,12 +45593,9 @@ spectral
 spectrally
 spectrin
 spectrins
-spectrobolometrically
-spectrofluorimetrically
 spectrogram
 spectrograms
 spectrographically
-spectroheliographically
 spectrometer
 spectrometers
 spectrometric
@@ -45927,7 +45604,6 @@ spectrometries
 spectrometry
 spectrophotometer
 spectrophotometers
-spectrophotometrically
 spectrophotometricly
 spectrophotometry
 spectroscopically
@@ -46009,7 +45685,6 @@ sphingomyelinases
 sphingomyelins
 sphinx
 sphinxes
-sphygmomanometrically
 spice up
 spicier
 spiciest
@@ -46385,7 +46060,6 @@ standardizing
 standardly
 standoff
 standoffish
-standoffishly
 standoffs
 standpipe
 standpipes
@@ -46557,8 +46231,6 @@ step parents
 step up
 stepchildren
 steply
-stepparent
-stepparents
 stepped up
 stepper
 steppers
@@ -46574,8 +46246,6 @@ stereochemically
 stereoelectronically
 stereographically
 stereoisomerically
-stereolithographically
-stereomicroscopically
 stereophonic
 stereophonically
 stereoscope
@@ -46784,7 +46454,6 @@ stour
 stout heartedly
 stoutest
 stouthearted
-stoutheartedly
 stoutly
 stoutness
 stowage
@@ -46802,7 +46471,6 @@ straight away
 straight dinkum
 straight out
 straight up
-straightaway
 straightaways
 straightedge
 straightedges
@@ -47316,7 +46984,6 @@ substituting
 substitutings
 substitutionally
 substitutively
-substoichiometrically
 substratum
 substratums
 subsume
@@ -47700,7 +47367,6 @@ superorganism
 superorganisms
 superoxide
 superoxides
-superparamagnetically
 superplastically
 superplasticities
 superplasticity
@@ -47816,9 +47482,6 @@ supra pubicly
 supramolecularly
 supranationally
 supraorbitally
-suprapharmacologically
-suprapubically
-suprapubicly
 supraregionally
 suprasegmentally
 supraspinally
@@ -48722,7 +48385,6 @@ televising
 televisionally
 televisually
 telework
-teleworking
 teleworkings
 telex
 telexed
@@ -48792,7 +48454,6 @@ tender mindedly
 tendered
 tenderest
 tenderhearted
-tenderheartedly
 tenderheartedness
 tendering
 tenderize
@@ -48838,7 +48499,6 @@ tenuously
 tenure track
 tenure tracks
 tenuring
-tephrochronologically
 tepid
 tepider
 tepidities
@@ -48996,7 +48656,6 @@ that being said
 that is
 that is to say
 that way
-thataway
 thatch
 thatched
 thatcher
@@ -49113,7 +48772,6 @@ thermionically
 thermistor
 thermistors
 thermochemically
-thermochronologically
 thermocline
 thermodynamical
 thermodynamically
@@ -49121,7 +48779,6 @@ thermoelectric
 thermoelectrically
 thermogenically
 thermographically
-thermogravimetrically
 thermohaline
 thermokarst
 thermokarsts
@@ -49471,8 +49128,6 @@ timescales
 timetable
 timetables
 timeworn
-timezone
-timezones
 timidities
 timidity
 timidly
@@ -49537,7 +49192,6 @@ tippling
 tipsier
 tipsily
 tipsiness
-tiptop
 tiptops
 tiredly
 tiredness
@@ -49624,7 +49278,6 @@ toccata
 toccatas
 tocsin
 tocsins
-today
 todays
 toddies
 toddling
@@ -49704,7 +49357,6 @@ tombstones
 tomfooleries
 tommies
 tommy
-tomodensitometrically
 tomographically
 tomographies
 tomorrow night
@@ -49978,8 +49630,6 @@ trade offs
 trademark
 trademarked
 trademarks
-tradeoff
-tradeoffs
 tradesmen
 tradesperson
 traditionalistically
@@ -50094,7 +49744,6 @@ transcultural
 transculturally
 transcutaneously
 transdermally
-transdiaphragmatically
 transdisciplinarity
 transdisciplinary
 transduction
@@ -50103,7 +49752,6 @@ transect
 transected
 transecting
 transects
-transendomyocardially
 transept
 transepts
 transesophageally
@@ -50967,8 +50615,6 @@ ultimo
 ultra
 ultra centrifuge
 ultra centrifuges
-ultracentrifuge
-ultracentrifuges
 ultraconservative
 ultraconservatives
 ultrafast
@@ -51538,8 +51184,6 @@ undergrounds
 undergrowth
 undergrowths
 underhand
-underhanded
-underhandedly
 underhandly
 underlaid
 underlain
@@ -52945,7 +52589,6 @@ upending
 upendings
 upends
 upfield
-upfront
 upgrade
 upgraded
 upgrades
@@ -53164,8 +52807,6 @@ user
 user friendly
 user name
 user names
-username
-usernames
 users
 uses
 usher
@@ -53988,7 +53629,6 @@ videocassette
 videocassettes
 videodisc
 videodiscs
-videofluoroscopically
 videos
 videotape
 videotaped
@@ -55100,7 +54740,6 @@ way back
 way back when
 way out
 way too
-wayback
 waybill
 waybills
 wayfarer
@@ -55199,7 +54838,6 @@ weatherproofed
 weatherproofing
 weatherproofs
 weathers
-weatherwise
 weave
 weaver
 weavers
@@ -55340,7 +54978,6 @@ well nigh
 well off
 well structured
 well to do
-wellbeing
 wellbeings
 wellborn
 wellcome
@@ -55740,7 +55377,6 @@ whole genome
 whole heartedly
 whole hog
 wholehearted
-wholeheartedly
 wholeheartedness
 wholely
 wholemeal
@@ -55859,7 +55495,6 @@ wight
 wightly
 wights
 wigs
-wigwag
 wigwags
 wigwam
 wigwams
@@ -56009,7 +55644,6 @@ windsurf
 windsurfing
 windsurfs
 windswept
-windup
 windups
 windward
 windwards
@@ -56439,7 +56073,6 @@ workmanships
 workmate
 workmates
 workmen
-workout
 workouts
 workpiece
 workpieces
@@ -56476,7 +56109,6 @@ worldly wise
 worlds
 worldview
 worldviews
-worldwide
 worldwidely
 wormhole
 wormholes
@@ -56682,7 +56314,6 @@ wrongful
 wrongfully
 wrongfulness
 wrongheaded
-wrongheadedly
 wronging
 wrongly
 wrongness
@@ -56789,7 +56420,6 @@ year long
 year round
 year to date
 yearlies
-yearlong
 yearn
 yearned
 yearning
