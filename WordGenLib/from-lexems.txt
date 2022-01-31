@@ -5389,10 +5389,6 @@ bonsais
 bontang
 bony
 boo hoo
-boob
-boobies
-boobs
-booby
 boodle
 boodles
 book shelf
@@ -8592,7 +8588,6 @@ coinsurance
 coinsurances
 coir
 coirs
-coitally
 coking
 col
 col legno
@@ -33874,14 +33869,7 @@ organoleptically
 organometallic
 organza
 organzas
-orgasm
-orgasmed
-orgasmic
-orgasmically
-orgasming
-orgasms
 orgiastically
-orgies
 oriel
 oriels
 orientally
@@ -35449,13 +35437,8 @@ pediment
 pediments
 pedogenically
 pedologically
-pedologies
-pedology
 pedometer
 pedometers
-pedophile
-pedophiles
-pedophilia
 pedro
 pedros
 peduncle
@@ -37378,7 +37361,6 @@ postbags
 postcard
 postcards
 postclassically
-postcoitally
 postcolonially
 postcranially
 postdate
@@ -47876,14 +47858,11 @@ synoptically
 syntactic
 syntactical
 syntactically
-syntagmatically
 syntax
 syntaxes
 syntaxially
 syntenically
 synthase
-synthases
-syntheses
 synthesize
 synthesized
 synthesizer
@@ -50153,10 +50132,6 @@ trisects
 trisphosphate
 trisphosphates
 trisyllabically
-trite
-tritely
-triteness
-triter
 tritically
 tritium
 tritiums
@@ -56712,10 +56687,6 @@ zuckerberg
 zuckerberging
 zuckerbergs
 zulu
-zuluize
-zuluized
-zuluizes
-zuluizing
 zwolle
 zydeco
 zydecos

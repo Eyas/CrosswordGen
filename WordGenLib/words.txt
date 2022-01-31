@@ -7182,10 +7182,6 @@ coiners
 coining
 coins
 cointreau
-coital
-coition
-coitus
-coituses
 cojones
 coke
 coked
@@ -25094,7 +25090,6 @@ organization
 organizational
 organizations
 organs
-orgy
 orient
 oriental
 orientalist
