@@ -2572,7 +2572,6 @@ assertion
 assertionally
 assertions
 asserts
-asses
 assess
 assessable
 assessably
@@ -29748,8 +29747,6 @@ peninsula
 peninsular
 peninsularly
 peninsulas
-penis
-penises
 penitence
 penitences
 penitent
@@ -41366,10 +41363,6 @@ testament
 testaments
 tested
 testers
-testes
-testicle
-testicles
-testicular
 testified
 testifier
 testifiers
