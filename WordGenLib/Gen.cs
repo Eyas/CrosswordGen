@@ -106,6 +106,7 @@ namespace WordGenLib
             int NumLetters { get; }
             long MaxPossibilities { get; }
             void CharsAt(CharSet accumulate, int index);
+            bool DefinitelyBlockedAt(int index);
             IPossibleLines Filter(CharSet constraint, int index);
             IPossibleLines Filter(char constraint, int index);
             IEnumerable<string> Iterate();
@@ -114,6 +115,7 @@ namespace WordGenLib
         {
             public long MaxPossibilities => 0;
             public void CharsAt(CharSet accumulate, int _) { }
+            public bool DefinitelyBlockedAt(int _) => false;
             public IPossibleLines Filter(CharSet _, int _2) => this;
             public IPossibleLines Filter(char _, int _2) => this;
             public IEnumerable<string> Iterate() => Enumerable.Empty<string>();
@@ -140,6 +142,9 @@ namespace WordGenLib
                     if (accumulate.IsFull) return;
                 }
             }
+            public bool DefinitelyBlockedAt(int index)
+                => Preferred.Concat(Obscure).All(word => word[index] == GenHelper.BLOCKED);
+
             public IPossibleLines Filter(CharSet constraint, int index)
             {
                 if (constraint.IsFull) return this;
@@ -176,6 +181,11 @@ namespace WordGenLib
                 if (index == 0) accumulate.Add(GenHelper.BLOCKED);
                 else Lines.CharsAt(accumulate, index - 1);
             }
+            public bool DefinitelyBlockedAt(int index)
+            {
+                if (index == 0) return true;
+                else return Lines.DefinitelyBlockedAt(index - 1);
+            }
             public IPossibleLines Filter(CharSet constraint, int index)
                 => index switch
                 {
@@ -207,6 +217,11 @@ namespace WordGenLib
                 if (accumulate.IsFull) return;
                 if (index == NumLetters - 1) accumulate.Add(GenHelper.BLOCKED);
                 else Lines.CharsAt(accumulate, index);
+            }
+            public bool DefinitelyBlockedAt(int index)
+            {
+                if (index == NumLetters - 1) return true;
+                else return Lines.DefinitelyBlockedAt(index);
             }
             public IPossibleLines Filter(CharSet constraint, int index)
                 => index switch
@@ -240,6 +255,12 @@ namespace WordGenLib
                 if (index == First.NumLetters) accumulate.Add(GenHelper.BLOCKED);
                 else if (index < First.NumLetters) First.CharsAt(accumulate, index);
                 else Second.CharsAt(accumulate, index - (First.NumLetters + 1));
+            }
+            public bool DefinitelyBlockedAt(int index)
+            {
+                if (index == First.NumLetters) return true;
+                else if (index < First.NumLetters) return First.DefinitelyBlockedAt(index);
+                else return Second.DefinitelyBlockedAt(index - (First.NumLetters + 1));
             }
             public IPossibleLines Filter(CharSet constraint, int index)
             {
@@ -282,6 +303,9 @@ namespace WordGenLib
                     if (accumulate.IsFull) return;
                 }
             }
+            public bool DefinitelyBlockedAt(int index)
+                => Possibilities.All(p => p.DefinitelyBlockedAt(index));
+
             public IPossibleLines Filter(CharSet constraint, int index)
             {
                 if (constraint.IsFull) return this;
@@ -292,6 +316,7 @@ namespace WordGenLib
                     .ToImmutableArray();
 
                 if (filtered.Length == 0) return Impossible.Instance(NumLetters);
+                else if (filtered.Length == 1) return filtered[0];
                 return new Compound(filtered);
             }
             public IPossibleLines Filter(char constraint, int index)
@@ -302,6 +327,17 @@ namespace WordGenLib
                     .ToImmutableArray();
 
                 if (filtered.Length == 0) return Impossible.Instance(NumLetters);
+                else if (filtered.Length == 1) return filtered[0];
+
+                if (filtered.Sum(p => p.MaxPossibilities) <= 20 && filtered.Any(p => p is not Definite))
+                {
+                    filtered = filtered
+                        .SelectMany(p => p.Iterate())
+                        .Distinct()
+                        .Select(line => new Definite(line))
+                        .ToImmutableArray<IPossibleLines>();
+                }
+
                 return new Compound(filtered);
             }
             public IEnumerable<string> Iterate() => Possibilities.SelectMany(possible => possible.Iterate());
@@ -314,6 +350,7 @@ namespace WordGenLib
             {
                 accumulate.Add(Line[index]);
             }
+            public bool DefinitelyBlockedAt(int index) => Line[index] == GenHelper.BLOCKED;
             public IPossibleLines Filter(CharSet constraint, int index)
                 => constraint.Contains(Line[index]) ? this : Impossible.Instance(NumLetters);
             public IPossibleLines Filter(char constraint, int index)
@@ -512,6 +549,36 @@ namespace WordGenLib
                 // If we are at a point in our tree some row/column is unfillable, prune this tree.
                 if (root.Down.Any(options => options.MaxPossibilities == 0)) yield break;
                 if (root.Across.Any(options => options.MaxPossibilities == 0)) yield break;
+            }
+
+            // If board is entirely divided, s.t. no word spans two "halves" of the
+            // board, we want to stop.
+            //
+            // We already can't have entire blocked lines. But we can have:
+            // _ _ _ ` ` `
+            // ` ` ` _ _ _
+            //
+            // This can still be better, e.g. it doesn't account for a "quadrant"
+            // being cordoned off.
+            bool[] previouslyBlocked = new bool[root.Down.Length];
+
+            foreach (var col in root.Down)
+            {
+                bool anyBlocked = false;
+                for (int i = 0; i < root.Across.Length; i++)
+                {
+                    if (!col.DefinitelyBlockedAt(i)) continue;
+                    anyBlocked = true;
+                    previouslyBlocked[i] = true;
+                }
+
+                if (!anyBlocked)
+                {
+                    Array.Fill(previouslyBlocked, false);
+                    continue;
+                }
+
+                if (previouslyBlocked.All(v => v == true)) yield break;
             }
 
             int? undecidedDown = root.UndecidedDown;
