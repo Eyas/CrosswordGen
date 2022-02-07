@@ -81,14 +81,16 @@ namespace WordGenLib
 
         public int GridSize => gridSize;
 
-        public static Generator Create(int gridSize)
+        public static Generator Create(
+            int gridSize,
+            ImmutableArray<string>? commonWords = null,
+            ImmutableArray<string>? obscureWords = null
+        )
         {
             return new(
                 gridSize,
-                GridReader.COMMON_WORDS
-                    .RemoveAll(s => s.Length <= 2 || s.Length > gridSize),
-                GridReader.OBSCURE_WORDS
-                    .RemoveAll(s => s.Length <= 2 || s.Length > gridSize)
+                commonWords ?? GridReader.COMMON_WORDS,
+                obscureWords ?? GridReader.OBSCURE_WORDS
                 );
         }
 
@@ -96,8 +98,21 @@ namespace WordGenLib
         {
             this.gridSize = gridSize;
 
-            commonWordsByLength = commonWords.GroupBy(w => w.Length).ToDictionary(g => g.Key, g => g.ToImmutableArray ());
-            obscureWordsByLength = obscureWords.Except(commonWords).GroupBy(w => w.Length).ToDictionary(g => g.Key, g => g.ToImmutableArray());
+            commonWordsByLength = commonWords
+                .RemoveAll(s => s.Length <= 2 || s.Length > gridSize)
+                .GroupBy(w => w.Length)
+                .ToDictionary(g => g.Key, g => g.ToImmutableArray ());
+            obscureWordsByLength = obscureWords
+                .RemoveAll(s => s.Length <= 2 || s.Length > gridSize)
+                .Except(commonWords)
+                .GroupBy(w => w.Length)
+                .ToDictionary(g => g.Key, g => g.ToImmutableArray());
+
+            for (int i = 3; i <= gridSize; ++i)
+            {
+                if (!commonWordsByLength.ContainsKey(i)) commonWordsByLength[i] = ImmutableArray<string>.Empty;
+                if (!obscureWordsByLength.ContainsKey(i)) obscureWordsByLength[i] = ImmutableArray<string>.Empty;
+            }
 
             possibleLines = AllPossibleLines(gridSize);
         }
@@ -587,9 +602,15 @@ namespace WordGenLib
 
             if (undecidedDown == null && undecidedAcross == null)
             {
+                var down = root.Down.Select(col => col.Iterate().First()).ToImmutableArray();
+                var across = root.Across.Select(row => row.Iterate().First()).ToImmutableArray();
+
+                if (down.Zip(across).Any(both => both.First == both.Second))
+                    yield break;
+
                 yield return new FinalGrid(
-                    Down: root.Down.Select(col => col.Iterate().First()).ToImmutableArray(),
-                    Across: root.Across.Select(row => row.Iterate().First()).ToImmutableArray()
+                    Down: down,
+                    Across: across
                 );
                 yield break;
             }
@@ -644,12 +665,18 @@ namespace WordGenLib
                     var constriant = attempt[i];
 
                     attemptOpposite[i] = attemptOpposite[i].Filter(constriant, index);
+                    if (attemptOpposite[i].MaxPossibilities == 1 && attemptOpposite[i].Iterate().First() == attempt) yield break;
                 }
 
                 if (attemptOpposite.All(opts => opts is not Impossible))
                 {
                     var oppositeFinal = attemptOpposite.ToImmutableArray();
                     var optionFinal = optionAxis.Select((regular, idx) => idx == index ? new Definite(attempt) : regular).ToImmutableArray();
+
+                    if (attemptOpposite.Zip(optionFinal)
+                        .Where(ab => ab.First.MaxPossibilities == 1 && ab.Second.MaxPossibilities == 1)
+                        .Any(ab => ab.First.Iterate().First() == ab.Second.Iterate().First()))
+                        yield break;
 
                     var newRoot = (dir == Direction.Horizontal) ?
                         new GridState(
