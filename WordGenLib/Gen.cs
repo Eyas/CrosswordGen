@@ -117,6 +117,8 @@ namespace WordGenLib
             possibleLines = AllPossibleLines(gridSize);
         }
 
+        record struct ConcreteLine(string Line, ImmutableArray<string> Words) { }
+
         interface IPossibleLines
         {
             int NumLetters { get; }
@@ -126,7 +128,7 @@ namespace WordGenLib
             IPossibleLines Filter(CharSet constraint, int index);
             IPossibleLines Filter(char constraint, int index);
             IPossibleLines RemoveWordOption(string word);
-            IEnumerable<string> Iterate();
+            IEnumerable<ConcreteLine> Iterate();
 
             public static IPossibleLines RemoveWordOptions(IEnumerable<string> line, IPossibleLines l)
             {
@@ -146,7 +148,7 @@ namespace WordGenLib
             public IPossibleLines Filter(CharSet _, int _2) => this;
             public IPossibleLines Filter(char _, int _2) => this;
             public IPossibleLines RemoveWordOption(string word) => this;
-            public IEnumerable<string> Iterate() => Enumerable.Empty<string>();
+            public IEnumerable<ConcreteLine> Iterate() => Enumerable.Empty<ConcreteLine>();
 
             private static readonly Impossible?[] _cache = new Impossible?[25];
             public static Impossible Instance(int numLetters)
@@ -208,7 +210,9 @@ namespace WordGenLib
                 if (p.Length == 0 && o.Length == 0) return Impossible.Instance(NumLetters);
                 return this with { Preferred = p, Obscure = o };
             }
-            public IEnumerable<string> Iterate() => Preferred.Concat(Obscure);
+            public IEnumerable<ConcreteLine> Iterate() =>
+                Preferred.Concat(Obscure)
+                .Select(w => new ConcreteLine(w, ImmutableArray.Create(w)));
         }
         record BlockBefore(IPossibleLines Lines) : IPossibleLines
         {
@@ -254,7 +258,7 @@ namespace WordGenLib
                 if (lines is Impossible) return Impossible.Instance(NumLetters);
                 return this with { Lines = lines };
             }
-            public IEnumerable<string> Iterate() => Lines.Iterate().Select(word => Constants.BLOCKED + word);
+            public IEnumerable<ConcreteLine> Iterate() => Lines.Iterate().Select(line => line with { Line = Constants.BLOCKED + line.Line });
         }
         record BlockAfter(IPossibleLines Lines) : IPossibleLines
         {
@@ -300,7 +304,7 @@ namespace WordGenLib
                 if (lines is Impossible) return Impossible.Instance(NumLetters);
                 return this with { Lines = lines };
             }
-            public IEnumerable<string> Iterate() => Lines.Iterate().Select(word => word + Constants.BLOCKED);
+            public IEnumerable<ConcreteLine> Iterate() => Lines.Iterate().Select(line => line with { Line = line.Line + Constants.BLOCKED });
         }
         record BlockBetween(IPossibleLines First, IPossibleLines Second) : IPossibleLines
         {
@@ -332,7 +336,12 @@ namespace WordGenLib
 
                 if (combo.MaxPossibilities < 50)
                 {
-                    return new Words(Preferred: combo.Iterate().Distinct().ToImmutableArray(), ImmutableArray<string>.Empty);
+                    return new Compound(
+                        combo.Iterate()
+                        .DistinctBy(l => l.Line)
+                        .Select(l => new Definite(l))
+                        .ToImmutableArray<IPossibleLines>()
+                        );
                 }
                 else return combo;
             }
@@ -359,7 +368,14 @@ namespace WordGenLib
                 if (first is Impossible || second is Impossible) return Impossible.Instance(NumLetters);
                 return this with { First = first, Second = second };
             }
-            public IEnumerable<string> Iterate() => First.Iterate().SelectMany(first => Second.Iterate().Select(second => $"{first}{Constants.BLOCKED}{second}"));
+            public IEnumerable<ConcreteLine> Iterate() =>
+                First.Iterate()
+                .SelectMany(first => Second.Iterate()
+                    .Select(second => new ConcreteLine(
+                        Line: $"{first.Line}{Constants.BLOCKED}{second.Line}",
+                        Words: first.Words.AddRange(second.Words))
+                    )
+                );
         }
         record Compound(ImmutableArray<IPossibleLines> Possibilities) : IPossibleLines
         {
@@ -424,30 +440,29 @@ namespace WordGenLib
 
                 return new Compound(filtered);
             }
-            public IEnumerable<string> Iterate() => Possibilities.SelectMany(possible => possible.Iterate());
+            public IEnumerable<ConcreteLine> Iterate() => Possibilities.SelectMany(possible => possible.Iterate());
         }
-        record Definite(string Line) : IPossibleLines
+        record Definite(ConcreteLine Line) : IPossibleLines
         {
-            public int NumLetters => Line.Length;
+            public int NumLetters => Line.Line.Length;
             public long MaxPossibilities => 1;
             public void CharsAt(CharSet accumulate, int index)
             {
-                accumulate.Add(Line[index]);
+                accumulate.Add(Line.Line[index]);
             }
-            public bool DefinitelyBlockedAt(int index) => Line[index] == Constants.BLOCKED;
+            public bool DefinitelyBlockedAt(int index) => Line.Line[index] == Constants.BLOCKED;
             public IPossibleLines Filter(CharSet constraint, int index)
-                => constraint.Contains(Line[index]) ? this : Impossible.Instance(NumLetters);
+                => constraint.Contains(Line.Line[index]) ? this : Impossible.Instance(NumLetters);
             public IPossibleLines Filter(char constraint, int index)
-                => constraint == Line[index] ? this : Impossible.Instance(NumLetters);
+                => constraint == Line.Line[index] ? this : Impossible.Instance(NumLetters);
             public IPossibleLines RemoveWordOption(string word)
             {
-                if (word.Length > Line.Length) return this;
-                if (word.Length >= 5 && Line.Contains(word)) return Impossible.Instance(NumLetters);
+                if (word.Length > Line.Line.Length) return this;
 
-                if (Line.Split(Constants.BLOCKED).Any(x => x == word)) return Impossible.Instance(NumLetters);
+                if (Line.Words.Contains(word)) return Impossible.Instance(NumLetters);
                 return this;
             }
-            public IEnumerable<string> Iterate()
+            public IEnumerable<ConcreteLine> Iterate()
             {
                 yield return Line;
             }
@@ -630,7 +645,7 @@ namespace WordGenLib
             // If board is > 35% blocked, it's not worth iterating in it.
             int numDefinitelyBlocked = root.Down
                 .Where(options => options.MaxPossibilities == 1)
-                .Sum(options => options.Iterate().First().Count(c => c == Constants.BLOCKED) );
+                .Sum(options => options.Iterate().First().Line.Count(c => c == Constants.BLOCKED) );
             if (numDefinitelyBlocked > (root.Area * 0.35) )
             {
                 yield break;
@@ -690,8 +705,8 @@ namespace WordGenLib
 
             if (undecidedDown == null && undecidedAcross == null)
             {
-                var down = root.Down.Select(col => col.Iterate().First()).ToImmutableArray();
-                var across = root.Across.Select(row => row.Iterate().First()).ToImmutableArray();
+                var down = root.Down.Select(col => col.Iterate().First().Line).ToImmutableArray();
+                var across = root.Across.Select(row => row.Iterate().First().Line).ToImmutableArray();
 
                 if (down.Zip(across).Any(both => both.First == both.Second))
                     yield break;
@@ -736,12 +751,12 @@ namespace WordGenLib
 
             foreach (var attempt in options.Iterate())
             {
-                var attemptIndividualWords = attempt.Split(Constants.BLOCKED).Where(s => !string.IsNullOrEmpty(s));
+                var attemptIndividualWords = attempt.Words;
                 if (attemptIndividualWords.GroupBy(w => w).Any(g => g.Count() > 1)) yield break;
 
                 var attemptOpposite = oppositeAxis.ToArray();
 
-                for (int i = 0; i < attempt.Length; i++)
+                for (int i = 0; i < attempt.Line.Length; i++)
                 {
                     // WLOG say we dir is Horizontal, and opopsite is Vertical.
                     // we have:
@@ -753,7 +768,7 @@ namespace WordGenLib
                     //
                     // Then go over each COL (i), filtering s.t. possible lines
                     // only include cases where col[i]'s |attempt|th character == attempt[i].
-                    var constriant = attempt[i];
+                    var constriant = attempt.Line[i];
 
                     attemptOpposite[i] = IPossibleLines.RemoveWordOptions(attemptIndividualWords, attemptOpposite[i]).Filter(constriant, index);
                     if (attemptOpposite[i].MaxPossibilities == 1 && attemptOpposite[i].Iterate().First() == attempt) yield break;
@@ -826,7 +841,10 @@ namespace WordGenLib
         private IPossibleLines CompatibleLines(string template)
         {
             if (template.All(x => x == ' ')) return possibleLines;
-            if (template.All(x => x != ' ')) return new Definite(template);
+            if (template.All(x => x != ' ')) return new Definite(new (
+                template,
+                template.Split(Constants.BLOCKED).Where(w => w.Length > 0).ToImmutableArray()
+                ));
 
             var lines = possibleLines;
             for (int i = 0; i < template.Length; i++)
@@ -839,7 +857,7 @@ namespace WordGenLib
 
         public  IEnumerable<string> CompatibleLineStrings(string template)
         {
-            return CompatibleLines(template).Iterate();
+            return CompatibleLines(template).Iterate().Select(l => l.Line);
         }
     }
 
