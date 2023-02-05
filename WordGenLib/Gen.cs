@@ -1,6 +1,8 @@
 ﻿using Crossword;
+using System.Collections;
 using System.Collections.Immutable;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 
 namespace WordGenLib
 {
@@ -118,6 +120,106 @@ namespace WordGenLib
             possibleLines = AllPossibleLines(gridSize);
         }
 
+        public struct ImmutableArraySegment<T> : IReadOnlyList<T>, IEnumerable<T>, IReadOnlyCollection<T>
+            where T : notnull
+        {
+            private readonly ImmutableArray<T> _arr;
+            private readonly int _offset;
+            private readonly int _length;
+
+            public ImmutableArraySegment(ImmutableArray<T> array, int offset, int length)
+            {
+                _arr = array;
+                _offset = offset;
+                _length = length;
+            }
+            public static implicit operator ImmutableArraySegment<T>(ImmutableArray<T> arr)
+            {
+                return new ImmutableArraySegment<T>(arr, 0, arr.Length);
+            }
+
+            public ImmutableArraySegment<T> Slice(int start, int length)
+            {
+                if (start == 0 && length == _length) return this;
+                return new ImmutableArraySegment<T>(_arr, _offset + start, length);
+            }
+
+            public ImmutableArraySegment<T> Remove(T content)
+            {
+                if (_offset == 0 && _length == _arr.Length) return _arr.Remove(content);
+                if (this.Contains(content)) return this.Where(word => !word.Equals(content)).ToImmutableArray();
+                return this;
+            }
+
+            public ImmutableArraySegment<T> RemoveAll(Predicate<T> predicate)
+            {
+                if (_offset == 0 && _length == _arr.Length) return _arr.RemoveAll(predicate);
+                if (_length < 100 && !this.Any(v => predicate(v))) return this;
+                return this.Where(v => !predicate(v)).ToImmutableArray();
+            }
+
+            public T this[int index] => _arr[index + _offset];
+
+            public int Count => _length;
+            public int Length => _length;
+
+            public IEnumerator<T> GetEnumerator()
+            {
+                return new IasEnumerator(this);
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+
+            private class IasEnumerator : IEnumerator<T>
+            {
+                private int _idx = -1;
+                private readonly ImmutableArraySegment<T> _ias;
+                public IasEnumerator(ImmutableArraySegment<T> ias) { _ias = ias; }
+
+                public T Current => _ias[_idx];
+                object IEnumerator.Current => Current!;
+
+                public void Dispose()
+                {
+                    _idx = -1;
+                }
+
+                public bool MoveNext()
+                {
+                    _idx++;
+                    return _idx < _ias.Length;
+                }
+
+                public void Reset()
+                {
+                    _idx = -1;
+                }
+            }
+
+            public static bool operator==(ImmutableArraySegment<T> first, ImmutableArraySegment<T> second)
+            {
+                return first._offset == second._offset && first._length == second._length && first._arr == second._arr;
+            }
+            public static bool operator !=(ImmutableArraySegment<T> first, ImmutableArraySegment<T> second)
+            {
+                return !(first == second);
+            }
+
+            public override bool Equals(object? obj)
+            {
+                if (obj is ImmutableArraySegment<T> other) return this == other;
+                return false;
+            }
+
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(_length, _offset, _arr);
+            }
+        }
+
         public record struct WordInfo(WordInfo.InclusionType Inclusion)
         {
             public enum InclusionType { NOT_INCLUDED, COMMON, OBSCURE, EXCLUDED }
@@ -139,6 +241,7 @@ namespace WordGenLib
         }
 
         record struct ConcreteLine(string Line, ImmutableArray<string> Words) { }
+        record struct ChoiceStep(IPossibleLines Choice, IPossibleLines Remianing) { }
 
         interface IPossibleLines
         {
@@ -150,6 +253,7 @@ namespace WordGenLib
             IPossibleLines Filter(char constraint, int index);
             IPossibleLines RemoveWordOption(string word);
             IEnumerable<ConcreteLine> Iterate();
+            ChoiceStep MakeChoice();
 
             public static IPossibleLines RemoveWordOptions(IEnumerable<string> line, IPossibleLines l)
             {
@@ -170,6 +274,7 @@ namespace WordGenLib
             public IPossibleLines Filter(char _, int _2) => this;
             public IPossibleLines RemoveWordOption(string word) => this;
             public IEnumerable<ConcreteLine> Iterate() => Enumerable.Empty<ConcreteLine>();
+            public ChoiceStep MakeChoice() => throw new InvalidOperationException("Cannot call MakeChoice on Impossible");
 
             private static readonly Impossible?[] _cache = new Impossible?[25];
             public static Impossible Instance(int numLetters)
@@ -179,7 +284,7 @@ namespace WordGenLib
                 return _cache[numLetters]!;
             }
         }
-        record Words(ImmutableArray<string> Preferred, ImmutableArray<string> Obscure) : IPossibleLines
+        record Words(ImmutableArraySegment<string> Preferred, ImmutableArraySegment<string> Obscure) : IPossibleLines
         {
             public int NumLetters => (Preferred.Length > 0 ? Preferred[0].Length : Obscure[0].Length);
             public long MaxPossibilities => Preferred.Length + Obscure.Length;
@@ -195,13 +300,32 @@ namespace WordGenLib
             }
             public bool DefinitelyBlockedAt(int index)
                 => Preferred.Concat(Obscure).All(word => word[index] == Constants.BLOCKED);
+            public ChoiceStep MakeChoice()
+            {
+                if (MaxPossibilities <= 1) throw new InvalidOperationException("Cannot call MakeChoice on entity with 1 or less options");
+
+                if (Preferred.Length > 0)
+                {
+                    return new ChoiceStep
+                    {
+                        Choice = new Definite(new ConcreteLine(Preferred[0], ImmutableArray.Create(Preferred[0]))),
+                        Remianing = this with { Preferred = Preferred[1..] }
+                    };
+                }
+
+                return new ChoiceStep
+                {
+                    Choice = new Definite(new ConcreteLine(Obscure[0], ImmutableArray.Create(Obscure[0]))),
+                    Remianing = this with { Obscure = Obscure[1..] }
+                };
+            }
 
             public IPossibleLines Filter(CharSet constraint, int index)
             {
                 if (constraint.IsFull) return this;
 
-                var filteredPreferred = Preferred.Where(word => constraint.Contains(word[index])).ToImmutableArray();
-                var filteredObscure = Obscure.Where(word => constraint.Contains(word[index])).ToImmutableArray();
+                var filteredPreferred = Preferred.RemoveAll(word => !constraint.Contains(word[index]));
+                var filteredObscure = Obscure.RemoveAll(word => constraint.Contains(word[index]));
 
                 return (filteredPreferred, filteredObscure) switch
                 {
@@ -280,6 +404,15 @@ namespace WordGenLib
                 return this with { Lines = lines };
             }
             public IEnumerable<ConcreteLine> Iterate() => Lines.Iterate().Select(line => line with { Line = Constants.BLOCKED + line.Line });
+            public ChoiceStep MakeChoice()
+            {
+                ChoiceStep inner = Lines.MakeChoice();
+                return new ChoiceStep
+                {
+                    Choice = this with { Lines = inner.Choice },
+                    Remianing = this with { Lines = inner.Remianing }
+                };
+            }
         }
         record BlockAfter(IPossibleLines Lines) : IPossibleLines
         {
@@ -326,6 +459,15 @@ namespace WordGenLib
                 return this with { Lines = lines };
             }
             public IEnumerable<ConcreteLine> Iterate() => Lines.Iterate().Select(line => line with { Line = line.Line + Constants.BLOCKED });
+            public ChoiceStep MakeChoice()
+            {
+                ChoiceStep inner = Lines.MakeChoice();
+                return new ChoiceStep
+                {
+                    Choice = this with { Lines = inner.Choice },
+                    Remianing = this with { Lines = inner.Remianing }
+                };
+            }
         }
         record BlockBetween(IPossibleLines First, IPossibleLines Second) : IPossibleLines
         {
@@ -401,8 +543,27 @@ namespace WordGenLib
                         Words: first.Words.AddRange(second.Words))
                     )
                 );
+            public ChoiceStep MakeChoice()
+            {
+                if (First.MaxPossibilities > 1)
+                {
+                    ChoiceStep firstChoice = First.MakeChoice();
+                    return new ChoiceStep
+                    {
+                        Choice = this with { First = firstChoice.Choice },
+                        Remianing = this with { First = firstChoice.Remianing }
+                    };
+                }
+
+                ChoiceStep secondChoice = Second.MakeChoice();
+                return new ChoiceStep
+                {
+                    Choice = this with { Second = secondChoice.Choice },
+                    Remianing = this with { Second = secondChoice.Remianing }
+                };
+            }
         }
-        record Compound(ImmutableArray<IPossibleLines> Possibilities) : IPossibleLines
+        record Compound(ImmutableArraySegment<IPossibleLines> Possibilities) : IPossibleLines
         {
             public int NumLetters => Possibilities[0].NumLetters;
             public long MaxPossibilities => Possibilities.Sum(x => x.MaxPossibilities);
@@ -423,7 +584,7 @@ namespace WordGenLib
 
                 var filtered = Possibilities
                     .Select(possible => possible.Filter(constraint, index))
-                    .Where(possible => possible is not Impossible)
+                    .Where(possible => possible is not Impossible && possible.MaxPossibilities > 0)
                     .ToImmutableArray();
 
                 if (filtered.Length == 0) return Impossible.Instance(NumLetters);
@@ -469,6 +630,21 @@ namespace WordGenLib
                 return new Compound(filtered);
             }
             public IEnumerable<ConcreteLine> Iterate() => Possibilities.SelectMany(possible => possible.Iterate());
+            public ChoiceStep MakeChoice()
+            {
+                if (Possibilities.Length <= 1) throw new InvalidOperationException("Cannot make a choice if Possibilities <= 1");
+                if (MaxPossibilities <= 1) throw new InvalidOperationException("Cannot make a choice if MaxPossibilities <= 1");
+                return new ChoiceStep
+                {
+                    Choice = Possibilities[0],
+                    Remianing = Possibilities.Length switch
+                    {
+                        0 or 1 => new Impossible(NumLetters),
+                        2 => Possibilities[1],
+                        _ => new Compound(Possibilities[1..]),
+                    }
+                };
+            }
         }
         record Definite(ConcreteLine Line) : IPossibleLines
         {
@@ -494,6 +670,7 @@ namespace WordGenLib
             {
                 yield return Line;
             }
+            public ChoiceStep MakeChoice() => throw new InvalidOperationException("Cannot make a choice on a definite line");
         }
 
         private record GridState(ImmutableArray<IPossibleLines> Down, ImmutableArray<IPossibleLines> Across) {
@@ -776,7 +953,51 @@ namespace WordGenLib
 
             // The below loop "makes decisions" and recurses. If we already
             // have one possibility, that means it's already pre-decided.
-            if (options.MaxPossibilities == 1) yield break;
+            if (options.MaxPossibilities <= 1) yield break;
+
+            if (options.MaxPossibilities >= 1000)
+            {
+                do
+                {
+                    var (choice, remaining) = options.MakeChoice();
+
+                    {
+                        var attemptOpposite = oppositeAxis.ToArray();
+                        var oppositeFinal = attemptOpposite.ToImmutableArray();
+                        var optionFinal = optionAxis
+                            .Select((regular, idx) =>
+                                idx == index
+                                    ? choice
+                                    : regular)
+                            .ToImmutableArray();
+
+                        if (attemptOpposite.Zip(optionFinal)
+                            .Where(ab => ab.First.MaxPossibilities == 1 && ab.Second.MaxPossibilities == 1)
+                            .Any(ab => ab.First.Iterate().First() == ab.Second.Iterate().First()))
+                            yield break;
+
+                        var newRoot = (dir == Direction.Horizontal) ?
+                            new GridState(
+                                Down: oppositeFinal,
+                                Across: optionFinal
+                                ) :
+                            new GridState(
+                                Down: optionFinal,
+                                Across: oppositeFinal
+                                );
+
+                        foreach (var final in AllPossibleGrids(newRoot)) yield return final;
+                    }
+
+                    options = remaining;
+                }
+                while (options.MaxPossibilities > 1);
+
+                if (options.MaxPossibilities == 0)
+                {
+                    yield break;
+                }
+            }
 
             foreach (var attempt in options.Iterate())
             {
