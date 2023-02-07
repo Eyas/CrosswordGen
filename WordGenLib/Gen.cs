@@ -40,6 +40,11 @@ namespace WordGenLib
             return _available[c - _min ];
         }
 
+        public bool ContainsOnly(char c)
+        {
+            return _ct == 1 && Contains(c);
+        }
+
         public bool IsFull => _ct == _available.Length;
     }
     public class GridDictionary<T> where T : notnull, new()
@@ -83,6 +88,7 @@ namespace WordGenLib
         private readonly IPossibleLines possibleLines;
 
         public int GridSize => gridSize;
+        public readonly ImmutableHashSet<string> AllowedWords;
 
         public static Generator Create(
             int gridSize,
@@ -92,8 +98,8 @@ namespace WordGenLib
         {
             return new(
                 gridSize,
-                commonWords ?? GridReader.COMMON_WORDS,
-                obscureWords ?? GridReader.OBSCURE_WORDS
+                commonWords ?? GridReader.COMMON_WORDS_DEFAULT,
+                obscureWords ?? GridReader.OBSCURE_WORDS_DEFAULT
                 );
         }
 
@@ -101,12 +107,17 @@ namespace WordGenLib
         {
             this.gridSize = gridSize;
 
-            commonWordsByLength = commonWords
-                .RemoveAll(s => s.Length <= 2 || s.Length > gridSize)
+            var trimmedCommon = commonWords
+                .RemoveAll(s => s.Length <= 2 || s.Length > gridSize);
+            var trimmedObscure = obscureWords
+                .RemoveAll(s => s.Length <= 2 || s.Length > gridSize);
+
+            AllowedWords = ImmutableHashSet.CreateRange(trimmedCommon.Concat(trimmedObscure));
+
+            commonWordsByLength = trimmedCommon
                 .GroupBy(w => w.Length)
                 .ToDictionary(g => g.Key, g => g.ToImmutableArray ());
-            obscureWordsByLength = obscureWords
-                .RemoveAll(s => s.Length <= 2 || s.Length > gridSize)
+            obscureWordsByLength = trimmedObscure
                 .Except(commonWords)
                 .GroupBy(w => w.Length)
                 .ToDictionary(g => g.Key, g => g.ToImmutableArray());
@@ -156,6 +167,12 @@ namespace WordGenLib
                 if (_offset == 0 && _length == _arr.Length) return _arr.RemoveAll(predicate);
                 if (_length < 100 && !this.Any(v => predicate(v))) return this;
                 return this.Where(v => !predicate(v)).ToImmutableArray();
+            }
+
+            public (ImmutableArraySegment<T> FirstHalf, ImmutableArraySegment<T> SecondHalf) Split()
+            {
+                int firstHalfIndex = (1 + Length) / 2;
+                return (this[..firstHalfIndex], this[firstHalfIndex.._length]);
             }
 
             public T this[int index] => _arr[index + _offset];
@@ -304,19 +321,28 @@ namespace WordGenLib
             {
                 if (MaxPossibilities <= 1) throw new InvalidOperationException("Cannot call MakeChoice on entity with 1 or less options");
 
-                if (Preferred.Length > 0)
+                var (pref1, pref2) = Preferred.Split();
+                var (obsc1, obsc2) = Obscure.Split();
+
+                IPossibleLines choice = (pref1, obsc1) switch
                 {
-                    return new ChoiceStep
-                    {
-                        Choice = new Definite(new ConcreteLine(Preferred[0], ImmutableArray.Create(Preferred[0]))),
-                        Remianing = this with { Preferred = Preferred[1..] }
-                    };
-                }
+                    ({ Length: 0 }, { Length: 0}) => Impossible.Instance(NumLetters),
+                    ({ Length: 1}, { Length: 0}) => new Definite(new ConcreteLine(pref1[0], ImmutableArray.Create(pref1[0]))),
+                    ({ Length: 0}, { Length: 1}) => new Definite(new ConcreteLine(obsc1[0], ImmutableArray.Create(obsc1[0]))),
+                    _ => new Words(pref1, obsc1)
+                };
+                IPossibleLines remaining = (pref2, obsc2) switch
+                {
+                    ({ Length: 0 }, { Length: 0 }) => Impossible.Instance(NumLetters),
+                    ({ Length: 1 }, { Length: 0 }) => new Definite(new ConcreteLine(pref2[0], ImmutableArray.Create(pref2[0]))),
+                    ({ Length: 0 }, { Length: 1 }) => new Definite(new ConcreteLine(obsc2[0], ImmutableArray.Create(obsc2[0]))),
+                    _ => new Words(pref2, obsc2)
+                };
 
                 return new ChoiceStep
                 {
-                    Choice = new Definite(new ConcreteLine(Obscure[0], ImmutableArray.Create(Obscure[0]))),
-                    Remianing = this with { Obscure = Obscure[1..] }
+                    Choice = choice,
+                    Remianing = remaining,
                 };
             }
 
@@ -634,14 +660,22 @@ namespace WordGenLib
             {
                 if (Possibilities.Length <= 1) throw new InvalidOperationException("Cannot make a choice if Possibilities <= 1");
                 if (MaxPossibilities <= 1) throw new InvalidOperationException("Cannot make a choice if MaxPossibilities <= 1");
+
+                var (choice, remaining) = Possibilities.Split();
+
                 return new ChoiceStep
                 {
-                    Choice = Possibilities[0],
-                    Remianing = Possibilities.Length switch
+                    Choice = choice.Length switch
                     {
-                        0 or 1 => new Impossible(NumLetters),
-                        2 => Possibilities[1],
-                        _ => new Compound(Possibilities[1..]),
+                        0 => new Impossible(NumLetters),
+                        1 => choice[0],
+                        _ => this with { Possibilities = choice },
+                    },
+                    Remianing = remaining.Length switch
+                    {
+                        0 => new Impossible(NumLetters),
+                        1 => remaining[0],
+                        _ => this with { Possibilities = remaining },
                     }
                 };
             }
@@ -849,14 +883,9 @@ namespace WordGenLib
             if (root.Down.Any(options => options.MaxPossibilities == 0)) yield break;
             if (root.Across.Any(options => options.MaxPossibilities == 0)) yield break;
 
-            // If board is > 35% blocked, it's not worth iterating in it.
-            int numDefinitelyBlocked = root.Down
-                .Where(options => options.MaxPossibilities == 1)
-                .Sum(options => options.Iterate().First().Line.Count(c => c == Constants.BLOCKED) );
-            if (numDefinitelyBlocked > (root.Area * 0.35) )
-            {
-                yield break;
-            }
+            int priorNumBlocked = Enumerable.Range(0, root.SideLength)
+                .Select(i => root.Down.Count(line => line.DefinitelyBlockedAt(i)))
+                .Sum();
 
             // Prefilter
             {
@@ -877,6 +906,16 @@ namespace WordGenLib
                 if (root.Across.Any(options => options.MaxPossibilities == 0)) yield break;
             }
 
+            // If board is > 35% blocked, it's not worth iterating in it.
+            int numDefinitelyBlocked = Enumerable.Range(0, root.SideLength)
+                .Select(i => root.Down.Count(line => line.DefinitelyBlockedAt(i)))
+                .Sum();
+                
+            if (numDefinitelyBlocked > (root.Area * 0.35) )
+            {
+                yield break;
+            }
+
             // If board is entirely divided, s.t. no word spans two "halves" of the
             // board, we want to stop.
             //
@@ -886,25 +925,9 @@ namespace WordGenLib
             //
             // This can still be better, e.g. it doesn't account for a "quadrant"
             // being cordoned off.
-            bool[] previouslyBlocked = new bool[root.Down.Length];
-
-            foreach (var col in root.Down)
+            if (numDefinitelyBlocked > priorNumBlocked)
             {
-                bool anyBlocked = false;
-                for (int i = 0; i < root.Across.Length; i++)
-                {
-                    if (!col.DefinitelyBlockedAt(i)) continue;
-                    anyBlocked = true;
-                    previouslyBlocked[i] = true;
-                }
-
-                if (!anyBlocked)
-                {
-                    Array.Fill(previouslyBlocked, false);
-                    continue;
-                }
-
-                if (previouslyBlocked.All(v => v == true)) yield break;
+                if (IsBoardDefinitelyDivided(root)) yield break;
             }
 
             int? undecidedDown = root.GetUndecidedDown();
@@ -955,7 +978,7 @@ namespace WordGenLib
             // have one possibility, that means it's already pre-decided.
             if (options.MaxPossibilities <= 1) yield break;
 
-            if (options.MaxPossibilities >= 1000)
+            if (options.MaxPossibilities >= 100)
             {
                 do
                 {
@@ -985,6 +1008,11 @@ namespace WordGenLib
                                 Down: optionFinal,
                                 Across: oppositeFinal
                                 );
+
+                        if (NumDefiniteBlocks(choice) > NumDefiniteBlocks(options))
+                        {
+                            if (IsBoardDefinitelyDivided(newRoot)) yield break;
+                        }
 
                         foreach (var final in AllPossibleGrids(newRoot)) yield return final;
                     }
@@ -1064,6 +1092,79 @@ namespace WordGenLib
             return false;
         }
 
+        static int NumDefiniteBlocks(IPossibleLines state)
+        {
+            int acc = 0;
+            for (int i = 0; i < state.NumLetters; ++i)
+            {
+                if (state.DefinitelyBlockedAt(i)) acc += 1;
+            }
+            return acc;
+        }
+
+        static bool IsBoardDefinitelyDivided(GridState state)
+        {
+            char[,] grid = new char[state.SideLength, state.SideLength];
+            int unreachable = state.Area;
+
+            for (int i = 0; i < grid.GetLength(0); ++i)
+            {
+                for (int j = 0; j < grid.GetLength(1); ++j)
+                {
+                    if (state.Down[i].DefinitelyBlockedAt(j) || state.Across[j].DefinitelyBlockedAt(i))
+                    {
+                        grid[i, j] = '`';
+                        unreachable--;
+                    }
+                    else
+                    {
+                        grid[i, j] = ' ';
+                    }
+                }
+            }
+
+            Queue<(int i, int j)> explore = new();
+            for (int i = 0; i < grid.GetLength(0); ++i)
+            {
+                if (grid[i, 0] == ' ')
+                {
+                    explore.Enqueue((i, 0));
+                    break;
+                }
+            }
+
+            while (explore.TryDequeue(out var ij))
+            {
+                (int i, int j) = ij;
+
+                if (grid[i, j] != ' ') continue;
+                grid[i, j] = '=';
+                unreachable--;
+
+                if ((i - 1) >= 0 && grid[i - 1, j] == ' ') explore.Enqueue((i - 1, j));
+                if ((i + 1) < grid.GetLength(0) && grid[i + 1, j] == ' ') explore.Enqueue((i + 1, j));
+                if ((j - 1) >= 0 && grid[i, j - 1] == ' ') explore.Enqueue((i, j - 1));
+                if ((j + 1) < grid.GetLength(1) && grid[i, j + 1] == ' ') explore.Enqueue((i, j + 1));
+            }
+
+            if (unreachable > 0) return true;
+
+            for (int i = 0; i < grid.GetLength(0); ++i)
+            {
+                int numDim1Blocked = 0;
+                int numDim2Blocked = 0;
+                for (int j = 0; j < grid.GetLength(1); ++j)
+                {
+                    if (grid[i, j] == '`') ++numDim1Blocked;
+                    if (grid[j, i] == '`') ++numDim2Blocked;
+                }
+
+                if (numDim1Blocked == grid.GetLength(1) || numDim2Blocked == grid.GetLength(0)) return true;
+            }
+
+            return false;
+        }
+
         public IEnumerable<FinalGrid> PossibleGrids()
         {
             GridState state = new(
@@ -1085,6 +1186,8 @@ namespace WordGenLib
                 Down: Enumerable.Range(0, gridSize).Select(i => CompatibleLines(downTemplates[i])).ToImmutableArray(),
                 Across: Enumerable.Range(0, gridSize).Select(i => CompatibleLines(acrossTemplates[i])).ToImmutableArray()
             );
+            if (IsBoardDefinitelyDivided(state)) return Enumerable.Empty<FinalGrid>();
+
             return AllPossibleGrids(state).DistinctBy(x => x.Repr);
         }
 
@@ -1125,28 +1228,21 @@ namespace WordGenLib
 
     public static class GridReader
     {
-        internal static ImmutableArray<string> COMMON_WORDS =
+        public static readonly ImmutableArray<string> COMMON_WORDS_DEFAULT =
             Properties.Resources.words.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
             .Concat(Properties.Resources.phrases.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None))
             .Select(s => s.Trim().Replace(" ", ""))
             .Distinct()
             .ToImmutableArray();
 
-        internal static ImmutableArray<string> OBSCURE_WORDS =
+        public static readonly ImmutableArray<string> OBSCURE_WORDS_DEFAULT =
             Properties.Resources.phrases.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
             .Concat(Properties.Resources.wikipedia.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None))
             .Concat(Properties.Resources.from_lexems.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None))
             .Select(s => s.Trim().Replace(" ", ""))
             .Distinct()
-            .Except(COMMON_WORDS)
+            .Except(COMMON_WORDS_DEFAULT)
             .ToImmutableArray();
-
-        internal static ImmutableArray<string> ALL_WORDS = COMMON_WORDS.AddRange(OBSCURE_WORDS);
-
-        public static HashSet<string> AllowedWords()
-        {
-            return new HashSet<string>(ALL_WORDS);
-        }
 
         public static string[] AcrossWords(FinalGrid grid)
         {
