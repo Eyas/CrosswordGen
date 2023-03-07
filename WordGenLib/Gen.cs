@@ -35,14 +35,25 @@ namespace WordGenLib
             }
         }
 
-        public bool Contains(char c)
+        public void AddAll(CharSet other)
         {
-            return _available[c - _min ];
+            if (other.IsFull && !IsFull)
+            {
+                Array.Fill(_available, true);
+                _ct = _available.Length;
+                return;
+            }
+
+            for (char i = other._min; i < other._min + other._ct; ++i)
+            {
+                if (IsFull) return;
+                Add(i);
+            }
         }
 
-        public bool ContainsOnly(char c)
+        public bool Contains(char c)
         {
-            return _ct == 1 && Contains(c);
+            return _available[c - _min];
         }
 
         public bool IsFull => _ct == _available.Length;
@@ -258,7 +269,7 @@ namespace WordGenLib
         }
 
         record struct ConcreteLine(string Line, ImmutableArray<string> Words) { }
-        record struct ChoiceStep(IPossibleLines Choice, IPossibleLines Remianing) { }
+        record struct ChoiceStep(IPossibleLines Choice, IPossibleLines Remaining) { }
 
         interface IPossibleLines
         {
@@ -321,6 +332,15 @@ namespace WordGenLib
             {
                 if (MaxPossibilities <= 1) throw new InvalidOperationException("Cannot call MakeChoice on entity with 1 or less options");
 
+                if (Preferred.Length == 1 && Obscure.Length == 1)
+                {
+                    return new ChoiceStep
+                    {
+                        Choice = new Definite(new(Preferred[0], ImmutableArray.Create(Preferred[0]))),
+                        Remaining = new Definite(new(Obscure[0], ImmutableArray.Create(Obscure[0]))),
+                    };
+                }
+
                 var (pref1, pref2) = Preferred.Split();
                 var (obsc1, obsc2) = Obscure.Split();
 
@@ -342,7 +362,7 @@ namespace WordGenLib
                 return new ChoiceStep
                 {
                     Choice = choice,
-                    Remianing = remaining,
+                    Remaining = remaining,
                 };
             }
 
@@ -377,7 +397,7 @@ namespace WordGenLib
                 var p = Preferred.Remove(word);
                 var o = Obscure.Remove(word);
 
-                if (p == Preferred && o == Obscure) return this;
+                if (p.Length == Preferred.Length && o.Length == Obscure.Length) return this;
                 if (p.Length == 0 && o.Length == 0) return Impossible.Instance(NumLetters);
                 return this with { Preferred = p, Obscure = o };
             }
@@ -436,7 +456,7 @@ namespace WordGenLib
                 return new ChoiceStep
                 {
                     Choice = this with { Lines = inner.Choice },
-                    Remianing = this with { Lines = inner.Remianing }
+                    Remaining = this with { Lines = inner.Remaining }
                 };
             }
         }
@@ -491,7 +511,7 @@ namespace WordGenLib
                 return new ChoiceStep
                 {
                     Choice = this with { Lines = inner.Choice },
-                    Remianing = this with { Lines = inner.Remianing }
+                    Remaining = this with { Lines = inner.Remaining }
                 };
             }
         }
@@ -577,7 +597,7 @@ namespace WordGenLib
                     return new ChoiceStep
                     {
                         Choice = this with { First = firstChoice.Choice },
-                        Remianing = this with { First = firstChoice.Remianing }
+                        Remaining = this with { First = firstChoice.Remaining }
                     };
                 }
 
@@ -585,7 +605,7 @@ namespace WordGenLib
                 return new ChoiceStep
                 {
                     Choice = this with { Second = secondChoice.Choice },
-                    Remianing = this with { Second = secondChoice.Remianing }
+                    Remaining = this with { Second = secondChoice.Remaining }
                 };
             }
         }
@@ -671,7 +691,7 @@ namespace WordGenLib
                         1 => choice[0],
                         _ => this with { Possibilities = choice },
                     },
-                    Remianing = remaining.Length switch
+                    Remaining = remaining.Length switch
                     {
                         0 => new Impossible(NumLetters),
                         1 => remaining[0],
@@ -978,7 +998,7 @@ namespace WordGenLib
             // have one possibility, that means it's already pre-decided.
             if (options.MaxPossibilities <= 1) yield break;
 
-            if (options.MaxPossibilities >= 100)
+            if (options.MaxPossibilities >= 10)
             {
                 do
                 {
