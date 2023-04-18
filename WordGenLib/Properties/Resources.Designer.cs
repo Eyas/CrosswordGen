@@ -61,51 +61,57 @@ namespace WordGenLib.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to a baculo
-        ///a bene placito
-        ///a bit
-        ///a building
-        ///a burton
-        ///a capella
-        ///a cappella
-        ///a capriccio
-        ///a cock horse
-        ///a damn sight
-        ///a day after the fair
-        ///a fortiori
-        ///a fuck sight
-        ///a go go
-        ///a good deal
-        ///a great deal
-        ///a hold
-        ///a la mode
-        ///a little
-        ///a little bit
-        ///a little matter
-        ///a lot
-        ///a lot of bit
-        ///a matter
-        ///a mensa et thoro
-        ///a mite
-        ///a mornings
+        ///   Looks up a localized string similar to a cappella
         ///a piacere
-        ///a plenty
         ///a posteriori
         ///a priori
-        ///a row
-        ///a small matter
-        ///a smidgen
         ///a tad
-        ///a tilt
-        ///a to z
-        ///a treat
-        ///a trifle
-        ///a vie
-        ///a vinculo matrimonii
         ///aachen
         ///aahed
-        ///aahing
-        ///aaland        /// [rest of string was truncated]&quot;;.
+        ///abacus
+        ///abacuses
+        ///abasement
+        ///abasements
+        ///abasically
+        ///abasing
+        ///abattoir
+        ///abattoirs
+        ///abaxially
+        ///abbess
+        ///abbesses
+        ///abdicate
+        ///abdicated
+        ///abdicates
+        ///abdicating
+        ///abdication
+        ///abdications
+        ///abdominally
+        ///abed
+        ///aberrantly
+        ///aberrationally
+        ///aberystwyth
+        ///abet
+        ///abets
+        ///abetted
+        ///abetting
+        ///abettor
+        ///abettors
+        ///abhorrent
+        ///abidance
+        ///abidances
+        ///abide
+        ///abided
+        ///abides
+        ///abidjan
+        ///abiotic
+        ///abiotically
+        ///ablate
+        ///ablated
+        ///ablates
+        ///ablating
+        ///ablative
+        ///ablatively
+        ///ablativ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string from_lexems {
             get {
@@ -114,41 +120,154 @@ namespace WordGenLib.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to whats up
-        ///hey man
-        ///hey there
-        ///home sweet home
-        ///monkey business
-        ///head over heels
-        ///up in arms
-        ///scrape the barrel
-        ///scraping the barrel
-        ///working out
-        ///worked out
-        ///works out
-        ///gym rat
-        ///bend over backwards
-        ///blue moon
-        ///one in a blue moon
-        ///same breath
-        ///in the same breath
-        ///hot cakes
-        ///circle the wagons
-        ///carcling the wagons
-        ///cloud nine
-        ///flip side
-        ///stay the course
-        ///broad daylight
-        ///daylight savings
-        ///kid gloves
-        ///silver lining
-        ///silver linings
-        ///hit the sack
-        ///burning bridges
-        ///cut corners
-        ///boil the ocean
-        ///snowball effect
-        ///aval [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to aah
+        ///aahs
+        ///aapl
+        ///aba
+        ///abates
+        ///abba
+        ///abbe
+        ///abc
+        ///abdomen
+        ///abe
+        ///abi
+        ///abiy
+        ///able
+        ///abs
+        ///absl
+        ///abu
+        ///acab
+        ///accounted
+        ///ace
+        ///acer
+        ///aces
+        ///acetylene
+        ///acid
+        ///acids
+        ///acre
+        ///acrobatics
+        ///act
+        ///ada
+        ///add
+        ///adds
+        ///adele
+        ///adhd
+        ///adhoc
+        ///adieu
+        ///adioses
+        ///ado
+        ///adore
+        ///adp
+        ///ads
+        ///adt
+        ///aero
+        ///aerobic
+        ///aerosols
+        ///afc
+        ///afk
+        ///aft
+        ///agars
+        ///agave
+        ///age
+        ///aged
+        ///ago
+        ///agora
+        ///agua
+        ///aha
+        ///aides
+        ///ail
+        ///aim
+        ///aims
+        ///air
+        ///aircrew
+        ///aisles
+        ///alan
+        ///alba
+        ///ale
+        ///alerts
+        ///ales
+        ///alex
+        ///ali
+        ///alias
+        ///alibi
+        ///alicia
+        ///alien
+        ///align
+        ///alive
+        ///all
+        ///alley
+        ///alloc
+        ///allow
+        ///alma
+        ///alone
+        ///a [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string overused {
+            get {
+                return ResourceManager.GetString("overused", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a new hope
+        ///aarp
+        ///abba
+        ///abbasid
+        ///abc
+        ///abraham lincoln
+        ///abs
+        ///abuela
+        ///ac uk
+        ///acab
+        ///acai
+        ///acetic
+        ///acidic
+        ///aclu
+        ///acm
+        ///acylate
+        ///ada lovelace
+        ///adam and eve
+        ///adam and steve
+        ///adam smith
+        ///addams
+        ///addis ababa
+        ///adele
+        ///adhd
+        ///adios
+        ///adioses
+        ///admiral
+        ///admirals
+        ///adobe
+        ///aed
+        ///aero
+        ///afaict
+        ///afaik
+        ///afc
+        ///afk
+        ///afn
+        ///african union
+        ///aging
+        ///aha
+        ///airbender
+        ///akagawa
+        ///akbar
+        ///al biruni
+        ///al khwarizmi
+        ///alex trebek
+        ///algebra
+        ///algebras
+        ///algiers
+        ///algorithmi
+        ///alhurra
+        ///all about eve
+        ///almanac
+        ///almanacs
+        ///almost famous
+        ///alove
+        ///alpha
+        ///alt
+        ///alum
+        ///a [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string phrases {
             get {
@@ -157,52 +276,59 @@ namespace WordGenLib.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to aaglung
-        ///aalsmeer
-        ///aarsdale
-        ///abachikkanahalli
-        ///abampere
-        ///abandanak
-        ///abatur
-        ///abbahu
-        ///abbigirihosahalli
-        ///abbotspoort
-        ///abderus
-        ///abel
-        ///aberaman
-        ///aberangell
-        ///aberargie
-        ///abercarn
-        ///abercraf
-        ///aberdale
-        ///abergwesyn
-        ///abernyte
-        ///abhenry
-        ///abiabad
-        ///abisare
-        ///abkhizeh
-        ///ablinga
-        ///abqah
-        ///abrud
-        ///absurdity
-        ///abutalipovo
-        ///acanthoceratidae
-        ///acast
-        ///acateno
-        ///acciaroli
-        ///acenaphthylene
-        ///acerra
-        ///acetabularia
-        ///acetothiolutamide
-        ///achammanahalli
-        ///achaphubuil
-        ///acherontisuchus
-        ///acheroraptor
-        ///acinaces
-        ///acronicta
-        ///acteonoidea
-        ///activia
-        ///acuvue        /// [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to aditi
+        ///africaine
+        ///afshin
+        ///agamidae
+        ///ahmedabad
+        ///aincreville
+        ///airbnb
+        ///airfoil
+        ///airfoils
+        ///alangan
+        ///aletheia
+        ///algans
+        ///alloxylon
+        ///almestrone
+        ///amaryllis
+        ///ambroise
+        ///amyloid
+        ///ancoats
+        ///ancon
+        ///andarkuppam
+        ///andone
+        ///andonov
+        ///antoniadis
+        ///anul
+        ///aol
+        ///aougny
+        ///apokolips
+        ///arashi
+        ///arfeuilles
+        ///argagnon
+        ///argentan
+        ///arianespace
+        ///arkhi
+        ///ashbakh
+        ///ashtamangala
+        ///asse
+        ///astrolabe
+        ///astrolabes
+        ///asturianos
+        ///atcham
+        ///aursjoen
+        ///autoclave
+        ///autoclaved
+        ///autoclaves
+        ///avoudrey
+        ///avramov
+        ///azusa yumi
+        ///badonviller
+        ///bagga
+        ///bagnot
+        ///bailwad
+        ///bajo sexto
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string wikipedia {
             get {
@@ -211,62 +337,59 @@ namespace WordGenLib.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to aah
+        ///   Looks up a localized string similar to a bit
+        ///a building
+        ///a good deal
+        ///a great deal
+        ///a hold
+        ///a la mode
+        ///a little
+        ///a little bit
+        ///a little matter
+        ///a lot
+        ///a matter
+        ///a plenty
+        ///a tilt
+        ///a to z
+        ///a treat
+        ///aah
+        ///aahs
         ///aardvark
+        ///aardvarks
         ///aaron
+        ///aarons
         ///aba
         ///abalone
-        ///abase
+        ///abalones
+        ///abandon
+        ///abandoned
+        ///abandonedly
+        ///abandoning
+        ///abandonly
+        ///abandonment
+        ///abandons
+        ///abas
         ///abate
         ///abated
         ///abatement
+        ///abatements
+        ///abates
         ///abating
         ///abba
         ///abbasid
+        ///abbe
+        ///abbes
         ///abbey
+        ///abbeys
+        ///abbot
+        ///abbots
+        ///abbreviate
         ///abbreviated
+        ///abbreviately
+        ///abbreviates
+        ///abbreviating
         ///abbreviation
-        ///abc
-        ///abdomen
-        ///abdominal
-        ///aberdeen
-        ///aberrant
-        ///aberration
-        ///abeyance
-        ///abhor
-        ///abhorred
-        ///abhorrent
-        ///abigail
-        ///ablation
-        ///ablaze
-        ///able
-        ///ablution
-        ///ably
-        ///abnormal
-        ///abnormality
-        ///abnormally
-        ///abnormity
-        ///abo
-        ///aboard
-        ///abolish
-        ///abolishment
-        ///abolition
-        ///abolitionist
-        ///aboriginal
-        ///aborigine
-        ///abound
-        ///abounding
-        ///about
-        ///above
-        ///aboveboard
-        ///abrade
-        ///abraham
-        ///abram
-        ///abreaction
-        ///abreast
-        ///abri
-        ///abridge
-        ///abrogat [rest of string was truncated]&quot;;.
+        ///abbre [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string words {
             get {

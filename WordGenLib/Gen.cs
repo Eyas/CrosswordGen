@@ -110,11 +110,12 @@ namespace WordGenLib
             return new(
                 gridSize,
                 commonWords ?? GridReader.COMMON_WORDS_DEFAULT,
-                obscureWords ?? GridReader.OBSCURE_WORDS_DEFAULT
+                obscureWords ?? GridReader.OBSCURE_WORDS_DEFAULT,
+                GridReader.EXCLUDE_WORDS
                 );
         }
 
-        internal Generator(int gridSize, ImmutableArray<string> commonWords, ImmutableArray<string> obscureWords)
+        internal Generator(int gridSize, ImmutableArray<string> commonWords, ImmutableArray<string> obscureWords, ImmutableHashSet<string> excludeWords)
         {
             this.gridSize = gridSize;
 
@@ -123,12 +124,14 @@ namespace WordGenLib
             var trimmedObscure = obscureWords
                 .RemoveAll(s => s.Length <= 2 || s.Length > gridSize);
 
-            AllowedWords = ImmutableHashSet.CreateRange(trimmedCommon.Concat(trimmedObscure));
+            AllowedWords = ImmutableHashSet.CreateRange(trimmedCommon.Concat(trimmedObscure)).Except(excludeWords);
 
             commonWordsByLength = trimmedCommon
+                .Except(excludeWords)
                 .GroupBy(w => w.Length)
                 .ToDictionary(g => g.Key, g => g.ToImmutableArray ());
             obscureWordsByLength = trimmedObscure
+                .Except(excludeWords)
                 .Except(commonWords)
                 .GroupBy(w => w.Length)
                 .ToDictionary(g => g.Key, g => g.ToImmutableArray());
@@ -142,7 +145,7 @@ namespace WordGenLib
             possibleLines = AllPossibleLines(gridSize);
         }
 
-        public struct ImmutableArraySegment<T> : IReadOnlyList<T>, IEnumerable<T>, IReadOnlyCollection<T>
+        public readonly struct ImmutableArraySegment<T> : IReadOnlyList<T>, IEnumerable<T>, IReadOnlyCollection<T>
             where T : notnull
         {
             private readonly ImmutableArray<T> _arr;
@@ -1271,6 +1274,11 @@ namespace WordGenLib
             .Distinct()
             .Except(COMMON_WORDS_DEFAULT)
             .ToImmutableArray();
+
+        public static readonly ImmutableHashSet<string> EXCLUDE_WORDS =
+            Properties.Resources.overused.Split(new[] {"\r\n", "\r", "\n"}, StringSplitOptions.RemoveEmptyEntries)
+            .Select(s => s.Trim().Replace(" ", ""))
+            .ToImmutableHashSet();
 
         public static string[] AcrossWords(FinalGrid grid)
         {
