@@ -13,6 +13,7 @@ a plenty
 a tilt
 a to z
 a treat
+aaa
 aah
 aahs
 aardvark
@@ -67,6 +68,7 @@ abductors
 abducts
 abdul
 abduls
+abe lincoln
 abel
 aberdeen
 aberrant
@@ -123,6 +125,7 @@ above
 above line
 above the line
 abraham
+abraham lincoln
 abrahams
 abram
 abreast
@@ -556,6 +559,7 @@ adheres
 adhering
 adhesive
 adhesives
+adidas
 adieu
 adjacencies
 adjacency
@@ -1185,6 +1189,7 @@ allegory
 allegro
 allegros
 allen
+allen poe
 allens
 allergic
 allergy
@@ -1307,6 +1312,7 @@ although
 altiplano
 altitude
 altitudes
+altman
 alto
 altogether
 altos
@@ -1384,6 +1390,7 @@ ambush
 ambushed
 ambushes
 ambushing
+amelia
 ameliorate
 ameliorated
 ameliorates
@@ -1434,6 +1441,7 @@ amnesties
 amnesty
 amnestying
 among
+among us
 amongst
 amor
 amorality
@@ -1527,6 +1535,7 @@ anchorages
 anchored
 anchoring
 anchors
+anchovy
 anciencies
 anciency
 ancient
@@ -2871,6 +2880,7 @@ aux
 auxiliaries
 auxiliary
 ava
+ava max
 availabilities
 availability
 available
@@ -3255,6 +3265,7 @@ bankrupted
 bankrupting
 bankrupts
 banks
+banksy
 banned
 banner
 banners
@@ -3506,6 +3517,7 @@ battles
 battleship
 battleships
 battling
+batwoman
 bauxite
 bauxites
 bavaria
@@ -3525,6 +3537,7 @@ bazaars
 bazar
 bazooka
 bazookas
+bbb
 be it as it may
 be it what it would
 be that as it may
@@ -3563,6 +3576,7 @@ beans
 beanstalk
 beanstalks
 bear
+bear market
 beard
 bearding
 beards
@@ -3958,6 +3972,7 @@ bidder
 bidders
 bidding
 biddings
+biden
 bids
 biennial
 biennially
@@ -3999,6 +4014,7 @@ bilingualisms
 bilingually
 bilinguals
 bill
+bill clinton
 billboard
 billboards
 billed
@@ -4127,6 +4143,7 @@ bistro
 bistros
 bit
 bit by bit
+bitcoin
 bite
 biter
 biters
@@ -4764,6 +4781,7 @@ boycotts
 boyfriend
 boyfriends
 boys
+bpm
 brace
 braced
 bracelet
@@ -5186,6 +5204,7 @@ buccaneer
 buccaneered
 buccaneering
 buccaneers
+buchanan
 buck
 buckaroo
 buckaroos
@@ -5273,6 +5292,7 @@ bulkier
 bulking
 bulks
 bull
+bull market
 bulldog
 bulldogged
 bulldogging
@@ -5677,10 +5697,13 @@ calmings
 calmly
 calmness
 calms
+calorie
+calories
 calvados
 calvary
 calves
 calvin
+calvin coolidge
 calving
 calvings
 calvinist
@@ -5869,6 +5892,7 @@ caped
 caper
 capers
 capes
+capex
 capillaries
 capillary
 capital
@@ -6867,6 +6891,7 @@ chloroform
 chloroformed
 chloroforming
 chloroforms
+chlorophyll
 chlorpromazine
 chocked
 chocking
@@ -7107,6 +7132,7 @@ civilizes
 clacked
 clacking
 clad
+clad pipe
 cladded
 cladding
 claddings
@@ -9304,6 +9330,7 @@ covet
 coveted
 coveting
 covets
+covid
 cow
 coward
 cowardice
@@ -9745,6 +9772,7 @@ cuckoo
 cuckooed
 cuckooing
 cuckoos
+cucumber
 cuddle
 cuddled
 cuddles
@@ -9971,6 +9999,7 @@ czech republic
 czechoslovakia
 czechs
 da capo
+da vinci
 dabbing
 dabbled
 dabbler
@@ -12219,6 +12248,8 @@ doom
 doomed
 dooming
 dooms
+doomscroll
+doomscrolling
 door
 door to door
 doors
@@ -12731,6 +12762,7 @@ eagles
 eagling
 ear
 eared
+earhart
 earl
 earlier
 earlier on
@@ -12983,6 +13015,7 @@ eighths
 eighties
 eights
 eighty
+eisenhower
 either
 either way
 ejaculation
@@ -13135,12 +13168,14 @@ elms
 elmwood
 elocution
 elocutions
+elon
 elongate
 elongated
 elongates
 elongating
 elongation
 elongations
+elonmusk
 elsa
 else
 elsewhere
@@ -13351,6 +13386,7 @@ enamel
 enameled
 enameling
 enamels
+encanto
 encased
 encephalitis
 encephalopathy
@@ -14377,12 +14413,14 @@ expansion
 expansionism
 expansionisms
 expansions
+expat
 expatriate
 expatriated
 expatriates
 expatriating
 expatriation
 expatriations
+expats
 expect
 expectably
 expectation
@@ -14576,6 +14614,7 @@ extractor
 extractors
 extracts
 extracurricular
+extradite
 extrajudicial
 extraordinary
 extrapolate
@@ -14950,6 +14989,7 @@ fawn
 fawned
 fawning
 fax
+fdr
 feal
 fear
 feared
@@ -15026,6 +15066,9 @@ feisty
 felicity
 feline
 felines
+felis
+felis catus
+felis domestica
 felix
 fell
 fell in love
@@ -15463,6 +15506,9 @@ flagships
 flagstaff
 flagstone
 flagstones
+flair
+flairs
+flairup
 flake
 flaked
 flakes
@@ -15493,6 +15539,8 @@ flapping
 flappings
 flaps
 flare
+flared
+flares
 flash
 flashback
 flashbacks
@@ -15559,6 +15607,7 @@ fleetingly
 fleetly
 fleetness
 fleets
+fleming
 flesh
 fleshed
 fleshes
@@ -15707,6 +15756,7 @@ fluorides
 fluorine
 fluorines
 flurried
+flurry
 flurrying
 flus
 flush
@@ -15790,6 +15840,7 @@ following
 followingly
 follows
 folly
+fomo
 fond
 fondness
 font
@@ -16192,6 +16243,7 @@ frankfurts
 franking
 frankish
 franklin
+franklin d roosevelt
 franklins
 frankly
 frankness
@@ -16373,6 +16425,8 @@ frustrations
 fry
 frying
 fryings
+ftfy
+ftx
 fuel
 fueled
 fueling
@@ -16749,6 +16803,7 @@ gazes
 gazette
 gazettes
 gazing
+gdp
 gear
 gearbox
 gearboxes
@@ -16815,6 +16870,7 @@ generation
 generational
 generationally
 generations
+generative
 generator
 generators
 generic
@@ -16897,6 +16953,8 @@ geometry
 geordie
 georg
 george
+george hw bush
+george w bush
 georges
 georgetown
 georgetowns
@@ -16909,6 +16967,7 @@ georgias
 geothermal
 ger
 gerald
+gerald ford
 geraldine
 geralds
 geranium
@@ -17307,6 +17366,7 @@ gown
 gowned
 gowning
 gowns
+gpt
 grab
 grabbed
 grabber
@@ -18184,6 +18244,7 @@ harrowed
 harrowing
 harrows
 harry
+harry s truman
 harrying
 harsh
 harsher
@@ -18554,6 +18615,7 @@ heraldry
 heralds
 herb
 herbert
+herbert hoover
 herberts
 herbs
 herd
@@ -18615,6 +18677,7 @@ hertfordshire
 hertz
 herzegovina
 hes
+hesitancy
 hesperides
 het
 heterosexual
@@ -19284,6 +19347,7 @@ hurlers
 hurley
 hurling
 hurls
+huron
 hurricane
 hurricanes
 hurried
@@ -19388,6 +19452,8 @@ i would
 ian
 ians
 iberia
+ibid
+ibond
 ibuprofen
 ibuprofens
 ice
@@ -19546,6 +19612,7 @@ iman
 imbalance
 imbalanced
 imbalances
+imho
 imitate
 imitated
 imitates
@@ -19604,6 +19671,7 @@ immunoglobulin
 immunoglobulins
 immutability
 immutable
+imo
 imp
 impact
 impacted
@@ -19816,6 +19884,7 @@ in law
 in laws
 in lieu
 in line
+in love
 in medias res
 in memoriam
 in no small measure
@@ -20040,6 +20109,7 @@ indexes
 indexically
 indexing
 india
+india pale ale
 indian
 indian style
 indiana
@@ -20502,6 +20572,7 @@ inspires
 inspiring
 instabilities
 instability
+instagram
 install
 installation
 installations
@@ -21064,7 +21135,10 @@ ionosphere
 ionospheres
 ions
 ios
+iou
+ious
 iowa
+ipas
 ipswich
 ira
 iran
@@ -21085,12 +21159,14 @@ irises
 irish
 irishly
 irishman
+irl
 iron
 ironed
 ironic
 ironical
 ironically
 ironing
+ironman
 ironside
 ironsides
 ironwork
@@ -21264,6 +21340,7 @@ jak
 jakarta
 jake
 jakes
+jalapeno
 jam
 jamaica
 jamaican
@@ -21272,6 +21349,7 @@ jamaicas
 jamboree
 jamborees
 james
+james garfield
 jameson
 jamie
 jammed
@@ -21394,6 +21472,7 @@ jewelry
 jewels
 jewish
 jewishness
+jfk
 jiao
 jigsaws
 jihad
@@ -21404,6 +21483,7 @@ jim
 jimmied
 jimmies
 jimmy
+jimmy carter
 jimmying
 jims
 jingling
@@ -21426,6 +21506,7 @@ jockeys
 jocks
 jodhpur
 joe
+joe biden
 joel
 joels
 joes
@@ -21440,6 +21521,7 @@ johannes
 johannesburg
 johanns
 john
+john f kennedy
 johnny
 johnnys
 johns
@@ -21499,6 +21581,7 @@ jostled
 jostles
 jostling
 jostlings
+joule
 jour
 journal
 journalism
@@ -21689,6 +21772,7 @@ kale
 kaleidoscope
 kaleidoscopes
 kales
+kamala
 kami
 kana
 kangaroo
@@ -22097,6 +22181,7 @@ lairs
 lake
 lakeland
 lakelands
+lakes
 lakh
 lakshmi
 lam
@@ -22263,6 +22348,7 @@ latino
 latinos
 latitude
 lats
+latte
 latter
 latters
 lattice
@@ -22329,6 +22415,7 @@ lawyer
 lawyers
 lay
 laying
+layoff
 layoffs
 layout
 layouts
@@ -22340,6 +22427,7 @@ lazier
 lazily
 laziness
 lazy
+lbj
 le mans
 lea
 leach
@@ -22571,6 +22659,7 @@ leste
 lester
 lestes
 let
+let it snow
 lethal
 lethality
 lethally
@@ -22813,6 +22902,7 @@ limpers
 limpets
 limping
 limps
+lincoln
 lind
 linda
 lindas
@@ -22866,6 +22956,7 @@ linkage
 linkages
 linked
 linked open data
+linkedin
 linking
 links
 lino
@@ -22996,6 +23087,7 @@ liz
 liza
 lizard
 lizards
+llm
 lloyd
 lloyds
 load
@@ -23458,6 +23550,7 @@ madonna
 madonnas
 madras
 madre
+madrigal
 maestro
 maestros
 mafia
@@ -24002,6 +24095,7 @@ masquerades
 masquerading
 masques
 mass
+mass layoff
 massachusetts
 massacre
 massacred
@@ -24018,6 +24112,7 @@ massiveness
 mast
 masted
 master
+mastercard
 mastered
 mastering
 mastermind
@@ -24402,6 +24497,8 @@ mentoring
 mentors
 menu
 menus
+meow
+meows
 mercantile
 mercantilely
 mercator
@@ -24466,6 +24563,7 @@ mesmerizer
 mesmerizers
 mesmerizes
 mesmerizing
+mesopotamia
 mess
 message
 messaged
@@ -24511,6 +24609,7 @@ metaphysically
 metaphysics
 metatarsal
 metatarsals
+metaverse
 meteor
 meteorologic
 meteorological
@@ -25452,6 +25551,7 @@ mozambique
 mph
 mrna
 mrs
+msft
 msn
 much
 much what
@@ -25787,6 +25887,7 @@ nastily
 nastiness
 nasty
 natal
+natalie
 nathan
 nathans
 nation
@@ -26094,6 +26195,7 @@ next generation
 next year
 nexus
 nexuses
+nft
 nibbled
 nibbler
 nibblers
@@ -26151,6 +26253,7 @@ nihilism
 nihilisms
 nihilistic
 nik
+nike
 nil
 nile
 nils
@@ -26190,6 +26293,9 @@ nixing
 nixon
 nixons
 nizam
+nne
+nnw
+nnww
 no bones about it
 no cost extension
 no cost extensions
@@ -26466,6 +26572,8 @@ nowhere
 nowheres
 nows
 noxious
+nsfw
+nsn
 nuclear
 nuclear power
 nucleus
@@ -26538,9 +26646,12 @@ oasis
 oat
 oath
 oaths
+oatly
 oatmeal
 oatmeals
+oatmilk
 obadiah
+obama
 obedience
 obedient
 obelisk
@@ -26905,6 +27016,7 @@ ontologies
 ontology
 onward
 onwards
+oops
 oozing
 op ed
 open
@@ -26913,6 +27025,7 @@ open handed
 open science
 open sciences
 open source
+openai
 opened
 opener
 openers
@@ -27640,6 +27753,7 @@ palatine
 palatines
 palau
 pale
+pale ale
 paled
 palely
 paleness
@@ -28287,6 +28401,7 @@ penetrations
 penetrator
 penguin
 penguins
+penicillin
 peninsula
 peninsular
 peninsularly
@@ -28760,6 +28875,7 @@ pianist
 pianistic
 pianistically
 pianists
+piano
 piazza
 piazzas
 picard
@@ -29242,6 +29358,7 @@ poetries
 poetry
 poets
 pogroms
+poi
 point
 point blank
 pointed
@@ -29493,6 +29610,7 @@ portioning
 portions
 portland
 portlands
+portman
 porto
 portrait
 portraits
@@ -29662,6 +29780,7 @@ powerhouses
 powering
 powers
 ppm
+ppp
 practicable
 practical
 practically
@@ -31380,6 +31499,7 @@ raw
 rawer
 rawness
 ray
+ray charles
 raya
 rayed
 raying
@@ -32350,6 +32470,7 @@ remotely
 remoteness
 remoter
 remotes
+remotework
 remount
 remounted
 remounting
@@ -33094,6 +33215,7 @@ ricer
 ricers
 rich
 richard
+richard nixon
 richards
 richardson
 richardsons
@@ -33375,6 +33497,7 @@ rollover
 rollovers
 rolls
 rom
+romaine
 roman
 romance
 romanced
@@ -33400,6 +33523,7 @@ romper
 romping
 ron
 ronald
+ronald reagan
 ronalds
 rons
 rood
@@ -33423,6 +33547,7 @@ rooming
 roommate
 roommates
 rooms
+roosevelt
 roost
 roosted
 rooster
@@ -34252,6 +34377,7 @@ scoldings
 scolds
 scone
 scones
+scoobydoo
 scoop
 scooped
 scooping
@@ -36032,6 +36158,7 @@ smelter
 smelters
 smelting
 smelts
+smh
 smile
 smiled
 smiler
@@ -36168,6 +36295,7 @@ snowshoes
 snowstorm
 snowstorms
 snowy
+sns
 snub
 snubs
 so called
@@ -36516,6 +36644,7 @@ spaceport
 spaces
 spaceship
 spaceships
+spacex
 spacious
 spaciousness
 spade
@@ -36995,6 +37124,10 @@ sri
 sri lanka
 sri lankan
 sri lankans
+ssn
+ssnn
+ssns
+ssw
 sta
 stab
 stabbed
@@ -38406,6 +38539,7 @@ sutured
 sutures
 suturing
 suzanne
+svb
 swagger
 swaggered
 swaggerer
@@ -38646,6 +38780,7 @@ t cells
 t shirt
 t shirts
 tab
+tabby
 tabernacle
 tabernacles
 tabitha
@@ -38987,6 +39122,7 @@ teases
 teasing
 tec
 tech
+tech sector
 technical
 technically
 technicals
@@ -39284,6 +39420,7 @@ texturally
 texture
 textured
 textures
+tfw
 thaddeus
 thai
 thailand
@@ -39647,6 +39784,7 @@ tightness
 tigre
 tigress
 tigresses
+tigris
 til
 tilapia
 tile
@@ -39777,6 +39915,8 @@ titular
 titularly
 titus
 tivoli
+tldr
+tmi
 tnt
 to a fault
 to and again
@@ -40863,6 +41003,7 @@ ultrasonic
 ultrasonics
 ultrasound
 ultrasounds
+ulysses s grant
 umbrella
 umbrellas
 umpire
@@ -41312,6 +41453,7 @@ vampire
 vampires
 vampirically
 van
+van buren
 vancouver
 vancouvers
 vanguard
@@ -41610,6 +41752,7 @@ vishnu
 visibilities
 visibility
 visible
+visibly
 vision
 visionally
 visionaries
@@ -41681,8 +41824,10 @@ volcano
 volcanoes
 volleyball
 volleyballs
+volt
 voltage
 voltages
+volts
 volume
 volumed
 volumes
@@ -41767,6 +41912,7 @@ walnut
 walnuts
 walsh
 walt
+walt disney
 walter
 walters
 walts
@@ -41799,6 +41945,7 @@ warded
 warden
 wardens
 warding
+wardle
 wards
 ware
 wared
@@ -42360,6 +42507,7 @@ woodier
 woodiness
 woodland
 woodlands
+woodrow wilson
 woods
 woody
 wooed
@@ -42373,6 +42521,7 @@ word
 word for word
 worded
 wording
+wordle
 words
 wore
 work
@@ -42577,6 +42726,7 @@ yogurts
 yoke
 yoked
 yokes
+yolo
 yon
 yonders
 york
@@ -42609,6 +42759,7 @@ yugoslavia
 yugoslavs
 yukon
 ywca
+zachary taylor
 zagreb
 zambia
 zambian
@@ -42616,6 +42767,7 @@ zambians
 zambias
 zealand
 zeit
+zelda
 zero
 zero in
 zeroed
@@ -42651,6 +42803,7 @@ zoology
 zoom
 zoomable
 zoomed
+zoomfatigue
 zooming
 zooms
 zoos

@@ -678,7 +678,6 @@ anatomist
 anatomists
 ance
 anchovies
-anchovy
 ancillarily
 andante
 andantes
@@ -2704,8 +2703,6 @@ calluses
 callusing
 caloric
 calorically
-calorie
-calories
 calorific
 calorifically
 calorimetries
@@ -3294,7 +3291,6 @@ chlorination
 chlorinations
 chlorofluorocarbon
 chlorofluorocarbons
-chlorophyll
 chlorophylls
 chloroplast
 chloroplasts
@@ -4616,7 +4612,6 @@ cubit
 cubits
 cuboid
 cuboids
-cucumber
 cucumbers
 cuddly
 cuirass
@@ -7045,8 +7040,6 @@ expansible
 expansive
 expansively
 expansiveness
-expat
-expats
 expectancies
 expectancy
 expectant
@@ -7120,7 +7113,6 @@ extracellular
 extracellularly
 extracorporeal
 extracorporeally
-extradite
 extradited
 extradites
 extraditing
@@ -7512,8 +7504,6 @@ flail
 flailed
 flailing
 flails
-flair
-flairs
 flak
 flaks
 flamboyant
@@ -8135,7 +8125,6 @@ generalised
 generalist
 generalists
 generalities
-generative
 generatively
 geneses
 genial
@@ -9116,7 +9105,6 @@ herringbone
 herringbones
 hers
 hesitancies
-hesitancy
 hesitant
 hesitantly
 hesitation
@@ -11236,7 +11224,6 @@ latitudinal
 latitudinally
 latrine
 latrines
-latte
 lattes
 launder
 laundered
@@ -11781,7 +11768,6 @@ madders
 madhouse
 madhouses
 madman
-madrigal
 madrigals
 madwoman
 mafic
@@ -12239,10 +12225,8 @@ menthol
 menthols
 mentorship
 mentorships
-meow
 meowed
 meowing
-meows
 mephistopheles
 mercantilism
 mercantilisms
@@ -14637,7 +14621,6 @@ penetrating
 penetratingly
 penetrative
 penetratively
-penicillin
 penicillins
 penile
 penilely
@@ -17330,7 +17313,6 @@ rococos
 rollout
 rollouts
 roly poly
-romaine
 romaines
 romanticist
 romanticists
@@ -19822,7 +19804,6 @@ systolic
 systolically
 szczecin
 tabbies
-tabby
 tabidly
 tablecloth
 tablecloths
@@ -21984,8 +21965,6 @@ volley
 volleyed
 volleying
 volleys
-volt
-volts
 volumetric
 volumetrically
 voluminous
