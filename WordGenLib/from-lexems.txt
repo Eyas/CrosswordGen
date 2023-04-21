@@ -97,7 +97,6 @@ abstractions
 abuja
 abutted
 abutting
-abyss
 abyssal
 abyssally
 abysses
@@ -1075,7 +1074,6 @@ aromatherapy
 aromatically
 arras
 arrases
-arrogance
 arrogances
 arrowhead
 arrowheads
@@ -1542,7 +1540,6 @@ barotrauma
 barquisimeto
 barracuda
 barracudas
-barrette
 barrettes
 barricading
 barroom
@@ -2070,12 +2067,10 @@ blondness
 blonds
 bloodless
 bloodlessly
-bloodletting
 bloodlettings
 bloodline
 bloodlines
 bloodshot
-bloodstream
 bloodstreams
 bloomers
 bloomingly
@@ -2380,7 +2375,6 @@ briquettes
 brisket
 briskets
 briskness
-bristling
 brittle
 brittlely
 brittleness
@@ -2497,7 +2491,6 @@ bullfrog
 bullfrogs
 bullhead
 bullheads
-bulwark
 bulwarked
 bulwarking
 bulwarks
@@ -3105,7 +3098,6 @@ chainsaws
 chalet
 chalets
 chalkily
-chalky
 challis
 chalupa
 chalupas
@@ -3503,7 +3495,6 @@ clippers
 clitoral
 clitorally
 cloacally
-cloak
 cloaked
 cloaking
 cloaks
@@ -3867,7 +3858,6 @@ concertinaing
 concertinas
 conchologically
 conciliarly
-conclusive
 conclusively
 conclusiveness
 concomitant
@@ -4224,7 +4214,6 @@ coronaries
 coronary
 coronary thrombosis
 coronaviruses
-coroner
 coroners
 corporealities
 corporeality
@@ -4397,7 +4386,6 @@ crackled
 crackles
 craftsmen
 cram
-crammed
 crampon
 crampons
 crams
@@ -4471,7 +4459,6 @@ criminologies
 crinkle
 crinkled
 crinkles
-crinkling
 crinoline
 crinolines
 criss cross
@@ -4839,7 +4826,6 @@ daydreaming
 daydreamings
 daydreams
 daze
-dazed
 dazes
 dazing
 de grouping
@@ -4871,7 +4857,6 @@ debauching
 debilitate
 debilitated
 debilitates
-debilitating
 debilitation
 debilitations
 debugged
@@ -5009,7 +4994,6 @@ defrosters
 defrosting
 defrosts
 defuse
-defused
 defuses
 defusing
 defusings
@@ -5219,7 +5203,6 @@ depute
 deputes
 deputing
 deputize
-deputized
 deputizes
 derange
 deranges
@@ -5526,7 +5509,6 @@ disassembling
 disassociating
 disassociation
 disassociations
-disbelief
 disbeliefs
 disbursal
 disbursals
@@ -5567,7 +5549,6 @@ discriminably
 discriminant
 discriminantly
 discriminants
-discriminate
 discriminated
 discriminately
 discriminates
@@ -5691,7 +5672,6 @@ disputation
 disputations
 disqualification
 disqualifications
-disrespect
 disrespected
 disrespecting
 disrespects
@@ -5945,7 +5925,6 @@ dripped
 drippingly
 driveline
 drivelines
-driveway
 driveways
 drogues
 droller
@@ -6106,7 +6085,6 @@ easterly
 easternmost
 eather
 eber
-ebola
 ebola treatment
 ebola treatments
 ebola virus
@@ -6596,7 +6574,6 @@ entombment
 entombments
 entomofauna
 entomofaunas
-entourage
 entourages
 entrails
 entrap
@@ -6644,7 +6621,6 @@ epee
 epees
 ephedrine
 ephedrines
-ephemera
 ephemeral
 ephemerally
 ephemerals
@@ -6751,7 +6727,6 @@ equivalences
 equivariantly
 equivocal
 equivocally
-eraser
 erasers
 erectile
 erection
@@ -6890,9 +6865,6 @@ eukaryotic
 eukaryotically
 eulogically
 eulogies
-eulogy
-euphemism
-euphemisms
 euro zone
 eusocially
 eutectic
@@ -6994,7 +6966,6 @@ exhaustion
 exhaustions
 exhaustive
 exhaustively
-existential
 existentialism
 existentialisms
 existentially
@@ -7119,7 +7090,6 @@ extraterrestrially
 extraterrestrials
 extraterritorial
 extraterritorially
-extremist
 extremists
 extremities
 extremity
@@ -7230,7 +7200,6 @@ fanon
 fanons
 fantail
 fantails
-fantasia
 fantasias
 farcical
 farcically
@@ -7446,7 +7415,6 @@ fingerprints
 fingertip
 fingertips
 finis
-firehouse
 firehouses
 firemen
 fireside
@@ -7893,7 +7861,6 @@ frown
 frowned
 frowning
 frowns
-frugal
 frugally
 fruitcake
 fruitcakes
@@ -8027,7 +7994,6 @@ gamete
 gametes
 gammon
 gammons
-gamut
 gamuts
 gandhinagar
 gangrening
@@ -8817,7 +8783,6 @@ handkerchief
 handkerchiefs
 handlebar
 handler
-handlers
 handmaiden
 handmaidens
 handoff
@@ -8911,7 +8876,6 @@ hcv
 hcvs
 hdr
 headache
-headaches
 headgear
 headgears
 headhunter
@@ -8998,7 +8962,6 @@ helmeted
 helminth
 helminthiasis
 helminths
-helpless
 helplessly
 helplessness
 helpline
@@ -9085,7 +9048,6 @@ herpetologies
 herpetology
 herringbone
 herringbones
-hers
 hesitancies
 hesitant
 hesitantly
@@ -9246,7 +9208,6 @@ holons
 holotype
 holotypes
 homebrew
-homemade
 homemaker
 homemakers
 homeobox
@@ -9811,9 +9772,7 @@ immortalizing
 immovabilities
 immovability
 immovably
-immunization
 immunizations
-immunize
 immunized
 immunizes
 immunizing
@@ -10272,7 +10231,6 @@ inhalants
 inhalatively
 inhaler
 inhalers
-inhaling
 inhibitedly
 inhomogeneities
 inhomogeneity
@@ -10346,7 +10304,6 @@ insidiously
 insidiousness
 insightful
 insightfully
-insignificant
 insignificantly
 insincere
 insincerity
@@ -10484,7 +10441,6 @@ internalizations
 internalize
 internalized
 internalizes
-internalizing
 internationalism
 internationalisms
 internationalization
@@ -10609,7 +10565,6 @@ intraventricularly
 intrepidities
 intrepidity
 intrepidly
-intricacies
 introspectively
 introversion
 introversions
@@ -10630,9 +10585,7 @@ intuits
 inundating
 inundation
 inundations
-invalidate
 invalidated
-invalidates
 invalidating
 invalidation
 invalidations
@@ -10666,7 +10619,6 @@ involute
 involutely
 involution
 involutions
-inward
 inwardly
 inwards
 iodide
@@ -10790,7 +10742,6 @@ itemized
 itemizes
 itinerantly
 itineraries
-itinerary
 itumbiara
 ity
 iver
@@ -10882,7 +10833,6 @@ jittery
 jiving
 jodhpurs
 jogged
-jogger
 joggers
 jogging
 joggings
@@ -11204,7 +11154,6 @@ latitudinal
 latitudinally
 latrine
 latrines
-lattes
 launder
 laundered
 laundering
@@ -11220,7 +11169,6 @@ lavs
 lawfulness
 lawless
 lawlessly
-lawlessness
 lawman
 lawn tennis
 lawnmower
@@ -11732,7 +11680,6 @@ macromolecular
 macromolecularly
 macromolecule
 macromolecules
-macron
 macrons
 macrophage
 macrophages
@@ -12070,7 +12017,6 @@ mayotte
 maypole
 maypoles
 mazily
-mcdonalds
 mcinnes
 mdw
 mdws
@@ -12492,7 +12438,6 @@ mincers
 minces
 mincing
 mindfully
-mindset
 mindsets
 minefield
 minefields
@@ -12519,7 +12464,6 @@ minoxidil
 minoxidils
 minster
 minsters
-minuscule
 minusculely
 minuscules
 minutiae
@@ -12664,7 +12608,6 @@ monaural
 monaurally
 mongoose
 monies
-monkeypox
 monoamine
 monoamines
 monochromatically
@@ -13209,7 +13152,6 @@ nematology
 nena
 neocortex
 neocortically
-neoliberal
 neoliberally
 neonatal
 neonatally
@@ -13507,7 +13449,6 @@ noradrenaline
 noradrenalines
 noradrenergically
 normalcies
-normalcy
 normalities
 normative
 normatively
@@ -13642,7 +13583,6 @@ obliterating
 obliteratively
 oblivion
 oblivions
-oblivious
 obliviously
 obliviousness
 oblongly
@@ -13811,7 +13751,6 @@ onsite
 ontogenetically
 ontogenies
 ontogeny
-onus
 onuses
 onward and upward
 oocyte
@@ -14132,7 +14071,6 @@ overworking
 overworkings
 overworks
 overwrought
-overzealous
 oviduct
 oviducts
 oviparously
@@ -14249,7 +14187,6 @@ palpating
 palpation
 palpations
 palpitation
-palpitations
 palsies
 palu
 palynological
@@ -14329,7 +14266,6 @@ paramagnetic
 paramagnetically
 paramaribo
 paramecium
-paramedic
 paramedical
 paramedicals
 paramedics
@@ -14339,9 +14275,7 @@ parametric
 parametrically
 paramour
 paramours
-paranoia
 paranoias
-paranoid
 paranoidally
 paranoidly
 paranoids
@@ -15239,7 +15173,6 @@ plodded
 plodding
 ploddings
 plods
-plopped
 plopping
 plovdiv
 plumage
@@ -15309,7 +15242,6 @@ polecats
 poleward
 polewards
 policemen
-policymaker
 policymakers
 policymaking
 poliomyelitis
@@ -15563,7 +15495,6 @@ preambling
 prearranged
 prebiotically
 precarious
-precariously
 precariousness
 precast
 precasting
@@ -15668,7 +15599,6 @@ preoccupiedly
 preoperative
 preoperatively
 prepackaged
-prepaid
 prepay
 prepayed
 prepaying
@@ -15965,7 +15895,6 @@ provocation
 provocations
 provocative
 provocatively
-provoking
 provokingly
 proximally
 proximately
@@ -16133,7 +16062,6 @@ purposefully
 purposefulness
 pursuant
 pursuantly
-pus
 pushier
 pustule
 pustules
@@ -16243,7 +16171,6 @@ quiescence
 quiescences
 quiescent
 quiescently
-quilted
 quinine
 quinines
 quinoa
@@ -16629,7 +16556,6 @@ redbirds
 redcaps
 redcoat
 redcoats
-reddit
 redefinition
 redefinitions
 redemptive
@@ -16739,10 +16665,8 @@ refreshing
 refreshingly
 refrigerant
 refrigerants
-refund
 refunded
 refunding
-refunds
 refutation
 refutationally
 refutations
@@ -16855,7 +16779,6 @@ reliquely
 relive
 relived
 relives
-reliving
 relivings
 reluctance
 reluctances
@@ -17506,7 +17429,6 @@ sandlot
 sandlots
 sandpiper
 sandpipers
-sane
 sanely
 saneness
 sanguinely
@@ -17842,7 +17764,6 @@ sedating
 sedation
 sedations
 sedative
-sedatives
 sedentarily
 sedentary
 sedimentarily
@@ -18165,7 +18086,6 @@ shorthand
 shorthands
 shorthorn
 shorthorns
-shouting
 shoutingly
 shoutings
 shove
@@ -18178,7 +18098,6 @@ showplaces
 showstopper
 showstoppers
 shr
-shrapnel
 shrapnels
 shredded
 shredder
@@ -18456,7 +18375,6 @@ slurrily
 slyly
 smallholder
 smallholders
-smallpox
 smallpoxes
 smally
 smart contract
@@ -18512,7 +18430,6 @@ sneakiness
 sneeze
 sneezed
 sneezes
-sneezing
 sneezings
 snelly
 snicker
@@ -18660,7 +18577,6 @@ sonorous
 soothe
 soothed
 soothes
-soothing
 sop
 sophist
 sophists
@@ -19083,7 +18999,6 @@ stetted
 stetting
 stewardship
 stewardships
-sticker
 stickers
 stickily
 stickiness
@@ -19629,7 +19544,6 @@ suturally
 svalbard
 svalbard and jan mayen
 svengali
-swab
 swabbed
 swabbing
 swabbings
@@ -20161,7 +20075,6 @@ thymines
 thyroidal
 thyroidally
 tibial
-tick
 ticked
 tickling
 ticklings
@@ -20293,7 +20206,6 @@ tonality
 tonally
 tongue in cheek
 tonically
-tonsils
 toolbox
 toolkit
 toolkits
@@ -20407,7 +20319,6 @@ tramper
 trampers
 tramping
 tramps
-trance
 tranced
 trances
 tranche
@@ -20885,7 +20796,6 @@ unaidedly
 unaltered
 unambiguous
 unambiguously
-unannounced
 unannouncedly
 unanswered
 unanticipated
@@ -20900,7 +20810,6 @@ unattachedly
 unattended
 unavoidability
 unavoidable
-unavoidably
 unbalance
 unbalanced
 unbalances
@@ -20928,7 +20837,6 @@ uncannily
 uncanny
 uncapped
 uncapping
-uncensored
 unchained
 uncharged
 uncharted
@@ -20941,7 +20849,6 @@ unclassifiably
 unclassified
 uncommonly
 uncompensated
-uncompetitive
 uncompetitively
 uncomplicated
 uncomplicatedly
@@ -21283,7 +21190,6 @@ unsettling
 unsigned
 unskilled
 unsold
-unsolicited
 unsolicitedly
 unsolved
 unsound
@@ -21325,7 +21231,6 @@ untanglings
 untapped
 untested
 untethered
-unthinkable
 unthinkably
 untie
 untied
@@ -21394,7 +21299,6 @@ upstage
 upstaged
 upstages
 upstaging
-upstate
 upstates
 upsurge
 upsurges
@@ -21448,7 +21352,6 @@ usefulness
 usenet
 user friendly
 utensil
-utensils
 uterine
 uterus
 uteruses
@@ -21467,12 +21370,10 @@ uvular
 uvularly
 uvulas
 vac
-vaccinate
 vaccinated
 vaccinates
 vaccinating
 vaccinatings
-vaccination
 vaccinations
 vacs
 vacuole
@@ -21525,7 +21426,6 @@ vanquisher
 vanquishers
 vanquishes
 vanquishing
-vantage
 vantages
 vape
 vaped
@@ -21760,7 +21660,6 @@ videotaped
 videotapes
 videotaping
 vientiane
-vigil
 vigilance
 vigilances
 vigilant
@@ -21849,7 +21748,6 @@ vises
 visigothically
 visitant
 visitants
-visor
 visors
 visualisation
 visualisations
@@ -21930,7 +21828,6 @@ volutes
 vomeronasally
 vomit
 vomited
-vomiting
 vomitings
 vomits
 voodoo
@@ -22012,7 +21909,6 @@ waits
 wakeful
 wakefully
 wakefulness
-waking
 wakingly
 wakings
 wale
@@ -22129,7 +22025,6 @@ waterlogged
 waterman
 watermark
 watermarks
-watermelon
 watermelons
 watermill
 watermills
@@ -22159,7 +22054,6 @@ wavelengths
 wavelet
 wavelets
 waver
-wavered
 waverer
 waverers
 wavering
@@ -22531,7 +22425,6 @@ womb
 wombat
 wombats
 wombs
-wont
 wontly
 wonts
 woodbine
@@ -22614,7 +22507,6 @@ wort
 worthless
 worthlessly
 worthlessness
-worthwhile
 worts
 wot
 wots
@@ -22713,12 +22605,10 @@ yarned
 yarning
 yarns
 yaroslavl
-yawn
 yawned
 yawning
 yawnings
 yawns
-yeah
 yeap
 yearn
 yearned
