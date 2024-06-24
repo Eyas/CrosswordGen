@@ -14,7 +14,7 @@ namespace WordGenLib
     {
         private readonly bool[] _available = new bool[1 + (max - min)];
         private readonly char _min = min;
-        private int _ct = 0;
+        private int _ct;
 
         public CharSet() : this('`', 'z') { }
 
@@ -88,6 +88,7 @@ namespace WordGenLib
 
         public int GridSize => gridSize;
         public readonly FrozenSet<string> AllowedWords;
+        public readonly FrozenSet<string> ExcludedWords;
 
         public static Generator Create(
             int gridSize,
@@ -112,7 +113,8 @@ namespace WordGenLib
             var trimmedObscure = obscureWords
                 .RemoveAll(s => s.Length <= 2 || s.Length > gridSize);
 
-            AllowedWords = trimmedCommon.Concat(trimmedObscure).Except(excludeWords).ToFrozenSet();
+            AllowedWords = trimmedCommon.Concat(trimmedObscure).ToFrozenSet();
+            ExcludedWords = excludeWords.ToFrozenSet();
 
             commonWordsByLength = trimmedCommon
                 .Except(excludeWords)
@@ -133,6 +135,7 @@ namespace WordGenLib
             possibleLines = AllPossibleLines(gridSize);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "N/A")]
         public readonly struct ImmutableArraySegment<T>(ImmutableArray<T> array, int offset, int length) : IReadOnlyList<T>, IEnumerable<T>, IReadOnlyCollection<T>
             where T : notnull
         {
