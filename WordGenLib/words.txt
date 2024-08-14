@@ -4808,6 +4808,7 @@ bother
 bothered
 bothering
 bothers
+botox
 bots
 botswana
 botswanan
@@ -15653,6 +15654,8 @@ filipinos
 filippo
 fill
 filled
+filler
+fillers
 filleted
 filleting
 fillets
@@ -15720,6 +15723,8 @@ finesse
 finesses
 finest
 finger
+fingerling
+fingerlings
 fingers
 fingers crossed
 finial

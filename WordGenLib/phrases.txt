@@ -805,6 +805,7 @@ lima
 lincoln
 linguine
 lmao
+lmfao
 lmk
 local train
 locke
