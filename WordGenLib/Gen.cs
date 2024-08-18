@@ -1,5 +1,4 @@
 ﻿using Crossword;
-using System.Collections;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
 using static WordGenLib.Generator;
@@ -298,8 +297,8 @@ namespace WordGenLib
         private readonly int gridSize;
 
         public int GridSize => gridSize;
-        public readonly FrozenSet<string> AllowedWords;
-        public readonly FrozenSet<string> ExcludedWords;
+        public FrozenSet<string> AllowedWords { get; }
+        public FrozenSet<string> ExcludedWords { get; }
 
         private readonly LazyGenerator lazyGenerator;
 
@@ -770,7 +769,7 @@ namespace WordGenLib
             return lines;
         }
 
-       
+
     }
 
     internal static class GenHelper
