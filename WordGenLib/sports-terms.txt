@@ -9,6 +9,7 @@ aboard
 academy
 ace
 achraf
+achraf hakimi
 achrafdari
 acmilan
 action
@@ -16,6 +17,8 @@ adam
 adamec
 address
 adebayor
+ademola
+ademola lookman
 adidas
 adler
 adrian
@@ -42,6 +45,8 @@ aiyegbeni
 ajax
 ake
 akejohansson
+al hilal
+al nassr
 alaba
 alain
 alan
@@ -56,7 +61,10 @@ aleksandre
 alen
 alenboksic
 alessandro
+alex grimaldo
 alexander
+alexander arnold
+alexander isak
 alexandre
 alexis
 alfredo
@@ -80,6 +88,7 @@ altafini
 altobelli
 alvarez
 alvaro
+alvaro morata
 alves
 amancio
 amaro
@@ -105,10 +114,12 @@ andrelerond
 andres
 andrey
 andriy
+andriy lunin
 andy
 andycole
 anelka
 angel
+angel di maria
 angelillo
 angelo
 angelos
@@ -122,10 +133,12 @@ antenen
 anthony
 antognoni
 antoine
+antoine griezmann
 anton
 antoni
 antonin
 antonio
+antonio rudiger
 antonios
 antonondrus
 appeal
@@ -155,6 +168,8 @@ around
 arsenal
 arshavin
 arsonist
+artem
+artem dovbyk
 arteta
 artisan
 artist
@@ -173,9 +188,14 @@ asparuhov
 aspirin
 assist
 asterisk
+aston
+aston villa
 athlete
+athletic bilbao
 athletics
 atlanta
+atletico
+atletico madrid
 atp
 atpfinals
 atprace
@@ -243,9 +263,11 @@ bankshot
 baraja
 barcelona
 barcelonafc
+barcola
 bare
 barehand
 barelie
+barella
 baresi
 barjuan
 barkley
@@ -273,6 +295,7 @@ basketcut
 basler
 basten
 bastian
+bastoni
 basturk
 bat
 bataround
@@ -286,7 +309,10 @@ battery
 battle
 baumann
 baxter
+bayer
+bayer leverkusen
 bayern
+bayern munich
 bayernmunich
 baylor
 bazooka
@@ -308,6 +334,7 @@ bejbl
 belanov
 belgium
 bellamy
+bellingham
 belodedici
 belt
 ben
@@ -318,6 +345,7 @@ benchjockey
 benchwarmer
 bender
 bene
+benfica
 benfoster
 bengt
 benny
@@ -334,6 +362,7 @@ bergkamp
 bergmark
 bernard
 bernardo
+bernardo silva
 bernd
 berndleno
 berti
@@ -356,6 +385,7 @@ bigleagues
 bigs
 bigswing
 bike
+bilbao
 bild
 bill
 billie
@@ -426,6 +456,8 @@ booted
 bootleg
 borivoje
 borrow
+borussia
+borussia dortmund
 boskov
 bosman
 bosnich
@@ -452,6 +484,7 @@ boy
 bozhkov
 bozsik
 brad
+bradley barcola
 bradshaw
 brady
 brandt
@@ -486,6 +519,7 @@ brown
 browns
 browsing
 bruno
+bruno fernandes
 brunoconti
 brunonicole
 brunopezzey
@@ -501,6 +535,7 @@ buchwald
 bucks
 buffon
 bukayo
+bukayo saka
 bulgaria
 bullarding
 bullpen
@@ -533,12 +568,15 @@ cactusleague
 caddy
 cafu
 cahill
+calafiori
 calcutta
+calhanoglu
 caligiuri
 call
 called
 camara
 camataru
+camavinga
 cameroon
 caminero
 camoranesi
@@ -567,6 +605,7 @@ carrier
 carry
 carrying
 cart
+carvajal
 carvalho
 carve
 casemiro
@@ -659,6 +698,7 @@ chopper
 chris
 chrissutton
 christian
+christian pulisic
 christophe
 chriswaddle
 chuck
@@ -706,10 +746,12 @@ coach
 cocacola
 code
 cody
+cody gakpo
 coen
 coffin
 colak
 cole
+cole palmer
 coleman
 colin
 colintodd
@@ -777,7 +819,9 @@ crespo
 cricket
 cris
 cristian
+cristian romero
 cristiano
+cristiano ronaldo
 croatia
 crooked
 croquet
@@ -790,6 +834,8 @@ crown
 croy
 cruyff
 cuba
+cubarsi
+cucurella
 cup
 curkovic
 curl
@@ -815,6 +861,8 @@ damiano
 dan
 dance
 dani
+dani carvajal
+dani olmo
 danialves
 daniel
 daniele
@@ -832,6 +880,7 @@ darren
 darrenbent
 dasayev
 david
+david raya
 davidalaba
 daviddunn
 davidginola
@@ -850,6 +899,7 @@ davor
 davorsuker
 day
 de
+de bruyne
 dead
 deadarm
 deadball
@@ -863,6 +913,8 @@ debuchy
 decision
 deck
 decker
+declan
+declan rice
 deco
 deep
 default
@@ -903,10 +955,12 @@ deyna
 dezso
 dfa
 di
+di maria
 diabate
 dialed
 diamond
 diarra
+diaz
 didi
 didier
 didierdrogba
@@ -920,6 +974,7 @@ diet
 dieter
 dietermuller
 dijk
+dimarco
 dime
 dimeback
 dimitar
@@ -967,6 +1022,7 @@ donhutchison
 dorfel
 dormie
 dormiehouse
+dortmun
 dot
 double
 doublebagel
@@ -983,6 +1039,7 @@ doubleplay
 doubles
 doublesteal
 doubleswitch
+dovbyk
 down
 downbox
 downscreen
@@ -1033,6 +1090,8 @@ dunk
 dunn
 dunne
 durant
+dusan
+dusan vlahovic
 dwayne
 dwight
 dwightyorke
@@ -1057,6 +1116,7 @@ ebbesand
 ecuador
 eden
 edenhazard
+ederson
 edgar
 edgardavids
 edge
@@ -1069,6 +1129,8 @@ edmilson
 edreed
 edstrom
 eduard
+eduardo
+eduardo camavinga
 edwards
 edwin
 eephus
@@ -1077,6 +1139,7 @@ effenberg
 egg
 egypt
 ehiogu
+eintracht
 eject
 el
 elam
@@ -1097,6 +1160,7 @@ emil
 emile
 emileheskey
 emiliano
+emiliano martinez
 emilio
 emirates
 emlyn
@@ -1129,6 +1193,7 @@ erich
 erichhof
 eriksen
 erling
+erling haaland
 erno
 ernst
 ernstocwirk
@@ -1164,6 +1229,7 @@ extratime
 eye
 ezequiel
 ezio
+fabian ruiz
 fabiano
 fabianski
 fabien
@@ -1205,7 +1271,11 @@ fcdallas
 fcs
 fed
 fedcup
+fede
+fede valverde
 federer
+federico
+federico dimarco
 fedor
 fee
 feed
@@ -1282,6 +1352,7 @@ flopshot
 florea
 florent
 florian
+florian wirtz
 flowers
 floyd
 fluke
@@ -1290,6 +1361,7 @@ flutterball
 fly
 flyball
 flyout
+foden
 follow
 fontaine
 foot
@@ -1354,6 +1426,7 @@ frenkie
 freshman
 friedel
 friendly
+frimpong
 fringe
 frisbee
 front
@@ -1374,11 +1447,13 @@ futre
 futsal
 gabby
 gabriel
+gabriel magalhaes
 gadocha
 gaetano
 gained
 gaizka
 gakpo
+galatasaray
 galaxy
 galic
 gallas
@@ -1461,6 +1536,7 @@ gilbert
 giles
 gimme
 ginola
+giorgi
 giorgio
 giorgos
 giourkas
@@ -1532,6 +1608,8 @@ graeme
 grain
 grand
 grandslam
+granit
+granit xhaka
 granny
 grannyshot
 grass
@@ -1545,12 +1623,14 @@ greenfee
 greenlight
 greensomes
 gregg
+gregor kobel
 gregory
 greig
 gren
 gress
 gridiron
 griezmann
+grimaldo
 grip
 grizzlies
 gronkowski
@@ -1571,6 +1651,7 @@ guardiola
 guess
 guesshitter
 guido
+guirassy
 gullit
 gun
 gundogan
@@ -1586,9 +1667,11 @@ gustavsson
 gut
 guy
 guyhellers
+gvardiol
 gyan
 gylfi
 gymnastics
+gyokeres
 gyroball
 gyula
 haaland
@@ -1603,6 +1686,7 @@ hail
 hailmary
 haiti
 hakan
+hakan calhanoglu
 hakansukur
 hakeem
 hakimi
@@ -1642,6 +1726,7 @@ hardcourt
 hardhands
 harnik
 harry
+harry kane
 harrybild
 harrygregg
 harrykane
@@ -1698,6 +1783,7 @@ hernandez
 hernanes
 herzog
 heskey
+heung min
 heynckes
 hidden
 hidetoshi
@@ -1708,6 +1794,7 @@ highheat
 highpost
 higuain
 hike
+hilal
 hill
 him
 himst
@@ -1815,9 +1902,11 @@ inning
 innings
 insurance
 inter
+inter miami
 interception
 interference
 intermilan
+internazionale
 interstate
 invasion
 inward
@@ -1829,6 +1918,7 @@ iraq
 ireland
 iron
 irwin
+isak
 isco
 isiah
 isolation
@@ -1860,7 +1950,10 @@ jakobkuhn
 jallet
 jam
 jamaica
+jamal
+jamal musiala
 james
+james rodriguez
 jamesmilner
 jamie
 jamievardy
@@ -1893,6 +1986,8 @@ jennings
 jens
 jensen
 jeopardy
+jeremie
+jeremie frimpong
 jeremy
 jeremylin
 jerk
@@ -1943,6 +2038,8 @@ johnwark
 jojutsu
 joleon
 jon
+jonathan david
+jonathan tah
 jones
 jong
 jonquet
@@ -1956,7 +2053,10 @@ josef
 joseph
 josephujlaki
 joshkerr
+joshua kimmich
 josip
+josko
+josko gvardiol
 jourdren
 journeyman
 jozef
@@ -1964,11 +2064,16 @@ jozefadamec
 jozsef
 jozsefbozsik
 juan
+jude
+jude bellingham
 judge
 judo
 judy
 juiced
+jules kounde
 julian
+julian alvarez
+julian brandt
 julianbrandt
 julien
 julienferet
@@ -1995,6 +2100,7 @@ kagawa
 kahn
 kahveci
 kai
+kai havertz
 kaiser
 kaka
 kalidou
@@ -2036,6 +2142,7 @@ kenny
 kerkhof
 kerr
 kevin
+kevin de bruyne
 kevindavies
 kevinkeegan
 kevinnolan
@@ -2045,6 +2152,7 @@ key
 keystone
 khazri
 khurtsilava
+khvicha
 kick
 kicked
 kicker
@@ -2059,6 +2167,7 @@ kilbane
 kill
 killer
 killing
+kimmich
 kindvall
 king
 kings
@@ -2077,6 +2186,7 @@ knicks
 knock
 knuckleball
 kobe
+kobel
 kocsis
 koeman
 kohler
@@ -2097,6 +2207,7 @@ kostadinov
 kostic
 kotkov
 koulibaly
+kounde
 kovacevic
 kramaric
 krankl
@@ -2116,9 +2227,12 @@ kushta
 kuwait
 kuyt
 kuznetsov
+kvaratskhelia
 kvasnak
 kwadwo
+kyle walker
 kylian
+kylian mbappe
 kylianmbappe
 lacazette
 lace
@@ -2138,6 +2252,8 @@ lajosszucs
 lajostichy
 lakers
 lalakers
+lamine
+lamine yamal
 lampard
 lance
 lane
@@ -2162,6 +2278,8 @@ launch
 launchangle
 launchpad
 laurent
+lautaro
+lautaro martinez
 lavezzi
 law
 lawrence
@@ -2176,6 +2294,7 @@ league
 leaguer
 leagues
 leaning
+leao
 leather
 lebron
 lebronjames
@@ -2207,6 +2326,7 @@ letter
 letterhigh
 lev
 leven
+leverkusen
 levyashin
 lewandowski
 lewis
@@ -2222,6 +2342,7 @@ light
 ligt
 lilian
 lilianthuram
+lille
 lin
 linda
 linderoth
@@ -2238,6 +2359,7 @@ lineup
 lineupcard
 links
 lionel
+lionel messi
 lionelmessi
 list
 litmanen
@@ -2265,6 +2387,7 @@ longout
 longstrike
 loogy
 looking
+lookman
 looper
 lopes
 lopez
@@ -2298,24 +2421,29 @@ luge
 luigi
 luigiriva
 luis
+luis diaz
 luisfigo
 luisgarcia
 luisito
 luissuarez
 luiz
 luka
+luka modric
 lukaku
 lukamodric
 lukas
 lukasz
 lumber
 lung
+lunin
+mac allister
 maceda
 machlas
 macri
 maddux
 madness
 madsen
+magalhaes
 magath
 magic
 magicnumber
@@ -2325,6 +2453,7 @@ mahmoud
 mahrez
 maicon
 maier
+maignan
 makaay
 makelele
 malbranque
@@ -2332,8 +2461,11 @@ maldini
 malli
 malone
 malouda
+mamardashvili
 man
 manager
+manchester city
+manchester united
 mancini
 mancity
 mandanda
@@ -2355,7 +2487,9 @@ maradona
 marathon
 marathons
 marc
+marc cucurella
 marcel
+marcel sabitzer
 marcell
 marcelo
 march
@@ -2365,6 +2499,7 @@ marcoreus
 marcos
 marcossenna
 marcus
+marcus thuram
 marek
 maria
 marian
@@ -2387,9 +2522,11 @@ marknoble
 marko
 marks
 markviduka
+marmoush
 marouane
 martial
 martin
+martin odegaard
 martina
 martindahlin
 martinez
@@ -2417,6 +2554,7 @@ mathieu
 mathijs
 matip
 mats
+mats hummels
 matt
 matthaus
 matthew
@@ -2471,6 +2609,7 @@ mexican
 mexico
 miamiheat
 michael
+michael olise
 michalis
 michel
 micoud
@@ -2483,6 +2622,7 @@ miguel
 mihajlovic
 mijatovic
 mike
+mike maignan
 mikel
 mikelarteta
 miketyson
@@ -2503,6 +2643,7 @@ miscue
 misread
 mista
 mistake
+mitrovic
 mitt
 mixed
 mixer
@@ -2517,6 +2658,7 @@ modeste
 modric
 moer
 mohamed
+mohamed salah
 moller
 monday
 money
@@ -2566,6 +2708,7 @@ munich
 muntyan
 murphy
 murtaz
+musiala
 music
 mustard
 mutu
@@ -2579,11 +2722,13 @@ nails
 nakamura
 nakata
 nani
+napoli
 napping
 nasazzi
 nascar
 nasri
 nassau
+nassr
 national
 navratilova
 naydenov
@@ -2626,9 +2771,13 @@ nickelcurve
 nicklaus
 nicky
 nickybutt
+nico
+nico williams
 nicolas
 nicolay
 nicole
+nicolo
+nicolo barella
 nigel
 nigelmartyn
 nigeria
@@ -2673,6 +2822,7 @@ oblak
 obp
 obstruction
 ocwirk
+odegaard
 off
 offday
 offence
@@ -2697,15 +2847,20 @@ oleoleole
 olic
 oline
 olisadebe
+olise
 oliveira
 oliver
 oliverkahn
 olivier
+ollie
+ollie watkins
+olmo
 olsen
 olympian
 olympic
 olympics
 omar
+omar marmoush
 omarsivori
 ondrus
 one
@@ -2727,6 +2882,7 @@ orvar
 oscar
 oscarwendt
 osim
+osimhen
 oskie
 osman
 ospina
@@ -2806,6 +2962,8 @@ patrikberger
 patriots
 patrol
 pattern
+pau
+pau cubarsi
 paul
 pauleta
 paulince
@@ -2830,6 +2988,7 @@ pea
 pearl
 pearod
 pecota
+pedri
 pedro
 peeking
 peg
@@ -2876,6 +3035,7 @@ pgatour
 phantom
 phantomtag
 phelps
+phil foden
 philipp
 philippe
 phillips
@@ -3055,6 +3215,7 @@ radek
 radekbejbl
 raducanu
 rafael
+rafael leao
 raffael
 rag
 ragarm
@@ -3086,6 +3247,7 @@ rangefinder
 rangers
 rangersfc
 raphael
+raphinha
 raptors
 rashford
 rate
@@ -3098,11 +3260,15 @@ ravine
 ray
 raykennedy
 raymond
+rayo
+rayo vallecano
+rb leipzig
 rbi
 read
 ready
 readygolf
 real
+real madrid
 realmadrid
 realtennis
 rebound
@@ -3153,6 +3319,7 @@ rhubarb
 rhythmic
 ribery
 ricardo
+riccardo
 richardson
 richarlison
 rifle
@@ -3205,19 +3372,23 @@ rockets
 rocking
 rodgers
 rodion
+rodri
 rodriguez
+rodrygo
 roger
 rogerio
 rogermarche
 rogermilla
 roland
 roll
+roma
 romain
 roman
 romania
 romario
 romelu
 romelulukaku
+romero
 ronald
 ronaldinho
 ronaldkoeman
@@ -3250,9 +3421,11 @@ rubber
 rubberarm
 rubbergame
 ruben
+ruben dias
 rubenbaraja
 rudakov
 rudi
+rudiger
 rudivoller
 rudolf
 rudolfkucera
@@ -3265,6 +3438,7 @@ rui
 ruicosta
 ruijordao
 ruipatricio
+ruiz
 rule
 rules
 ruling
@@ -3287,6 +3461,7 @@ ryad
 ryan
 ryangiggs
 sabermetrics
+sabitzer
 sack
 sacramento
 sacrifice
@@ -3298,6 +3473,7 @@ safety
 sagnol
 saha
 sailing
+saint germain
 saintgerman
 saints
 saka
@@ -3306,6 +3482,7 @@ salah
 salami
 salas
 salgado
+saliba
 salihovic
 salinas
 sally
@@ -3346,6 +3523,7 @@ sausage
 sauzee
 save
 savicevic
+savinho
 saviola
 saw
 sawoff
@@ -3413,6 +3591,8 @@ sergi
 sergio
 sergioaguero
 sergioramos
+serhou
+serhou guirassy
 series
 serve
 service
@@ -3575,6 +3755,7 @@ solcampbell
 sole
 solskjaer
 solymosi
+son heung min
 sonny
 sophomore
 soren
@@ -3759,6 +3940,7 @@ tackle
 tacklebox
 taekwondo
 tag
+tah
 tahamata
 tail
 tailback
@@ -3813,6 +3995,7 @@ theshow
 thiago
 thiagosilva
 thibaut
+thibaut courtois
 thief
 thierry
 thijssen
@@ -3877,6 +4060,7 @@ tommasi
 tommy
 tommytaylor
 toni
+toni kroos
 tonikroos
 tony
 tonycottee
@@ -3898,6 +4082,7 @@ tosser
 tostao
 total
 totalbases
+tottenham
 totti
 touch
 touchback
@@ -3975,6 +4160,8 @@ ulistielike
 ultimate
 ultras
 umpire
+unai
+unai simon
 uncle
 under
 underdog
@@ -4014,8 +4201,11 @@ valenciacf
 valentin
 valeron
 valery
+vallecano
 valve
+valverde
 van
+van dijk
 vandenbergh
 vandijk
 varane
@@ -4035,6 +4225,8 @@ vettel
 vialli
 vicente
 victor
+victor boniface
+victor osimhen
 victorikpeba
 vidal
 vidic
@@ -4044,12 +4236,17 @@ vieira
 vieri
 vikings
 viktor
+viktor gyokeres
 viliam
 villa
 vincent
+vinicius
+vinicius junior
 violation
 virgil
+virgil van dijk
 visit
+vitinha
 vitor
 vitorbaia
 viv
@@ -4057,6 +4254,7 @@ vivanderson
 vizek
 vladimir
 vladislav
+vlahovic
 vogts
 volland
 voller
@@ -4092,6 +4290,7 @@ warriors
 washington
 water
 waterpolo
+watkins
 watson
 wave
 wayne
@@ -4130,6 +4329,7 @@ will
 willem
 willi
 william
+william saliba
 williams
 willian
 willischulz
@@ -4149,6 +4349,7 @@ winning
 winter
 wintergreen
 winterrules
+wirtz
 wise
 wishbone
 wizards
@@ -4178,10 +4379,13 @@ wwf
 xabi
 xabialonso
 xavi
+xavi simons
+xhaka
 xherdan
 yac
 yakovenko
 yakubu
+yamal
 yank
 yard
 yardage
