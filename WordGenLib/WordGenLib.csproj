@@ -7,6 +7,9 @@
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Google.Cloud.BigQuery.V2" Version="3.11.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\CrosswordCommon\CrosswordCommon.csproj" />
   </ItemGroup>
   <ItemGroup>

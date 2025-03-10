@@ -405,11 +405,10 @@ namespace WordGenLib
 
             if (filtered.Sum(p => p.MaxPossibilities) <= 20 && filtered.Any(p => p is not Definite))
             {
-                filtered = filtered
+                filtered = [.. filtered
                     .SelectMany(p => p.Iterate())
                     .Distinct()
-                    .Select(line => new Definite(line))
-                    .ToImmutableArray<IPossibleLines>();
+                    .Select(line => new Definite(line))];
             }
 
             if (filtered.Length == 0) return Impossible.Instance(NumLetters);

@@ -476,7 +476,7 @@ namespace WordGenLib
                     yield break;
 
                 yield return new FinalGrid(
-                    Across: across.Cast<string>().ToImmutableArray()
+                    Across: [.. across.Cast<string>()]
                 );
                 yield break;
             }
@@ -723,8 +723,8 @@ namespace WordGenLib
         public IEnumerable<FinalGrid> PossibleGrids()
         {
             GridState state = new(
-                Down: Enumerable.Range(0, gridSize).Select(_ => lazyGenerator.PossibleLines).ToImmutableArray(),
-                Across: Enumerable.Range(0, gridSize).Select(_ => lazyGenerator.PossibleLines).ToImmutableArray()
+                Down: [.. Enumerable.Range(0, gridSize).Select(_ => lazyGenerator.PossibleLines)],
+                Across: [.. Enumerable.Range(0, gridSize).Select(_ => lazyGenerator.PossibleLines)]
             );
             return AllPossibleGrids(state).DistinctBy(x => x.Repr);
         }
@@ -734,12 +734,12 @@ namespace WordGenLib
             ArgumentNullException.ThrowIfNull(constraints);
             if (constraints.GetLength(0) != gridSize || constraints.GetLength(1) != gridSize) throw new ArgumentException($"{nameof(constraints)} should have size {GridSize} x {GridSize}");
 
-            string[] acrossTemplates = Enumerable.Range(0, gridSize).Select(y => string.Join("", Enumerable.Range(0, gridSize).Select(x => constraints[x, y]))).ToArray();
-            string[] downTemplates = Enumerable.Range(0, gridSize).Select(x => string.Join("", Enumerable.Range(0, gridSize).Select(y => constraints[x, y]))).ToArray();
+            string[] acrossTemplates = [.. Enumerable.Range(0, gridSize).Select(y => string.Join("", Enumerable.Range(0, gridSize).Select(x => constraints[x, y])))];
+            string[] downTemplates = [.. Enumerable.Range(0, gridSize).Select(x => string.Join("", Enumerable.Range(0, gridSize).Select(y => constraints[x, y])))];
 
             GridState state = new(
-                Down: Enumerable.Range(0, gridSize).Select(i => CompatibleLines(downTemplates[i], addExtraBlocks)).ToImmutableArray(),
-                Across: Enumerable.Range(0, gridSize).Select(i => CompatibleLines(acrossTemplates[i], addExtraBlocks)).ToImmutableArray()
+                Down: [.. Enumerable.Range(0, gridSize).Select(i => CompatibleLines(downTemplates[i], addExtraBlocks))],
+                Across: [.. Enumerable.Range(0, gridSize).Select(i => CompatibleLines(acrossTemplates[i], addExtraBlocks))]
             );
             if (IsBoardDefinitelyDivided(state)) return [];
 
@@ -757,7 +757,7 @@ namespace WordGenLib
             if (template.All(x => x == ' ')) return lazyGenerator.PossibleLines;
             if (template.All(x => x != ' ')) return new Definite(new(
                 template,
-                template.Split(Constants.BLOCKED).Where(w => w.Length > 0).ToImmutableArray()
+                [.. template.Split(Constants.BLOCKED).Where(w => w.Length > 0)]
                 ));
 
             var lines = lazyGenerator.PossibleLines;
@@ -786,30 +786,17 @@ namespace WordGenLib
 
     public static class GridReader
     {
-        public static readonly ImmutableArray<string> COMMON_WORDS_DEFAULT =
-            Properties.Resources.words.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
-            .Concat(Properties.Resources.phrases.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None))
-            .Select(s => s.Trim().Replace(" ", ""))
-            .Distinct()
-            .ToImmutableArray();
-
-        public static readonly ImmutableArray<string> OBSCURE_WORDS_DEFAULT =
-            Properties.Resources.phrases.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None)
-            .Concat(Properties.Resources.wikipedia.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None))
-            .Concat(Properties.Resources.from_lexems.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None))
-            .Select(s => s.Trim().Replace(" ", ""))
-            .Distinct()
-            .Except(COMMON_WORDS_DEFAULT)
-            .ToImmutableArray();
+        public static ImmutableArray<string> COMMON_WORDS_DEFAULT => WordLoader.GetRepository().Regular.Common;
+        public static ImmutableArray<string> OBSCURE_WORDS_DEFAULT => WordLoader.GetRepository().Regular.Obscure;
 
         public static readonly FrozenSet<string> EXCLUDE_WORDS =
-            Properties.Resources.overused.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries)
+            Properties.Resources.overused.Split(["\r\n", "\r", "\n"], StringSplitOptions.RemoveEmptyEntries)
             .Select(s => s.Trim().Replace(" ", ""))
             .ToFrozenSet();
 
         public static string[] AcrossWords(FinalGrid grid)
         {
-            return grid.Across.SelectMany(s => s.Split(Constants.BLOCKED)).Where(s => s.Length > 0).ToArray();
+            return [.. grid.Across.SelectMany(s => s.Split(Constants.BLOCKED)).Where(s => s.Length > 0)];
         }
     }
 

@@ -61,132 +61,38 @@ namespace WordGenLib.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to a cappella
-        ///a piacere
-        ///a posteriori
-        ///a priori
-        ///a tad
-        ///aachen
-        ///aahed
-        ///abacus
-        ///abacuses
-        ///abasement
-        ///abasements
-        ///abasically
-        ///abasing
-        ///abattoir
-        ///abattoirs
-        ///abaxially
-        ///abbess
-        ///abbesses
-        ///abdicate
-        ///abdicated
-        ///abdicates
-        ///abdicating
-        ///abdication
-        ///abdications
-        ///abdominally
-        ///abed
-        ///aberrantly
-        ///aberrationally
-        ///aberystwyth
-        ///abet
-        ///abets
-        ///abetted
-        ///abetting
-        ///abettor
-        ///abettors
-        ///abhorrent
-        ///abidance
-        ///abidances
-        ///abide
-        ///abided
-        ///abides
-        ///abidjan
-        ///abiotic
-        ///abiotically
-        ///ablate
-        ///ablated
-        ///ablates
-        ///ablating
-        ///ablative
-        ///ablatively
-        ///ablativ [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string from_lexems {
-            get {
-                return ResourceManager.GetString("from_lexems", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to aah
-        ///aahs
-        ///aapl
-        ///aba
-        ///abates
-        ///abba
-        ///abbe
-        ///abc
+        ///   Looks up a localized string similar to aba
+        ///abating
         ///abdomen
-        ///abe
-        ///abi
-        ///abiy
         ///able
-        ///abs
-        ///absl
-        ///abu
-        ///acab
-        ///accounted
+        ///absinthes
         ///ace
-        ///acer
-        ///aces
         ///acetylene
-        ///acid
         ///acids
-        ///acre
         ///acrobatics
-        ///act
-        ///ada
-        ///add
-        ///adds
         ///adele
-        ///adhd
         ///adhoc
         ///adieu
         ///adioses
         ///ado
+        ///adolescence
         ///adore
-        ///adp
         ///ads
-        ///adt
-        ///aero
         ///aerobic
         ///aerosols
-        ///afc
-        ///afk
-        ///aft
         ///agars
         ///agave
         ///age
-        ///aged
-        ///ago
         ///agora
-        ///agua
-        ///aha
+        ///agree
         ///aides
         ///ail
-        ///aim
-        ///aims
-        ///air
         ///aircrew
         ///aisles
-        ///alan
+        ///akron
         ///alba
-        ///ale
+        ///alden
         ///alerts
-        ///ales
-        ///alex
         ///ali
         ///alias
         ///alibi
@@ -195,205 +101,40 @@ namespace WordGenLib.Properties {
         ///align
         ///alive
         ///all
+        ///alleviation
         ///alley
         ///alloc
+        ///allocator
+        ///allof
         ///allow
-        ///alma
         ///alone
-        ///a [rest of string was truncated]&quot;;.
+        ///alphabet
+        ///als
+        ///alums
+        ///alvin
+        ///ama
+        ///amal
+        ///amass
+        ///amateurs
+        ///ameliorates
+        ///amen
+        ///amend
+        ///ami
+        ///amino
+        ///amor
+        ///amp
+        ///ample
+        ///amsterdam
+        ///ana
+        ///anal
+        ///anime
+        ///ann
+        ///annabel
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string overused {
             get {
                 return ResourceManager.GetString("overused", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to a new hope
-        ///aarp
-        ///abba
-        ///abbasid
-        ///abc
-        ///abraham lincoln
-        ///abs
-        ///abuela
-        ///ac uk
-        ///acab
-        ///acai
-        ///acetic
-        ///acidic
-        ///aclu
-        ///acm
-        ///acylate
-        ///ada lovelace
-        ///adam and eve
-        ///adam and steve
-        ///adam smith
-        ///addams
-        ///addis ababa
-        ///adele
-        ///adhd
-        ///adios
-        ///adioses
-        ///admiral
-        ///admirals
-        ///adobe
-        ///aed
-        ///aero
-        ///afaict
-        ///afaik
-        ///afc
-        ///afk
-        ///afn
-        ///african union
-        ///aging
-        ///aha
-        ///airbender
-        ///akagawa
-        ///akbar
-        ///al biruni
-        ///al khwarizmi
-        ///alex trebek
-        ///algebra
-        ///algebras
-        ///algiers
-        ///algorithmi
-        ///alhurra
-        ///all about eve
-        ///almanac
-        ///almanacs
-        ///almost famous
-        ///alove
-        ///alpha
-        ///alt
-        ///alum
-        ///a [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string phrases {
-            get {
-                return ResourceManager.GetString("phrases", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to aditi
-        ///africaine
-        ///afshin
-        ///agamidae
-        ///ahmedabad
-        ///aincreville
-        ///airbnb
-        ///airfoil
-        ///airfoils
-        ///alangan
-        ///aletheia
-        ///algans
-        ///alloxylon
-        ///almestrone
-        ///amaryllis
-        ///ambroise
-        ///amyloid
-        ///ancoats
-        ///ancon
-        ///andarkuppam
-        ///andone
-        ///andonov
-        ///antoniadis
-        ///anul
-        ///aol
-        ///aougny
-        ///apokolips
-        ///arashi
-        ///arfeuilles
-        ///argagnon
-        ///argentan
-        ///arianespace
-        ///arkhi
-        ///ashbakh
-        ///ashtamangala
-        ///asse
-        ///astrolabe
-        ///astrolabes
-        ///asturianos
-        ///atcham
-        ///aursjoen
-        ///autoclave
-        ///autoclaved
-        ///autoclaves
-        ///avoudrey
-        ///avramov
-        ///azusa yumi
-        ///badonviller
-        ///bagga
-        ///bagnot
-        ///bailwad
-        ///bajo sexto
-        /// [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string wikipedia {
-            get {
-                return ResourceManager.GetString("wikipedia", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to a bit
-        ///a building
-        ///a good deal
-        ///a great deal
-        ///a hold
-        ///a la mode
-        ///a little
-        ///a little bit
-        ///a little matter
-        ///a lot
-        ///a matter
-        ///a plenty
-        ///a tilt
-        ///a to z
-        ///a treat
-        ///aah
-        ///aahs
-        ///aardvark
-        ///aardvarks
-        ///aaron
-        ///aarons
-        ///aba
-        ///abalone
-        ///abalones
-        ///abandon
-        ///abandoned
-        ///abandonedly
-        ///abandoning
-        ///abandonly
-        ///abandonment
-        ///abandons
-        ///abas
-        ///abate
-        ///abated
-        ///abatement
-        ///abatements
-        ///abates
-        ///abating
-        ///abba
-        ///abbasid
-        ///abbe
-        ///abbes
-        ///abbey
-        ///abbeys
-        ///abbot
-        ///abbots
-        ///abbreviate
-        ///abbreviated
-        ///abbreviately
-        ///abbreviates
-        ///abbreviating
-        ///abbreviation
-        ///abbre [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string words {
-            get {
-                return ResourceManager.GetString("words", resourceCulture);
             }
         }
     }
