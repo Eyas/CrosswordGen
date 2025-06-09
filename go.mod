@@ -8,7 +8,6 @@ require (
 )
 
 require (
-	crosswarped.com/xw_generator v0.0.0-00010101000000-000000000000
 	github.com/GoogleCloudPlatform/functions-framework-go v1.9.2
 )
 
@@ -63,5 +62,3 @@ require (
 	google.golang.org/grpc v1.72.0 // indirect
 	google.golang.org/protobuf v1.36.6 // indirect
 )
-
-replace crosswarped.com/xw_generator => ../xw_generator
