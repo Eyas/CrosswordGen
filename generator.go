@@ -24,16 +24,19 @@ type Generator struct {
 	ObscureWords   []string
 	ExcludedWords  []string
 
+	rand *rand.Rand
+
 	// Do not access this field directly, use the allPossibleLines method instead.
 	lazyAllPossibleLines primitives.PossibleLines
 }
 
-func CreateGenerator(lineLength int, preferredWords, obscureWords, excludedWords []string) *Generator {
+func CreateGenerator(lineLength int, preferredWords, obscureWords, excludedWords []string, rand *rand.Rand) *Generator {
 	return &Generator{
 		LineLength:     lineLength,
 		PreferredWords: preferredWords,
 		ObscureWords:   obscureWords,
 		ExcludedWords:  excludedWords,
+		rand:           rand,
 	}
 }
 
@@ -54,11 +57,13 @@ func (g *Generator) allPossibleLines(ctx context.Context) (primitives.PossibleLi
 type gridState struct {
 	down   []primitives.PossibleLines
 	across []primitives.PossibleLines
+
+	rand *rand.Rand
 }
 
 // getUndecidedIndexWLOG returns an index of an undecided line (i.e. a line that is not yet decided),
 // preferring to return the "least undecided" line (i.e. the line with the lest possible lines).
-func getUndecidedIndexWLOG(lines []primitives.PossibleLines) *int {
+func getUndecidedIndexWLOG(lines []primitives.PossibleLines, rand *rand.Rand) *int {
 	type option struct {
 		idx  int
 		line primitives.PossibleLines
@@ -97,11 +102,11 @@ func getUndecidedIndexWLOG(lines []primitives.PossibleLines) *int {
 }
 
 func (s gridState) getUndecidedIndexDown() *int {
-	return getUndecidedIndexWLOG(s.down)
+	return getUndecidedIndexWLOG(s.down, s.rand)
 }
 
 func (s gridState) getUndecidedIndexAcross() *int {
-	return getUndecidedIndexWLOG(s.across)
+	return getUndecidedIndexWLOG(s.across, s.rand)
 }
 
 func prefilter(ctx context.Context, s gridState, dir Direction) gridState {
@@ -159,9 +164,9 @@ func prefilter(ctx context.Context, s gridState, dir Direction) gridState {
 	}
 
 	if dir == DirectionHorizontal {
-		return gridState{across: toFilter, down: constraint}
+		return gridState{across: toFilter, down: constraint, rand: s.rand}
 	} else {
-		return gridState{down: toFilter, across: constraint}
+		return gridState{down: toFilter, across: constraint, rand: s.rand}
 	}
 }
 
@@ -170,6 +175,7 @@ func (g *Generator) PossibleGrids(ctx context.Context) iter.Seq[Grid] {
 		gs := gridState{
 			down:   make([]primitives.PossibleLines, g.LineLength),
 			across: make([]primitives.PossibleLines, g.LineLength),
+			rand:   g.rand,
 		}
 
 		apl, err := g.allPossibleLines(ctx)
@@ -507,11 +513,13 @@ func iterateAllPossibleGrids(ctx context.Context, root *gridState, index int, di
 					newRoot = &gridState{
 						down:   attemptOpposite,
 						across: optionFinal,
+						rand:   root.rand,
 					}
 				} else {
 					newRoot = &gridState{
 						down:   optionFinal,
 						across: attemptOpposite,
+						rand:   root.rand,
 					}
 				}
 
@@ -605,11 +613,13 @@ func iterateAllPossibleGrids(ctx context.Context, root *gridState, index int, di
 				newRoot = &gridState{
 					down:   oppositeFinal,
 					across: optionFinal,
+					rand:   root.rand,
 				}
 			} else {
 				newRoot = &gridState{
 					down:   optionFinal,
 					across: oppositeFinal,
+					rand:   root.rand,
 				}
 			}
 
