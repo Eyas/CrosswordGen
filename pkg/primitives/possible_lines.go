@@ -661,10 +661,11 @@ func (b *BlockBetween) RemoveWordOption(word string) PossibleLines {
 
 func (b *BlockBetween) FirstOrNull() *ConcreteLine {
 	f := b.first.FirstOrNull()
-	if f == nil {
+	s := b.second.FirstOrNull()
+	if f == nil || s == nil {
 		return nil
 	}
-	return &ConcreteLine{Line: append(f.Line, kBlocked), Words: f.Words}
+	return &ConcreteLine{Line: append(append(f.Line, kBlocked), s.Line...), Words: f.Words}
 }
 
 func (b *BlockBetween) Iterate() iter.Seq[ConcreteLine] {
