@@ -1,6 +1,9 @@
 package xw_generator
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 // Grid is a 2D grid of runes.
 //
@@ -33,4 +36,8 @@ func (g Grid) Repr() string {
 		lines[y] = string(g.grid[y])
 	}
 	return strings.Join(lines, "\n")
+}
+
+func (g Grid) DebugString() string {
+	return fmt.Sprintf("Grid{width: %d, height: %d, grid: %v}", g.Width(), g.Height(), g.grid)
 }
