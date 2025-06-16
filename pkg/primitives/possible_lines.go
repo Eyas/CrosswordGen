@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"iter"
 	"slices"
+	"strings"
 )
 
 const kBlocked = '`'
@@ -343,14 +344,17 @@ func (w *Words) MakeChoice() ChoiceStep {
 }
 
 func arrayStr(arr []string) string {
+	const maxPrint = 3
+
 	if len(arr) == 0 {
 		return "[]"
 	}
-	if len(arr) == 1 {
-		return fmt.Sprintf("[%s]", arr[0])
+	if len(arr) <= maxPrint {
+		return fmt.Sprintf("[%s]", strings.Join(arr, ", "))
 	}
 
-	return fmt.Sprintf("[%s, ...%d]", arr[0], len(arr)-1)
+	print, rest := arr[:maxPrint], arr[maxPrint:]
+	return fmt.Sprintf("[%s, ...%d]", strings.Join(print, ", "), len(rest))
 }
 
 func (w *Words) String() string {

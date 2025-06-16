@@ -14,6 +14,14 @@ func isActuallyImpossible(pl PossibleLines) bool {
 	return ok
 }
 
+func everything(from, to rune) []rune {
+	chars := make([]rune, 0, to-from+1)
+	for c := from; c <= to; c++ {
+		chars = append(chars, c)
+	}
+	return chars
+}
+
 func TestImpossible(t *testing.T) {
 	impossible := MakeImpossible(5)
 
@@ -124,6 +132,27 @@ func TestWords(t *testing.T) {
 				t.Errorf("Expected NumLetters 6, got %d", pl.NumLetters())
 			}
 		})
+
+		// Test cases where MakeWords returns a Words object.
+		for _, tc := range []struct {
+			name               string
+			preferred, obscure []string
+			expectedNumLetters int
+		}{
+			{"two preferred", []string{"apple", "bobby"}, []string{}, 5},
+			{"two obscure", []string{}, []string{"banana", "nababa"}, 6},
+			{"one preferred, one obscure", []string{"apple"}, []string{"bobby"}, 5},
+		} {
+			t.Run(tc.name, func(t *testing.T) {
+				pl := MakeWords(tc.preferred, tc.obscure)
+				if _, ok := pl.(*Words); !ok {
+					t.Errorf("MakeWords with %s should return Words, got %T", tc.name, pl)
+				}
+				if pl.NumLetters() != tc.expectedNumLetters {
+					t.Errorf("Expected NumLetters %d, got %d", tc.expectedNumLetters, pl.NumLetters())
+				}
+			})
+		}
 	})
 
 	// Setup for testing Words methods
@@ -201,6 +230,44 @@ func TestWords(t *testing.T) {
 			t.Errorf("FilterAny for 'a' at index 1 should be car or cat, got %v", string(firstFilteredAny.Line))
 		}
 	})
+
+	// words = ({"cat", "car"}, {"cot", "cop"})
+	for _, tc := range []struct {
+		name          string
+		filterSet     []rune
+		index         int
+		want          PossibleLines
+		wantUnchanged bool
+	}{
+		{"unchanged with everything", everything('`', 'z'), 0, words, true},
+		{"unchanged with everything - different index", everything('`', 'z'), 1, words, true},
+		{"unchanged with all letters", everything('a', 'z'), 0, words, true},
+		{"unchanged with all letters - different index", everything('a', 'z'), 1, words, true},
+		{"impossible with nothing", []rune{}, 0, MakeImpossible(3), false},
+		{"impossible with nothing - different index", []rune{}, 1, MakeImpossible(3), false},
+		{"basically unchanged when filter matches all", []rune{'c'}, 0, words, false},
+		{"only regulars remain when we only match that", []rune{'a'}, 1, &Words{preferred: []string{"cat", "car"}, obscure: []string{}}, false},
+		{"one regular and one obscure remain", []rune{'t'}, 2, &Words{preferred: []string{"cat"}, obscure: []string{"cot"}}, false},
+		{"becomes a definite when only one remains - regular", []rune{'r'}, 2, &Definite{line: ConcreteLine{Line: []rune{'c', 'a', 'r'}, Words: []string{"car"}}}, false},
+		{"becomes a definite when only one remains - obscure", []rune{'p'}, 2, &Definite{line: ConcreteLine{Line: []rune{'c', 'o', 'p'}, Words: []string{"cop"}}}, false},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			cs := DefaultCharSet()
+			for _, c := range tc.filterSet {
+				cs.Add(c)
+			}
+			got := words.FilterAny(cs, tc.index)
+			if tc.wantUnchanged && got != words {
+				t.Errorf("FilterAny(%v, %d) = %v, want unchanged", cs, tc.index, got)
+			}
+			if tc.wantUnchanged {
+				return
+			}
+			if !reflect.DeepEqual(tc.want, got) {
+				t.Errorf("FilterAny(%v, %d) = %v, want %v", cs, tc.index, got, tc.want)
+			}
+		})
+	}
 
 	t.Run("Filter", func(t *testing.T) {
 		// Filter by char
