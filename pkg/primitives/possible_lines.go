@@ -837,21 +837,32 @@ func (c *Compound) FilterAny(constraint *CharSet, index int) PossibleLines {
 }
 
 func (c *Compound) Filter(constraint rune, index int) PossibleLines {
-	filtered := make([]PossibleLines, 0, len(c.possibilities))
-	for _, p := range c.possibilities {
+	var filtered []PossibleLines
+	anyChangeInSubParts := false
+
+	for ip, p := range c.possibilities {
 		f := p.Filter(constraint, index)
+		if !anyChangeInSubParts && p != f {
+			// This is the first change, so we're gonna start building 'filtered' instead.
+			anyChangeInSubParts = true
+			filtered = append(filtered, c.possibilities[:ip]...)
+		}
+
 		if isImpossible(f) {
 			continue
 		}
-		filtered = append(filtered, f)
+
+		if anyChangeInSubParts {
+			filtered = append(filtered, f)
+		}
+	}
+
+	if !anyChangeInSubParts {
+		return c
 	}
 
 	if len(filtered) == 0 {
 		return MakeImpossible(c.NumLetters())
-	}
-
-	if len(filtered) == 1 {
-		return filtered[0]
 	}
 	return MakeCompound(filtered)
 }
