@@ -348,7 +348,10 @@ type BlockBefore struct {
 	lines PossibleLines
 }
 
-func MakeBlockBefore(lines PossibleLines) *BlockBefore {
+func MakeBlockBefore(lines PossibleLines) PossibleLines {
+	if isImpossible(lines) {
+		return MakeImpossible(lines.NumLetters() + 1)
+	}
 	return &BlockBefore{lines: lines}
 }
 
@@ -458,7 +461,10 @@ type BlockAfter struct {
 	lines PossibleLines
 }
 
-func MakeBlockAfter(lines PossibleLines) *BlockAfter {
+func MakeBlockAfter(lines PossibleLines) PossibleLines {
+	if isImpossible(lines) {
+		return MakeImpossible(lines.NumLetters() + 1)
+	}
 	return &BlockAfter{lines: lines}
 }
 
@@ -569,7 +575,10 @@ type BlockBetween struct {
 	second PossibleLines
 }
 
-func MakeBlockBetween(first, second PossibleLines) *BlockBetween {
+func MakeBlockBetween(first, second PossibleLines) PossibleLines {
+	if isImpossible(first) || isImpossible(second) {
+		return MakeImpossible(first.NumLetters() + second.NumLetters() + 1)
+	}
 	return &BlockBetween{first: first, second: second}
 }
 

@@ -1,6 +1,9 @@
 package primitives
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // CharSet efficiently represents a set of characters.
 type CharSet struct {
@@ -9,7 +12,7 @@ type CharSet struct {
 	count     int
 }
 
-func NewCharSet(min, max rune) *CharSet {
+func newCharSet(min, max rune) *CharSet {
 	return &CharSet{
 		available: make([]bool, max-min+1),
 		min:       min,
@@ -20,7 +23,7 @@ func NewCharSet(min, max rune) *CharSet {
 // DefaultCharSet is the default character set for the generator.
 // It includes all ASCII characters from a to z, plus '`' (backtick), representing blocked cells.
 func DefaultCharSet() *CharSet {
-	return NewCharSet('`', 'z')
+	return newCharSet('`', 'z')
 }
 
 // Add adds a character to the set.
@@ -88,4 +91,15 @@ func (c *CharSet) Capacity() int {
 // Count returns the number of characters in the set.
 func (c *CharSet) Count() int {
 	return c.count
+}
+
+// String returns a string representation of the set.
+func (c *CharSet) String() string {
+	var chars []string
+	for i, v := range c.available {
+		if v {
+			chars = append(chars, fmt.Sprintf("'%c'", rune(i+int(c.min))))
+		}
+	}
+	return fmt.Sprintf("available [%s] (%d/%d)", strings.Join(chars, ", "), c.count, len(c.available))
 }

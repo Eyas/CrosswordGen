@@ -81,7 +81,7 @@ func (s *allPossibleLineState) allPossibleLines(ctx context.Context, atLength in
 
 	words := primitives.MakeWords(s.preferredWordsByLength[atLength], s.obscureWordsByLength[atLength])
 
-	var blockBetweenPossibilities []*primitives.BlockBetween
+	var blockBetweenPossibilities []primitives.PossibleLines
 	// recurse into all combination of [ANYTHING]*[ANYTHING]
 	//
 	// For length 10:
@@ -90,7 +90,7 @@ func (s *allPossibleLineState) allPossibleLines(ctx context.Context, atLength in
 	//       ^     ^
 	// Blockage can be anywhere etween idx 3 and len-4 (inclusive).
 	if atLength >= 7 {
-		blockBetweenPossibilities = make([]*primitives.BlockBetween, 0, atLength-6)
+		blockBetweenPossibilities = make([]primitives.PossibleLines, 0, atLength-6)
 		for i := 3; i <= atLength-6; i++ {
 			firstLength := i                   // Always >= 3.
 			secondLength := atLength - (i + 1) // Always >= 3.

@@ -4,12 +4,11 @@ go 1.24.4
 
 require (
 	cloud.google.com/go/bigquery v1.69.0
+	github.com/google/go-cmp v0.7.0
 	google.golang.org/api v0.232.0
 )
 
-require (
-	github.com/GoogleCloudPlatform/functions-framework-go v1.9.2
-)
+require github.com/GoogleCloudPlatform/functions-framework-go v1.9.2
 
 require (
 	cloud.google.com/go v0.121.0 // indirect
