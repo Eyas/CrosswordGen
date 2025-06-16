@@ -224,6 +224,20 @@ func (w *Words) Filter(constraint rune, index int) PossibleLines {
 	if constraint == kBlocked {
 		return MakeImpossible(w.NumLetters())
 	}
+
+	// Optimization: Check if all words already match the constraint.
+	// If so, return w.
+	if w.MaxPossibilities() > 0 {
+		anyMismatch := slices.ContainsFunc(w.preferred, func(word string) bool {
+			return rune(word[index]) != constraint
+		}) || slices.ContainsFunc(w.obscure, func(word string) bool {
+			return rune(word[index]) != constraint
+		})
+		if !anyMismatch {
+			return w
+		}
+	}
+
 	filteredPreferred := make([]string, 0, len(w.preferred)/2)
 	filteredObscure := make([]string, 0, len(w.obscure)/2)
 	for _, word := range w.preferred {
