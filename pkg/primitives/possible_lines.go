@@ -818,12 +818,24 @@ func (c *Compound) FilterAny(constraint *CharSet, index int) PossibleLines {
 		return c
 	}
 
-	filtered := make([]PossibleLines, 0, len(c.possibilities))
-	for _, p := range c.possibilities {
+	var filtered []PossibleLines
+	anyChangeInSubParts := false
+	for ip, p := range c.possibilities {
 		f := p.FilterAny(constraint, index)
+		if !anyChangeInSubParts && p != f {
+			// This is the first change, so we're gonna start building 'filtered' instead.
+			anyChangeInSubParts = true
+			filtered = append(filtered, c.possibilities[:ip]...)
+		}
+
 		if isImpossible(f) {
 			continue
 		}
+
+		if !anyChangeInSubParts {
+			continue
+		}
+
 		if c, ok := f.(*Compound); ok {
 			filtered = append(filtered, c.possibilities...)
 		} else {

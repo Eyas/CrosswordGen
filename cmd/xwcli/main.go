@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math/rand/v2"
 	"os"
+	"runtime/pprof"
 	"time"
 
 	"crosswarped.com/ggg"
@@ -21,6 +22,10 @@ func main() {
 	obscure := flag.Bool("obscure", false, "Include obscure words")
 	scope := flag.String("scope", "regular", "The scope of the words to load")
 	timeout := flag.Duration("timeout", 1*time.Minute, "The timeout for the generator")
+
+	profile := flag.Bool("profile", false, "Profile the generator")
+	profileFile := flag.String("profile-file", "cpu.pprof", "The file to write the CPU profile to")
+	memoryProfileFile := flag.String("memory-profile-file", "mem.pprof", "The file to write the memory profile to")
 
 	flag.Parse()
 
@@ -47,6 +52,29 @@ func main() {
 	fmt.Println("Preferred words:", len(preferredWords))
 	fmt.Println("Obscure words:", len(obscureWords))
 	fmt.Println("Excluded words:", len(excludedWords))
+
+	var mf *os.File
+	if *profile {
+		f, err := os.Create(*profileFile)
+		if err != nil {
+			fmt.Println("Error creating profile file:", err)
+			os.Exit(1)
+		}
+		defer f.Close()
+
+		mf, err = os.Create(*memoryProfileFile)
+		if err != nil {
+			fmt.Println("Error creating memory profile file:", err)
+			os.Exit(1)
+		}
+		defer mf.Close()
+
+		if err := pprof.StartCPUProfile(f); err != nil {
+			fmt.Println("Error starting CPU profile:", err)
+			os.Exit(1)
+		}
+		defer pprof.StopCPUProfile()
+	}
 
 	grid := xw_generator.CreateGenerator(
 		*sideLength,
@@ -91,6 +119,10 @@ func main() {
 
 	fmt.Println("--------------------------------")
 	fmt.Println("Done")
+
+	if mf != nil {
+		pprof.WriteHeapProfile(mf)
+	}
 
 	if ctx.Err() != nil {
 		fmt.Println("Context error:", ctx.Err())
