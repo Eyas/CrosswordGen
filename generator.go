@@ -23,6 +23,8 @@ type Generator struct {
 	PreferredWords []string
 	ObscureWords   []string
 	ExcludedWords  []string
+	MinWordLength  *int
+	MaxWordLength  *int
 
 	rand *rand.Rand
 
@@ -30,12 +32,26 @@ type Generator struct {
 	lazyAllPossibleLines primitives.PossibleLines
 }
 
-func CreateGenerator(lineLength int, preferredWords, obscureWords, excludedWords []string, rand *rand.Rand) *Generator {
+type GeneratorParams struct {
+	MinWordLength int
+	MaxWordLength int
+}
+
+func CreateGenerator(lineLength int, preferredWords, obscureWords, excludedWords []string, rand *rand.Rand, params GeneratorParams) *Generator {
+	var minWordLength, maxWordLength *int
+	if params.MinWordLength > 0 {
+		minWordLength = &params.MinWordLength
+	}
+	if params.MaxWordLength > 0 {
+		maxWordLength = &params.MaxWordLength
+	}
 	return &Generator{
 		LineLength:     lineLength,
 		PreferredWords: preferredWords,
 		ObscureWords:   obscureWords,
 		ExcludedWords:  excludedWords,
+		MinWordLength:  minWordLength,
+		MaxWordLength:  maxWordLength,
 		rand:           rand,
 	}
 }

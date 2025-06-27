@@ -82,6 +82,10 @@ func main() {
 		obscureWords,
 		excludedWords,
 		rand.New(randSource),
+		xw_generator.GeneratorParams{
+			MinWordLength: 3,
+			MaxWordLength: *sideLength,
+		},
 	)
 
 	ctx, cancel := context.WithTimeout(context.Background(), *timeout)
