@@ -89,11 +89,13 @@ func (s *allPossibleLineState) allPossibleLines(ctx context.Context, atLength in
 	// _ _ _ _ _ _ _ _ _ _
 	//       ^     ^
 	// Blockage can be anywhere etween idx 3 and len-4 (inclusive).
-	if atLength >= 7 {
+	betweenIdxStart := s.minWordLength
+	betweenIdxFromEnd := (1 + s.minWordLength)
+	if atLength >= (betweenIdxStart + betweenIdxFromEnd) {
 		blockBetweenPossibilities = make([]primitives.PossibleLines, 0, atLength-6)
-		for i := 3; i <= atLength-4; i++ {
-			firstLength := i                   // Always >= 3.
-			secondLength := atLength - (i + 1) // Always >= 3.
+		for i := betweenIdxStart; i <= atLength-betweenIdxFromEnd; i++ {
+			firstLength := i                   // Always >= minWordLength.
+			secondLength := atLength - (i + 1) // Always >= minWordLength.
 
 			blockBetweenPossibilities = append(blockBetweenPossibilities, primitives.MakeBlockBetween(
 				s.allPossibleLines(ctx, firstLength),
@@ -173,7 +175,7 @@ func AllPossibleLines(ctx context.Context, p AllPossibleLinesParams) (primitives
 		state.obscureWordsByLength[len(word)] = append(state.obscureWordsByLength[len(word)], word)
 	}
 
-	for i := 3; i <= params.lineLength; i++ {
+	for i := params.minWordLength; i <= params.lineLength; i++ {
 		if _, ok := state.preferredWordsByLength[i]; !ok {
 			state.preferredWordsByLength[i] = []string{}
 		}
