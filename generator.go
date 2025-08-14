@@ -125,12 +125,12 @@ func (s gridState) getUndecidedIndexAcross() *int {
 	return getUndecidedIndexWLOG(s.across, s.rand)
 }
 
-func prefilter(ctx context.Context, s gridState, dir Direction) gridState {
+func prefilter(ctx context.Context, s gridState, dir Direction) (gridState, bool) {
 	if slices.ContainsFunc(s.down, impossible) || slices.ContainsFunc(s.across, impossible) {
-		return s
+		return s, false
 	}
 	if ctx.Err() != nil {
-		return s
+		return s, false
 	}
 
 	var toFilter, constraint []primitives.PossibleLines
@@ -156,6 +156,7 @@ func prefilter(ctx context.Context, s gridState, dir Direction) gridState {
 		}
 	}
 
+	anyChanged := false
 	for j := range toFilter {
 		tf := toFilter[j]
 
@@ -172,16 +173,20 @@ func prefilter(ctx context.Context, s gridState, dir Direction) gridState {
 			continue
 		}
 
+		newTf := tf
 		for i := range tf.NumLetters() {
-			tf = tf.FilterAny(&available[i][j], i)
+			newTf = newTf.FilterAny(&available[i][j], i)
 		}
-		toFilter[j] = tf
+		if newTf != tf {
+			anyChanged = true
+			toFilter[j] = newTf
+		}
 	}
 
 	if dir == DirectionHorizontal {
-		return gridState{across: toFilter, down: constraint, rand: s.rand}
+		return gridState{across: toFilter, down: constraint, rand: s.rand}, anyChanged
 	} else {
-		return gridState{down: toFilter, across: constraint, rand: s.rand}
+		return gridState{down: toFilter, across: constraint, rand: s.rand}, anyChanged
 	}
 }
 
@@ -278,8 +283,8 @@ func possibleGridsAtRoot(ctx context.Context, root *gridState) iter.Seq[Grid] {
 		// Prefilter
 		direction := DirectionHorizontal
 		for try := range 4 {
-			newState := prefilter(ctx, *root, direction)
-			if !changed(root, &newState) && try > 1 {
+			newState, changed := prefilter(ctx, *root, direction)
+			if !changed && try > 1 {
 				break
 			}
 
@@ -527,6 +532,7 @@ func iterateAllPossibleGrids(ctx context.Context, root *gridState, index int, di
 						if slices.Equal(f.Line, s.Line) {
 							duplicate = true
 							break
+
 						}
 					}
 					if duplicate {
