@@ -104,9 +104,9 @@ func TestImpossible(t *testing.T) {
 }
 
 func TestWords_FilterAny(t *testing.T) {
-	p1 := MakeWords([]string{"ab"}, []string{})
-	p2 := MakeWords([]string{"ac"}, []string{})
-	p12 := MakeWords([]string{"ab", "ac"}, []string{})
+	p1 := MakeWords([]string{"ab"}, []string{}, 2)
+	p2 := MakeWords([]string{"ac"}, []string{}, 2)
+	p12 := MakeWords([]string{"ab", "ac"}, []string{}, 2)
 
 	csa := DefaultCharSet()
 	csa.Add('a')
@@ -147,14 +147,14 @@ func TestWords(t *testing.T) {
 	// Test MakeWords
 	t.Run("MakeWords", func(t *testing.T) {
 		t.Run("EmptyPreferredAndObscure", func(t *testing.T) {
-			pl := MakeWords([]string{}, []string{})
+			pl := MakeWords([]string{}, []string{}, 2)
 			if !isActuallyImpossible(pl) {
 				t.Errorf("MakeWords with empty slices should return Impossible, got %T", pl)
 			}
 		})
 
 		t.Run("SinglePreferredWord", func(t *testing.T) {
-			pl := MakeWords([]string{"apple"}, []string{})
+			pl := MakeWords([]string{"apple"}, []string{}, 5)
 			if _, ok := pl.(*Definite); !ok {
 				t.Errorf("MakeWords with single preferred word should return Definite, got %T", pl)
 			}
@@ -164,7 +164,7 @@ func TestWords(t *testing.T) {
 		})
 
 		t.Run("SingleObscureWord", func(t *testing.T) {
-			pl := MakeWords([]string{}, []string{"banana"})
+			pl := MakeWords([]string{}, []string{"banana"}, 6)
 			if _, ok := pl.(*Definite); !ok {
 				t.Errorf("MakeWords with single obscure word should return Definite, got %T", pl)
 			}
@@ -184,7 +184,7 @@ func TestWords(t *testing.T) {
 			{"one preferred, one obscure", []string{"apple"}, []string{"bobby"}, 5},
 		} {
 			t.Run(tc.name, func(t *testing.T) {
-				pl := MakeWords(tc.preferred, tc.obscure)
+				pl := MakeWords(tc.preferred, tc.obscure, 999)
 				if _, ok := pl.(*Words); !ok {
 					t.Errorf("MakeWords with %s should return Words, got %T", tc.name, pl)
 				}
@@ -198,7 +198,7 @@ func TestWords(t *testing.T) {
 	// Setup for testing Words methods
 	preferred := []string{"cat", "car"}
 	obscure := []string{"cot", "cop"}
-	wordsInstance := MakeWords(preferred, obscure)
+	wordsInstance := MakeWords(preferred, obscure, 3)
 	words, ok := wordsInstance.(*Words)
 	if !ok {
 		t.Fatalf("MakeWords did not return a *Words instance as expected for method testing, got %T. Skipping Words method tests.", wordsInstance)
@@ -246,7 +246,7 @@ func TestWords(t *testing.T) {
 			t.Errorf("Expected DefiniteWords to be nil for multiple options, got %v", words.DefiniteWords())
 		}
 		// Test DefiniteWords for a case that MakeWords returns *Definite
-		oneWordPl := MakeWords([]string{"one"}, []string{})
+		oneWordPl := MakeWords([]string{"one"}, []string{}, 3)
 		if oneWordDefinite, ok := oneWordPl.(*Definite); ok {
 			expectedDefiniteWords := []string{"one"}
 			actualDefiniteWords := oneWordDefinite.DefiniteWords()
@@ -357,7 +357,7 @@ func TestWords(t *testing.T) {
 
 	t.Run("MakeChoice", func(t *testing.T) {
 		t.Run("SimpleSplitPreferred", func(t *testing.T) {
-			wordsToSplitInstance := MakeWords([]string{"aaaa", "bbbb"}, []string{})
+			wordsToSplitInstance := MakeWords([]string{"aaaa", "bbbb"}, []string{}, 4)
 			wordsToSplit, ok := wordsToSplitInstance.(*Words)
 			if !ok {
 				t.Fatalf("MakeWords for MakeChoice test did not return *Words, got %T", wordsToSplitInstance)
@@ -372,7 +372,7 @@ func TestWords(t *testing.T) {
 		})
 
 		t.Run("PreferredAndObscureSplit", func(t *testing.T) {
-			wordsMixedSplitInstance := MakeWords([]string{"pref"}, []string{"obsc"})
+			wordsMixedSplitInstance := MakeWords([]string{"pref"}, []string{"obsc"}, 4)
 			wordsMixedSplit, ok := wordsMixedSplitInstance.(*Words)
 			if !ok {
 				t.Fatalf("MakeWords for mixed MakeChoice test did not return *Words, got %T", wordsMixedSplitInstance)
@@ -388,7 +388,7 @@ func TestWords(t *testing.T) {
 		})
 
 		t.Run("PanicOnSingleFilteredWord", func(t *testing.T) {
-			wordsSingleFilteredInstance := MakeWords([]string{"onlyone", "another"}, []string{})
+			wordsSingleFilteredInstance := MakeWords([]string{"onlyone", "another"}, []string{}, 8)
 			wordsSingleFiltered, ok := wordsSingleFilteredInstance.(*Words)
 			if !ok {
 				t.Fatalf("MakeWords for panic test did not return *Words, got %T", wordsSingleFilteredInstance)
@@ -619,7 +619,7 @@ func TestDefinite(t *testing.T) {
 }
 
 func TestBlockBefore(t *testing.T) {
-	innerWord := MakeWords([]string{"hi"}, []string{})
+	innerWord := MakeWords([]string{"hi"}, []string{}, 2)
 	bb := MakeBlockBefore(innerWord)
 
 	t.Run("Properties", func(t *testing.T) {
@@ -686,7 +686,7 @@ func TestBlockBefore(t *testing.T) {
 			}
 		})
 		t.Run("with inner Words", func(t *testing.T) {
-			if MakeBlockBefore(MakeWords([]string{"hi", "ho"}, []string{})).DefiniteWords() != nil {
+			if MakeBlockBefore(MakeWords([]string{"hi", "ho"}, []string{}, 2)).DefiniteWords() != nil {
 				t.Errorf("Expected DefiniteWords nil for BlockBefore(Words)")
 			}
 		})
@@ -775,7 +775,7 @@ func TestBlockBefore(t *testing.T) {
 	})
 
 	t.Run("RemoveWordOption", func(t *testing.T) {
-		bbWords := MakeBlockBefore(MakeWords([]string{"cat", "dog"}, []string{}))
+		bbWords := MakeBlockBefore(MakeWords([]string{"cat", "dog"}, []string{}, 3))
 		t.Run("remove existing inner word", func(t *testing.T) {
 			removedCAT := bbWords.RemoveWordOption("cat")
 			if removedCAT.MaxPossibilities() != 1 {
@@ -803,7 +803,7 @@ func TestBlockBefore(t *testing.T) {
 	})
 
 	t.Run("Iterate", func(t *testing.T) {
-		innerWordsIter := MakeWords([]string{"ab", "cd"}, []string{})
+		innerWordsIter := MakeWords([]string{"ab", "cd"}, []string{}, 2)
 		bbIter := MakeBlockBefore(innerWordsIter)
 		iteratedCount := 0
 		expectedLines := map[string]bool{
@@ -824,7 +824,7 @@ func TestBlockBefore(t *testing.T) {
 	})
 
 	t.Run("MakeChoice", func(t *testing.T) {
-		innerChoice := MakeWords([]string{"one", "two"}, []string{"tri"})
+		innerChoice := MakeWords([]string{"one", "two"}, []string{"tri"}, 3)
 		bbChoice := MakeBlockBefore(innerChoice)
 		choiceStep := bbChoice.MakeChoice()
 
@@ -862,7 +862,7 @@ func TestBlockBefore(t *testing.T) {
 }
 
 func TestBlockAfter(t *testing.T) {
-	innerWord := MakeWords([]string{"hi"}, []string{})
+	innerWord := MakeWords([]string{"hi"}, []string{}, 2)
 	ba := MakeBlockAfter(innerWord)
 	innerNumLetters := innerWord.NumLetters()
 
@@ -937,7 +937,7 @@ func TestBlockAfter(t *testing.T) {
 			}
 		})
 		t.Run("with inner Words", func(t *testing.T) {
-			if MakeBlockAfter(MakeWords([]string{"hi", "ho"}, []string{})).DefiniteWords() != nil {
+			if MakeBlockAfter(MakeWords([]string{"hi", "ho"}, []string{}, 2)).DefiniteWords() != nil {
 				t.Errorf("Expected DefiniteWords nil for BlockAfter(Words)")
 			}
 		})
@@ -1030,7 +1030,7 @@ func TestBlockAfter(t *testing.T) {
 	})
 
 	t.Run("RemoveWordOption", func(t *testing.T) {
-		baWords := MakeBlockAfter(MakeWords([]string{"cat", "dog"}, []string{}))
+		baWords := MakeBlockAfter(MakeWords([]string{"cat", "dog"}, []string{}, 3))
 		t.Run("remove existing inner word", func(t *testing.T) {
 			removedCAT := baWords.RemoveWordOption("cat")
 			if removedCAT.MaxPossibilities() != 1 {
@@ -1058,7 +1058,7 @@ func TestBlockAfter(t *testing.T) {
 	})
 
 	t.Run("Iterate", func(t *testing.T) {
-		innerWordsIter := MakeWords([]string{"ab", "cd"}, []string{})
+		innerWordsIter := MakeWords([]string{"ab", "cd"}, []string{}, 2)
 		baIter := MakeBlockAfter(innerWordsIter)
 		iteratedCount := 0
 		expectedLines := map[string]bool{
@@ -1079,7 +1079,7 @@ func TestBlockAfter(t *testing.T) {
 	})
 
 	t.Run("MakeChoice", func(t *testing.T) {
-		innerChoice := MakeWords([]string{"one", "two"}, []string{"tri"})
+		innerChoice := MakeWords([]string{"one", "two"}, []string{"tri"}, 3)
 		baChoice := MakeBlockAfter(innerChoice)
 		choiceStep := baChoice.MakeChoice()
 
@@ -1117,8 +1117,8 @@ func TestBlockAfter(t *testing.T) {
 }
 
 func TestBlockBetween(t *testing.T) {
-	firstInner := MakeWords([]string{"ab"}, []string{})
-	secondInner := MakeWords([]string{"cd"}, []string{})
+	firstInner := MakeWords([]string{"ab"}, []string{}, 2)
+	secondInner := MakeWords([]string{"cd"}, []string{}, 2)
 	bb := MakeBlockBetween(firstInner, secondInner)
 
 	firstLen := firstInner.NumLetters()
@@ -1270,7 +1270,7 @@ func TestBlockBetween(t *testing.T) {
 	})
 
 	t.Run("RemoveWordOption", func(t *testing.T) {
-		bbComplex := MakeBlockBetween(MakeWords([]string{"one", "two"}, []string{}), MakeWords([]string{"three"}, []string{}))
+		bbComplex := MakeBlockBetween(MakeWords([]string{"one", "two"}, []string{}, 2), MakeWords([]string{"three"}, []string{}, 2))
 
 		t.Run("remove from first part", func(t *testing.T) {
 			removedONE := bbComplex.RemoveWordOption("one")
@@ -1317,8 +1317,8 @@ func TestBlockBetween(t *testing.T) {
 	})
 
 	t.Run("Iterate", func(t *testing.T) {
-		iterFirst := MakeWords([]string{"X", "Y"}, []string{})
-		iterSecond := MakeWords([]string{"Z"}, []string{})
+		iterFirst := MakeWords([]string{"X", "Y"}, []string{}, 2)
+		iterSecond := MakeWords([]string{"Z"}, []string{}, 1)
 		bbIter := MakeBlockBetween(iterFirst, iterSecond)
 		iteratedCount := 0
 		expectedIterLines := map[string]bool{
@@ -1341,7 +1341,7 @@ func TestBlockBetween(t *testing.T) {
 	t.Run("MakeChoice", func(t *testing.T) {
 		// Case 1: First part has choices
 		t.Run("first part choices", func(t *testing.T) {
-			choiceFirstInner := MakeWords([]string{"F1", "F2"}, []string{})
+			choiceFirstInner := MakeWords([]string{"F1", "F2"}, []string{}, 2)
 			bbChoice1 := MakeBlockBetween(choiceFirstInner, secondInner) // secondInner is ("cd")
 			cs1 := bbChoice1.MakeChoice()
 			if cs1.Choice.FirstOrNull() == nil || string(cs1.Choice.FirstOrNull().Line) != "F1"+string(kBlocked)+"cd" {
@@ -1354,7 +1354,7 @@ func TestBlockBetween(t *testing.T) {
 
 		// Case 2: First part no choice, second part has choices
 		t.Run("second part choices", func(t *testing.T) {
-			choiceSecondInner := MakeWords([]string{"S1", "S2"}, []string{})
+			choiceSecondInner := MakeWords([]string{"S1", "S2"}, []string{}, 2)
 			bbChoice2 := MakeBlockBetween(firstInner, choiceSecondInner) // firstInner is ("ab")
 			cs2 := bbChoice2.MakeChoice()
 			if cs2.Choice.FirstOrNull() == nil || string(cs2.Choice.FirstOrNull().Line) != "ab"+string(kBlocked)+"S1" {
@@ -1411,9 +1411,9 @@ func TestCompound(t *testing.T) {
 		})
 
 		t.Run("flattening and impossible removal", func(t *testing.T) {
-			w1 := MakeWords([]string{"wa"}, []string{})
-			w2 := MakeWords([]string{"wb"}, []string{})
-			w3 := MakeWords([]string{"wc"}, []string{})
+			w1 := MakeWords([]string{"wa"}, []string{}, 2)
+			w2 := MakeWords([]string{"wb"}, []string{}, 2)
+			w3 := MakeWords([]string{"wc"}, []string{}, 2)
 			// nestedCompound will resolve to w2, as MakeCompound with {w2, Impossible} becomes w2.
 			nestedCompound := MakeCompound([]PossibleLines{w2, MakeImpossible(2)})
 			flat := MakeCompound([]PossibleLines{w1, MakeImpossible(1), nestedCompound, w3})
@@ -1434,8 +1434,8 @@ func TestCompound(t *testing.T) {
 	})
 
 	// Setup a basic compound for further tests
-	p1 := MakeWords([]string{"ab"}, []string{})
-	p2 := MakeWords([]string{"ac"}, []string{})
+	p1 := MakeWords([]string{"ab"}, []string{}, 2)
+	p2 := MakeWords([]string{"ac"}, []string{}, 2)
 	// This should result in a *Compound type because p1 and p2 are distinct non-Impossible PossibleLines.
 	compoundInstance := MakeCompound([]PossibleLines{p1, p2})
 	compound, ok := compoundInstance.(*Compound)
@@ -1482,9 +1482,9 @@ func TestCompound(t *testing.T) {
 	})
 
 	t.Run("DefinitelyBlockedAt", func(t *testing.T) {
-		pBlock1 := MakeBlockBefore(MakeWords([]string{"X"}, []string{}))
-		pBlock2 := MakeBlockBefore(MakeWords([]string{"Y"}, []string{}))
-		pNonBlock := MakeWords([]string{"ab"}, []string{})
+		pBlock1 := MakeBlockBefore(MakeWords([]string{"X"}, []string{}, 1))
+		pBlock2 := MakeBlockBefore(MakeWords([]string{"Y"}, []string{}, 1))
+		pNonBlock := MakeWords([]string{"ab"}, []string{}, 2)
 
 		testCases := []struct {
 			name          string
@@ -1513,7 +1513,7 @@ func TestCompound(t *testing.T) {
 			t.Errorf("Expected DefiniteWords nil for a compound with multiple different words, got %v", compound.DefiniteWords())
 		}
 		// Case where MakeCompound might simplify to a Definite if all constituents are the same word
-		sameWord1 := MakeWords([]string{"same"}, []string{})
+		sameWord1 := MakeWords([]string{"same"}, []string{}, 4)
 		sameWord2 := MakeDefinite(ConcreteLine{Line: []rune("same"), Words: []string{"same"}})
 		compoundSame := MakeCompound([]PossibleLines{sameWord1, sameWord2})
 		if compoundSameDefinite, ok := compoundSame.(*Definite); ok {
@@ -1607,9 +1607,9 @@ func TestCompound(t *testing.T) {
 
 	t.Run("RemoveWordOption", func(t *testing.T) {
 		compoundForRemove := MakeCompound([]PossibleLines{
-			MakeWords([]string{"one"}, []string{}),
-			MakeWords([]string{"two"}, []string{}),
-			MakeWords([]string{"one"}, []string{}), // Duplicate to test removal from all
+			MakeWords([]string{"one"}, []string{}, 3),
+			MakeWords([]string{"two"}, []string{}, 3),
+			MakeWords([]string{"one"}, []string{}, 3), // Duplicate to test removal from all
 		}).(*Compound) // This setup should remain a Compound
 
 		t.Run("remove existing word", func(t *testing.T) {
@@ -1649,8 +1649,8 @@ func TestCompound(t *testing.T) {
 	})
 
 	t.Run("Iterate", func(t *testing.T) {
-		iterP1 := MakeWords([]string{"X1", "X2"}, []string{})
-		iterP2 := MakeWords([]string{"Y1"}, []string{})
+		iterP1 := MakeWords([]string{"X1", "X2"}, []string{}, 2)
+		iterP2 := MakeWords([]string{"Y1"}, []string{}, 2)
 		compoundIter := MakeCompound([]PossibleLines{iterP1, iterP2}).(*Compound)
 
 		actualLines := collectLines(compoundIter)
@@ -1670,10 +1670,10 @@ func TestCompound(t *testing.T) {
 	})
 
 	t.Run("MakeChoice", func(t *testing.T) {
-		cpChoice1 := MakeWords([]string{"C1"}, []string{})
-		cpChoice2 := MakeWords([]string{"C2"}, []string{})
-		cpChoice3 := MakeWords([]string{"C3"}, []string{})
-		cpChoice4 := MakeWords([]string{"C4"}, []string{})
+		cpChoice1 := MakeWords([]string{"C1"}, []string{}, 2)
+		cpChoice2 := MakeWords([]string{"C2"}, []string{}, 2)
+		cpChoice3 := MakeWords([]string{"C3"}, []string{}, 2)
+		cpChoice4 := MakeWords([]string{"C4"}, []string{}, 2)
 		// This setup will result in a *Compound
 		compoundToChooseInstance := MakeCompound([]PossibleLines{cpChoice1, cpChoice2, cpChoice3, cpChoice4})
 		compoundToChoose, ok := compoundToChooseInstance.(*Compound)

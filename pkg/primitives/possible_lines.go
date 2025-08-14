@@ -138,9 +138,9 @@ type Words struct {
 	obscure   []string
 }
 
-func MakeWords(preferred, obscure []string) PossibleLines {
+func MakeWords(preferred, obscure []string, numLetters int) PossibleLines {
 	if len(preferred) == 0 && len(obscure) == 0 {
-		return MakeImpossible(0)
+		return MakeImpossible(numLetters)
 	}
 	if len(preferred) == 1 && len(obscure) == 0 {
 		return MakeDefinite(ConcreteLine{Line: []rune(preferred[0]), Words: []string{preferred[0]}})
@@ -228,10 +228,7 @@ func (w *Words) FilterAny(constraint *CharSet, index int) PossibleLines {
 		return w
 	}
 
-	if (lenPref + lenObsc) == 0 {
-		return MakeImpossible(w.NumLetters())
-	}
-	return MakeWords(filteredPreferred, filteredObscure)
+	return MakeWords(filteredPreferred, filteredObscure, w.NumLetters())
 }
 
 func (w *Words) Filter(constraint rune, index int) PossibleLines {
@@ -264,10 +261,8 @@ func (w *Words) Filter(constraint rune, index int) PossibleLines {
 			filteredObscure = append(filteredObscure, word)
 		}
 	}
-	if len(filteredPreferred) == 0 && len(filteredObscure) == 0 {
-		return MakeImpossible(w.NumLetters())
-	}
-	return MakeWords(filteredPreferred, filteredObscure)
+
+	return MakeWords(filteredPreferred, filteredObscure, w.NumLetters())
 }
 
 func (w *Words) RemoveWordOption(word string) PossibleLines {
@@ -281,19 +276,35 @@ func (w *Words) RemoveWordOption(word string) PossibleLines {
 		return w
 	}
 
-	fp := make([]string, 0, len(w.preferred))
-	fo := make([]string, 0, len(w.obscure))
-	for _, p := range w.preferred {
-		if p != word {
-			fp = append(fp, p)
+	var fp, fo []string
+
+	if slices.Contains(w.preferred, word) {
+		if len(w.preferred) > 1 {
+			fp = make([]string, 0, len(w.preferred)-1)
+			for _, p := range w.preferred {
+				if p != word {
+					fp = append(fp, p)
+				}
+			}
 		}
+	} else {
+		fp = w.preferred
 	}
-	for _, o := range w.obscure {
-		if o != word {
-			fo = append(fo, o)
+
+	if slices.Contains(w.obscure, word) {
+		if len(w.obscure) > 1 {
+			fo = make([]string, 0, len(w.obscure)-1)
+			for _, o := range w.obscure {
+				if o != word {
+					fo = append(fo, o)
+				}
+			}
 		}
+	} else {
+		fo = w.obscure
 	}
-	return MakeWords(fp, fo)
+
+	return MakeWords(fp, fo, w.NumLetters())
 }
 
 func (w *Words) FirstOrNull() *ConcreteLine {
@@ -350,8 +361,8 @@ func (w *Words) MakeChoice() ChoiceStep {
 	pref1, pref2 := w.preferred[:len(w.preferred)/2], w.preferred[len(w.preferred)/2:]
 	obsc1, obsc2 := w.obscure[:len(w.obscure)/2], w.obscure[len(w.obscure)/2:]
 
-	choice := MakeWords(pref1, obsc1)
-	remaining := MakeWords(pref2, obsc2)
+	choice := MakeWords(pref1, obsc1, w.NumLetters())
+	remaining := MakeWords(pref2, obsc2, w.NumLetters())
 
 	return ChoiceStep{Choice: choice, Remaining: remaining}
 }
@@ -418,7 +429,7 @@ func (b *BlockBefore) DefiniteWords() []string {
 
 func (b *BlockBefore) build(inner PossibleLines) PossibleLines {
 	if isImpossible(inner) {
-		return MakeImpossible(b.NumLetters() + 1)
+		return MakeImpossible(b.NumLetters())
 	}
 	if inner == b.lines {
 		return b
@@ -532,7 +543,7 @@ func (b *BlockAfter) DefiniteWords() []string {
 
 func (b *BlockAfter) build(inner PossibleLines) PossibleLines {
 	if isImpossible(inner) {
-		return MakeImpossible(b.NumLetters() + 1)
+		return MakeImpossible(b.NumLetters())
 	}
 	if inner == b.lines {
 		return b

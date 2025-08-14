@@ -79,7 +79,7 @@ func (s *allPossibleLineState) allPossibleLines(ctx context.Context, atLength in
 		return primitives.MakeImpossible(atLength)
 	}
 
-	words := primitives.MakeWords(s.preferredWordsByLength[atLength], s.obscureWordsByLength[atLength])
+	words := primitives.MakeWords(s.preferredWordsByLength[atLength], s.obscureWordsByLength[atLength], atLength)
 
 	var blockBetweenPossibilities []primitives.PossibleLines
 	// recurse into all combination of [ANYTHING]*[ANYTHING]
