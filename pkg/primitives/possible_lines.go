@@ -51,8 +51,8 @@ type PossibleLines interface {
 	// character at the given index.
 	Filter(constraint rune, index int) PossibleLines
 
-	// RemoveWordOption strips the possible lines to no longer include a given word.
-	RemoveWordOption(word string) PossibleLines
+	// RemoveWordOptions strips the possible lines to no longer include a given set of word.
+	RemoveWordOptions(word []string) PossibleLines
 
 	// Iterate returns a sequence of all possible lines.
 	Iterate() iter.Seq[ConcreteLine]
@@ -101,7 +101,7 @@ func (i *Impossible) Filter(constraint rune, index int) PossibleLines {
 	return i
 }
 
-func (i *Impossible) RemoveWordOption(word string) PossibleLines {
+func (i *Impossible) RemoveWordOptions(words []string) PossibleLines {
 	return i
 }
 
@@ -265,24 +265,33 @@ func (w *Words) Filter(constraint rune, index int) PossibleLines {
 	return MakeWords(filteredPreferred, filteredObscure, w.NumLetters())
 }
 
-func (w *Words) RemoveWordOption(word string) PossibleLines {
-	if len(word) != w.NumLetters() {
-		return w
-	}
+func (w *Words) RemoveWordOptions(words []string) PossibleLines {
+	// Figure out if any (or both) lists need filtering. For any that doesn't,
+	// we don't need to allocate a new list.
+	prefNeedsFiltering := slices.ContainsFunc(words, func(word string) bool {
+		if len(word) != w.NumLetters() {
+			return false
+		}
+		return slices.Contains(w.preferred, word)
+	})
+	obscNeedsFiltering := slices.ContainsFunc(words, func(word string) bool {
+		if len(word) != w.NumLetters() {
+			return false
+		}
+		return slices.Contains(w.obscure, word)
+	})
 
-	// If word is not in either list, return w,
-	// otherwise, we trim it either/both lists.
-	if !slices.Contains(w.preferred, word) && !slices.Contains(w.obscure, word) {
+	if !prefNeedsFiltering && !obscNeedsFiltering {
 		return w
 	}
 
 	var fp, fo []string
 
-	if slices.Contains(w.preferred, word) {
+	if prefNeedsFiltering {
 		if len(w.preferred) > 1 {
 			fp = make([]string, 0, len(w.preferred)-1)
 			for _, p := range w.preferred {
-				if p != word {
+				if !slices.Contains(words, p) {
 					fp = append(fp, p)
 				}
 			}
@@ -291,11 +300,11 @@ func (w *Words) RemoveWordOption(word string) PossibleLines {
 		fp = w.preferred
 	}
 
-	if slices.Contains(w.obscure, word) {
+	if obscNeedsFiltering {
 		if len(w.obscure) > 1 {
 			fo = make([]string, 0, len(w.obscure)-1)
 			for _, o := range w.obscure {
-				if o != word {
+				if !slices.Contains(words, o) {
 					fo = append(fo, o)
 				}
 			}
@@ -461,12 +470,8 @@ func (b *BlockBefore) Filter(constraint rune, index int) PossibleLines {
 	return b.build(b.lines.Filter(constraint, index-1))
 }
 
-func (b *BlockBefore) RemoveWordOption(word string) PossibleLines {
-	if len(word) > b.lines.NumLetters() {
-		return b
-	}
-
-	return b.build(b.lines.RemoveWordOption(word))
+func (b *BlockBefore) RemoveWordOptions(words []string) PossibleLines {
+	return b.build(b.lines.RemoveWordOptions(words))
 }
 
 func (b *BlockBefore) FirstOrNull() *ConcreteLine {
@@ -575,12 +580,8 @@ func (b *BlockAfter) Filter(constraint rune, index int) PossibleLines {
 	return b.build(b.lines.Filter(constraint, index))
 }
 
-func (b *BlockAfter) RemoveWordOption(word string) PossibleLines {
-	if len(word) > b.lines.NumLetters() {
-		return b
-	}
-
-	return b.build(b.lines.RemoveWordOption(word))
+func (b *BlockAfter) RemoveWordOptions(words []string) PossibleLines {
+	return b.build(b.lines.RemoveWordOptions(words))
 }
 
 func (b *BlockAfter) FirstOrNull() *ConcreteLine {
@@ -713,12 +714,8 @@ func (b *BlockBetween) Filter(constraint rune, index int) PossibleLines {
 	return b.build(f, s)
 }
 
-func (b *BlockBetween) RemoveWordOption(word string) PossibleLines {
-	if len(word) > b.first.NumLetters() && len(word) > b.second.NumLetters() {
-		return b
-	}
-
-	return b.build(b.first.RemoveWordOption(word), b.second.RemoveWordOption(word))
+func (b *BlockBetween) RemoveWordOptions(words []string) PossibleLines {
+	return b.build(b.first.RemoveWordOptions(words), b.second.RemoveWordOptions(words))
 }
 
 func (b *BlockBetween) FirstOrNull() *ConcreteLine {
@@ -770,9 +767,9 @@ type Compound struct {
 	possibilities []PossibleLines
 }
 
-func MakeCompound(possibilities []PossibleLines) PossibleLines {
+func MakeCompound(possibilities []PossibleLines, numLetters int) PossibleLines {
 	if len(possibilities) == 0 {
-		return MakeImpossible(0)
+		return MakeImpossible(numLetters)
 	}
 	if len(possibilities) == 1 {
 		return possibilities[0]
@@ -787,19 +784,31 @@ func MakeCompound(possibilities []PossibleLines) PossibleLines {
 		}
 		return false
 	}) {
-		filtered := make([]PossibleLines, 0, len(possibilities))
+		// Precompute the length so we can allocate in one go.
+		length := 0
 		for _, p := range possibilities {
 			if isImpossible(p) {
 				continue
 			}
-			c, ok := p.(*Compound)
-			if ok {
-				filtered = append(filtered, c.possibilities...)
+			if c, ok := p.(*Compound); ok {
+				length += len(c.possibilities)
 			} else {
-				filtered = append(filtered, p)
+				length++
 			}
 		}
-		return MakeCompound(filtered)
+
+		filtered := make([]PossibleLines, 0, length)
+		for _, p := range possibilities {
+			if isImpossible(p) {
+				continue
+			}
+			if c, ok := p.(*Compound); ok {
+				filtered = append(filtered, c.possibilities...)
+			} else {
+				filtered = append(filtered, p) // This is the only case where we're not a compound.
+			}
+		}
+		return MakeCompound(filtered, numLetters)
 	}
 
 	return &Compound{possibilities: possibilities}
@@ -878,7 +887,7 @@ func (c *Compound) FilterAny(constraint *CharSet, index int) PossibleLines {
 	if len(filtered) == 1 {
 		return filtered[0]
 	}
-	return MakeCompound(filtered)
+	return MakeCompound(filtered, c.NumLetters())
 }
 
 func (c *Compound) Filter(constraint rune, index int) PossibleLines {
@@ -906,10 +915,7 @@ func (c *Compound) Filter(constraint rune, index int) PossibleLines {
 		return c
 	}
 
-	if len(filtered) == 0 {
-		return MakeImpossible(c.NumLetters())
-	}
-	return MakeCompound(filtered)
+	return MakeCompound(filtered, c.NumLetters())
 }
 
 func isImpossible(p PossibleLines) bool {
@@ -917,24 +923,34 @@ func isImpossible(p PossibleLines) bool {
 	return isImpossible
 }
 
-func (c *Compound) RemoveWordOption(word string) PossibleLines {
-	filtered := make([]PossibleLines, 0, len(c.possibilities))
-	for _, p := range c.possibilities {
-		f := p.RemoveWordOption(word)
-		if isImpossible(f) {
+func (c *Compound) RemoveWordOptions(words []string) PossibleLines {
+	anyChanged := false
+	var maybeFiltered []PossibleLines
+	for i, p := range c.possibilities {
+		f := p.RemoveWordOptions(words)
+		if f == p && !anyChanged {
+			// No filtering has occurred before and still no filtering is needed.
 			continue
 		}
-		filtered = append(filtered, f)
+
+		if f != p && !anyChanged {
+			// We are the first to change.
+			anyChanged = true
+			if i > 0 {
+				maybeFiltered = c.possibilities[:i]
+			}
+		}
+
+		if !isImpossible(f) {
+			maybeFiltered = append(maybeFiltered, f)
+		}
 	}
 
-	if len(filtered) == 0 {
-		return MakeImpossible(c.NumLetters())
+	if !anyChanged {
+		return c
 	}
 
-	if len(filtered) == 1 {
-		return filtered[0]
-	}
-	return MakeCompound(filtered)
+	return MakeCompound(maybeFiltered, c.NumLetters())
 }
 
 func (c *Compound) FirstOrNull() *ConcreteLine {
@@ -969,8 +985,8 @@ func (c *Compound) MakeChoice() ChoiceStep {
 	choice, remaining := c.possibilities[:len(c.possibilities)/2], c.possibilities[len(c.possibilities)/2:]
 
 	return ChoiceStep{
-		Choice:    MakeCompound(choice),
-		Remaining: MakeCompound(remaining),
+		Choice:    MakeCompound(choice, c.NumLetters()),
+		Remaining: MakeCompound(remaining, c.NumLetters()),
 	}
 }
 
@@ -1025,12 +1041,13 @@ func (d *Definite) Filter(constraint rune, index int) PossibleLines {
 	return MakeImpossible(d.NumLetters())
 }
 
-func (d *Definite) RemoveWordOption(word string) PossibleLines {
-	if len(word) > len(d.line.Line) {
-		return d
-	}
-
-	if slices.Contains(d.line.Words, word) {
+func (d *Definite) RemoveWordOptions(words []string) PossibleLines {
+	if slices.ContainsFunc(words, func(word string) bool {
+		if len(word) != d.NumLetters() {
+			return false
+		}
+		return slices.Contains(d.line.Words, word)
+	}) {
 		return MakeImpossible(d.NumLetters())
 	}
 	return d

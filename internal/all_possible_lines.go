@@ -132,7 +132,7 @@ func (s *allPossibleLineState) allPossibleLines(ctx context.Context, atLength in
 	if len(blockBetweenPossibilities) > 0 {
 		allPossibilities = append(allPossibilities, blockBetweenPossibilities...)
 	}
-	compound := primitives.MakeCompound(allPossibilities)
+	compound := primitives.MakeCompound(allPossibilities, atLength)
 	s.memoizedLines[atLength] = compound
 	return compound
 }

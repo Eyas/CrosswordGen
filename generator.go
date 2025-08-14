@@ -599,7 +599,7 @@ func iterateAllPossibleGrids(ctx context.Context, root *gridState, index int, di
 				// only include cases where col[i]'s |attempt|th character == attempt[i].
 				var constriant = attempt.Line[i]
 
-				attemptOpposite[i] = removeWordOptions(attempt.Words, attemptOpposite[i]).Filter(constriant, index)
+				attemptOpposite[i] = attemptOpposite[i].RemoveWordOptions(attempt.Words).Filter(constriant, index)
 
 				if attemptOpposite[i].MaxPossibilities() == 1 {
 					ao := attemptOpposite[i].FirstOrNull()
@@ -619,7 +619,7 @@ func iterateAllPossibleGrids(ctx context.Context, root *gridState, index int, di
 					if idx == index {
 						return primitives.MakeDefinite(attempt)
 					}
-					return removeWordOptions(attempt.Words, regular)
+					return regular.RemoveWordOptions(attempt.Words)
 				})
 
 			{
@@ -686,14 +686,4 @@ func numDefiniteBlocks(state primitives.PossibleLines) int {
 		}
 	}
 	return acc
-}
-
-func removeWordOptions(words []string, state primitives.PossibleLines) primitives.PossibleLines {
-	for _, word := range words {
-		state = state.RemoveWordOption(word)
-		if state.MaxPossibilities() == 0 {
-			return state
-		}
-	}
-	return state
 }

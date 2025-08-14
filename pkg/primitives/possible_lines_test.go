@@ -69,8 +69,8 @@ func TestImpossible(t *testing.T) {
 		}
 	})
 
-	t.Run("RemoveWordOption", func(t *testing.T) {
-		if !isActuallyImpossible(impossible.RemoveWordOption("test")) {
+	t.Run("RemoveWordOptions", func(t *testing.T) {
+		if !isActuallyImpossible(impossible.RemoveWordOptions([]string{"test"})) {
 			t.Error("Expected RemoveWordOption to return Impossible")
 		}
 	})
@@ -322,8 +322,8 @@ func TestWords(t *testing.T) {
 		}
 	})
 
-	t.Run("RemoveWordOption", func(t *testing.T) {
-		removedCAT := words.RemoveWordOption("cat")
+	t.Run("RemoveWordOptions", func(t *testing.T) {
+		removedCAT := words.RemoveWordOptions([]string{"cat"})
 		if removedCAT.MaxPossibilities() != 3 {
 			t.Errorf("RemoveWordOption(\"cat\") should leave 3 possibilities, got %d", removedCAT.MaxPossibilities())
 		}
@@ -562,19 +562,22 @@ func TestDefinite(t *testing.T) {
 		}
 	})
 
-	t.Run("RemoveWordOption", func(t *testing.T) {
+	t.Run("RemoveWordOptions", func(t *testing.T) {
 		t.Run("remove definite word", func(t *testing.T) {
-			if !isActuallyImpossible(definite.RemoveWordOption("test")) {
+			if !isActuallyImpossible(definite.RemoveWordOptions([]string{"test"})) {
+				t.Error("RemoveWordOption with the definite word should return Impossible")
+			}
+			if !isActuallyImpossible(definite.RemoveWordOptions([]string{"other", "test", "extra"})) {
 				t.Error("RemoveWordOption with the definite word should return Impossible")
 			}
 		})
 		t.Run("remove different word", func(t *testing.T) {
-			if definite.RemoveWordOption("OTHER") != definite {
+			if definite.RemoveWordOptions([]string{"OTHER"}) != definite {
 				t.Error("RemoveWordOption with a different word should return self")
 			}
 		})
 		t.Run("remove longer word", func(t *testing.T) {
-			if definite.RemoveWordOption("TESTS") != definite {
+			if definite.RemoveWordOptions([]string{"TESTS"}) != definite {
 				t.Error("RemoveWordOption with a longer word should return self")
 			}
 		})
@@ -777,7 +780,7 @@ func TestBlockBefore(t *testing.T) {
 	t.Run("RemoveWordOption", func(t *testing.T) {
 		bbWords := MakeBlockBefore(MakeWords([]string{"cat", "dog"}, []string{}, 3))
 		t.Run("remove existing inner word", func(t *testing.T) {
-			removedCAT := bbWords.RemoveWordOption("cat")
+			removedCAT := bbWords.RemoveWordOptions([]string{"cat"})
 			if removedCAT.MaxPossibilities() != 1 {
 				t.Errorf("RemoveWordOption(\"cat\") should leave 1 possibility, got %d", removedCAT.MaxPossibilities())
 			}
@@ -787,7 +790,7 @@ func TestBlockBefore(t *testing.T) {
 			}
 		})
 		t.Run("remove non-existent or too long word", func(t *testing.T) {
-			notRemoved := bbWords.RemoveWordOption("longer")
+			notRemoved := bbWords.RemoveWordOptions([]string{"longer"})
 			if notRemoved != bbWords { // Check for self, or at least equivalent content if self isn't guaranteed
 				t.Error("RemoveWordOption with word not present or too long should return self or equivalent")
 			}
@@ -1032,7 +1035,7 @@ func TestBlockAfter(t *testing.T) {
 	t.Run("RemoveWordOption", func(t *testing.T) {
 		baWords := MakeBlockAfter(MakeWords([]string{"cat", "dog"}, []string{}, 3))
 		t.Run("remove existing inner word", func(t *testing.T) {
-			removedCAT := baWords.RemoveWordOption("cat")
+			removedCAT := baWords.RemoveWordOptions([]string{"cat"})
 			if removedCAT.MaxPossibilities() != 1 {
 				t.Errorf("RemoveWordOption(\"cat\") should leave 1 possibility, got %d", removedCAT.MaxPossibilities())
 			}
@@ -1042,7 +1045,7 @@ func TestBlockAfter(t *testing.T) {
 			}
 		})
 		t.Run("remove non-existent or too long word", func(t *testing.T) {
-			notRemoved := baWords.RemoveWordOption("longer")
+			notRemoved := baWords.RemoveWordOptions([]string{"longer"})
 			if notRemoved != baWords {
 				t.Error("RemoveWordOption with word not present or too long should return self or equivalent")
 			}
@@ -1273,7 +1276,7 @@ func TestBlockBetween(t *testing.T) {
 		bbComplex := MakeBlockBetween(MakeWords([]string{"one", "two"}, []string{}, 2), MakeWords([]string{"three"}, []string{}, 2))
 
 		t.Run("remove from first part", func(t *testing.T) {
-			removedONE := bbComplex.RemoveWordOption("one")
+			removedONE := bbComplex.RemoveWordOptions([]string{"one"})
 			if removedONE.MaxPossibilities() != 1*1 { // (two) # (three)
 				t.Errorf("RemoveWordOption(\"one\") expected 1 possibility, got %d", removedONE.MaxPossibilities())
 			}
@@ -1284,14 +1287,14 @@ func TestBlockBetween(t *testing.T) {
 		})
 
 		t.Run("remove from second part making it impossible", func(t *testing.T) {
-			removedTHREE := bbComplex.RemoveWordOption("three") // (one or two) # ()
-			if !isActuallyImpossible(removedTHREE) {            // second part becomes impossible, so whole thing is
+			removedTHREE := bbComplex.RemoveWordOptions([]string{"three"}) // (one or two) # ()
+			if !isActuallyImpossible(removedTHREE) {                       // second part becomes impossible, so whole thing is
 				t.Errorf("RemoveWordOption(\"three\") should make it impossible, got %T with %d poss", removedTHREE, removedTHREE.MaxPossibilities())
 			}
 		})
 
 		t.Run("remove non-existent word", func(t *testing.T) {
-			notRemoved := bbComplex.RemoveWordOption("four")
+			notRemoved := bbComplex.RemoveWordOptions([]string{"four"})
 			if notRemoved.MaxPossibilities() != bbComplex.MaxPossibilities() || string(notRemoved.FirstOrNull().Line) != string(bbComplex.FirstOrNull().Line) {
 				// Depending on implementation, it might return self or a new equivalent object.
 				// Checking MaxPossibilities and FirstOrNull content is a robust way.
@@ -1396,7 +1399,7 @@ func TestBlockBetween(t *testing.T) {
 func TestCompound(t *testing.T) {
 	t.Run("MakeCompound", func(t *testing.T) {
 		t.Run("empty possibilities", func(t *testing.T) {
-			impossible := MakeCompound([]PossibleLines{})
+			impossible := MakeCompound([]PossibleLines{}, 2)
 			if !isActuallyImpossible(impossible) {
 				t.Errorf("MakeCompound with empty slice should return Impossible, got %T", impossible)
 			}
@@ -1404,7 +1407,7 @@ func TestCompound(t *testing.T) {
 
 		t.Run("single possibility returns self", func(t *testing.T) {
 			definiteSingle := MakeDefinite(ConcreteLine{Line: []rune("S"), Words: []string{"S"}})
-			single := MakeCompound([]PossibleLines{definiteSingle})
+			single := MakeCompound([]PossibleLines{definiteSingle}, 1)
 			if single != definiteSingle {
 				t.Errorf("MakeCompound with single item should return the item itself, got %T want %T", single, definiteSingle)
 			}
@@ -1415,8 +1418,8 @@ func TestCompound(t *testing.T) {
 			w2 := MakeWords([]string{"wb"}, []string{}, 2)
 			w3 := MakeWords([]string{"wc"}, []string{}, 2)
 			// nestedCompound will resolve to w2, as MakeCompound with {w2, Impossible} becomes w2.
-			nestedCompound := MakeCompound([]PossibleLines{w2, MakeImpossible(2)})
-			flat := MakeCompound([]PossibleLines{w1, MakeImpossible(1), nestedCompound, w3})
+			nestedCompound := MakeCompound([]PossibleLines{w2, MakeImpossible(2)}, 2)
+			flat := MakeCompound([]PossibleLines{w1, MakeImpossible(1), nestedCompound, w3}, 2)
 
 			// Expecting flat to be a *Compound containing [w1, w2, w3]
 			if compoundResult, ok := flat.(*Compound); ok {
@@ -1437,7 +1440,7 @@ func TestCompound(t *testing.T) {
 	p1 := MakeWords([]string{"ab"}, []string{}, 2)
 	p2 := MakeWords([]string{"ac"}, []string{}, 2)
 	// This should result in a *Compound type because p1 and p2 are distinct non-Impossible PossibleLines.
-	compoundInstance := MakeCompound([]PossibleLines{p1, p2})
+	compoundInstance := MakeCompound([]PossibleLines{p1, p2}, 2)
 	compound, ok := compoundInstance.(*Compound)
 	if !ok {
 		t.Fatalf("MakeCompound for basic setup did not return *Compound, got %T. Skipping remaining Compound tests.", compoundInstance)
@@ -1499,7 +1502,7 @@ func TestCompound(t *testing.T) {
 
 		for _, tc := range testCases {
 			t.Run(tc.name, func(t *testing.T) {
-				compoundMixed := MakeCompound(tc.pls)
+				compoundMixed := MakeCompound(tc.pls, 2)
 				if compoundMixed.DefinitelyBlockedAt(tc.index) != tc.expectBlocked {
 					t.Errorf("DefinitelyBlockedAt(%d) for %s case: expected %t, got %t", tc.index, tc.name, tc.expectBlocked, !tc.expectBlocked)
 				}
@@ -1515,7 +1518,7 @@ func TestCompound(t *testing.T) {
 		// Case where MakeCompound might simplify to a Definite if all constituents are the same word
 		sameWord1 := MakeWords([]string{"same"}, []string{}, 4)
 		sameWord2 := MakeDefinite(ConcreteLine{Line: []rune("same"), Words: []string{"same"}})
-		compoundSame := MakeCompound([]PossibleLines{sameWord1, sameWord2})
+		compoundSame := MakeCompound([]PossibleLines{sameWord1, sameWord2}, 4)
 		if compoundSameDefinite, ok := compoundSame.(*Definite); ok {
 			expected := []string{"same"}
 			if diff := cmp.Diff(expected, compoundSameDefinite.DefiniteWords()); diff != "" {
@@ -1610,10 +1613,10 @@ func TestCompound(t *testing.T) {
 			MakeWords([]string{"one"}, []string{}, 3),
 			MakeWords([]string{"two"}, []string{}, 3),
 			MakeWords([]string{"one"}, []string{}, 3), // Duplicate to test removal from all
-		}).(*Compound) // This setup should remain a Compound
+		}, 3).(*Compound) // This setup should remain a Compound
 
 		t.Run("remove existing word", func(t *testing.T) {
-			removedONE := compoundForRemove.RemoveWordOption("one")
+			removedONE := compoundForRemove.RemoveWordOptions([]string{"one"})
 			if removedONE.MaxPossibilities() != 1 { // Only TWO should remain
 				t.Errorf("RemoveWordOption(\"one\") expected 1 possibility, got %d", removedONE.MaxPossibilities())
 			}
@@ -1622,7 +1625,7 @@ func TestCompound(t *testing.T) {
 			}
 		})
 		t.Run("remove non-existent word", func(t *testing.T) {
-			removedTHREE := compoundForRemove.RemoveWordOption("tri")
+			removedTHREE := compoundForRemove.RemoveWordOptions([]string{"tri"})
 			if removedTHREE.MaxPossibilities() != compoundForRemove.MaxPossibilities() {
 				t.Errorf("RemoveWordOption for non-existent word changed possibilities from %d to %d", compoundForRemove.MaxPossibilities(), removedTHREE.MaxPossibilities())
 			}
@@ -1640,7 +1643,7 @@ func TestCompound(t *testing.T) {
 			}
 		})
 		t.Run("compound with impossible first element", func(t *testing.T) {
-			compoundWithImpossibleFirst := MakeCompound([]PossibleLines{MakeImpossible(2), p1}) // p1 is {"ab"}
+			compoundWithImpossibleFirst := MakeCompound([]PossibleLines{MakeImpossible(2), p1}, 2) // p1 is {"ab"}
 			// MakeCompound should simplify this to just p1.
 			if compoundWithImpossibleFirst.FirstOrNull() == nil || string(compoundWithImpossibleFirst.FirstOrNull().Line) != "ab" {
 				t.Errorf("FirstOrNull should skip impossible and find AB, got %v. Result type: %T", compoundWithImpossibleFirst.FirstOrNull(), compoundWithImpossibleFirst)
@@ -1651,7 +1654,7 @@ func TestCompound(t *testing.T) {
 	t.Run("Iterate", func(t *testing.T) {
 		iterP1 := MakeWords([]string{"X1", "X2"}, []string{}, 2)
 		iterP2 := MakeWords([]string{"Y1"}, []string{}, 2)
-		compoundIter := MakeCompound([]PossibleLines{iterP1, iterP2}).(*Compound)
+		compoundIter := MakeCompound([]PossibleLines{iterP1, iterP2}, 2).(*Compound)
 
 		actualLines := collectLines(compoundIter)
 		expectedIter := []string{"X1", "X2", "Y1"} // Order depends on Compound.possibilities and inner iter
@@ -1675,7 +1678,7 @@ func TestCompound(t *testing.T) {
 		cpChoice3 := MakeWords([]string{"C3"}, []string{}, 2)
 		cpChoice4 := MakeWords([]string{"C4"}, []string{}, 2)
 		// This setup will result in a *Compound
-		compoundToChooseInstance := MakeCompound([]PossibleLines{cpChoice1, cpChoice2, cpChoice3, cpChoice4})
+		compoundToChooseInstance := MakeCompound([]PossibleLines{cpChoice1, cpChoice2, cpChoice3, cpChoice4}, 2)
 		compoundToChoose, ok := compoundToChooseInstance.(*Compound)
 		if !ok {
 			t.Fatalf("MakeCompound for MakeChoice test did not return *Compound, got %T", compoundToChooseInstance)
