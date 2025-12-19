@@ -1,4 +1,4 @@
-module crosswarped.com/gen
+module github.com/Eyas/xwgen
 
 go 1.24.4
 

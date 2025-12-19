@@ -1,4 +1,4 @@
-package gen
+package xwgen
 
 import (
 	"fmt"

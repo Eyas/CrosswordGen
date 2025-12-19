@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"crosswarped.com/gen"
+	"github.com/Eyas/xwgen"
 )
 
 func main() {
@@ -94,13 +94,13 @@ func main() {
 		defer pprof.StopCPUProfile()
 	}
 
-	grid := gen.CreateGenerator(
+	grid := xwgen.CreateGenerator(
 		*sideLength,
 		preferredWords,
 		obscureWords,
 		excludedWords,
 		rand.New(randSource),
-		gen.GeneratorParams{
+		xwgen.GeneratorParams{
 			MinWordLength: 3,
 			MaxWordLength: *sideLength,
 		},
