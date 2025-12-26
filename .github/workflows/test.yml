@@ -1,5 +1,11 @@
 name: Go
 
+permissions:
+  # deployments permission to deploy GitHub pages website
+  deployments: write
+  # contents permission to update benchmark contents in gh-pages branch
+  contents: write
+
 on:
   push:
     branches: ["main"]
@@ -19,3 +25,18 @@ jobs:
 
       - name: Test
         run: go test -v ./...
+
+      - name: Run Benchmarks
+        run: go test -bench . -benchmem ./... | tee benchmark.txt
+
+      - name: Store Benchmark Result
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: "go"
+          output-file-path: benchmark.txt
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
+          # Show alert with commit comment on detecting possible performance regression
+          comment-on-alert: true
+          fail-on-alert: false
+          summary-always: true
