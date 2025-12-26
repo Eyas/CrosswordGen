@@ -138,7 +138,7 @@ type Words struct {
 	obscure   []string
 	// letterMasks caches, for each index, the bitmask of allowed runes across all words.
 	// It accelerates CharsAt and lets FilterAny early-return.
-	letterMasks []*CharSet
+	letterMasks []CharSet
 }
 
 func MakeWords(preferred, obscure []string, numLetters int) PossibleLines {
@@ -172,21 +172,20 @@ func (w *Words) CharsAt(accumulate *CharSet, index int) {
 	}
 	// Build masks lazily.
 	if w.letterMasks == nil {
-		w.letterMasks = make([]*CharSet, w.NumLetters())
+		w.letterMasks = make([]CharSet, w.NumLetters())
 	}
-	if w.letterMasks[index] == nil {
-		mask := NewCharSet()
+	if w.letterMasks[index].bits == 0 {
+		w.letterMasks[index] = CharSet{}
 		for _, word := range w.preferred {
 			r := rune(word[index])
-			mask.Add(r)
+			w.letterMasks[index].Add(r)
 		}
 		for _, word := range w.obscure {
 			r := rune(word[index])
-			mask.Add(r)
+			w.letterMasks[index].Add(r)
 		}
-		w.letterMasks[index] = mask
 	}
-	accumulate.AddAll(w.letterMasks[index])
+	accumulate.AddAll(&w.letterMasks[index])
 }
 
 func (w *Words) DefinitelyBlockedAt(index int) bool {
@@ -209,9 +208,9 @@ func (w *Words) FilterAny(constraint *CharSet, index int) PossibleLines {
 	}
 
 	// If we have a mask and it is entirely contained by the constraint, nothing to filter.
-	if w.letterMasks != nil && w.letterMasks[index] != nil {
+	if w.letterMasks != nil && w.letterMasks[index].bits != 0 {
 		mask := w.letterMasks[index]
-		if constraint.ContainsAll(mask) {
+		if constraint.ContainsAll(&mask) {
 			return w
 		}
 	}
