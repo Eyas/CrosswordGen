@@ -276,20 +276,20 @@ func TestWords(t *testing.T) {
 		name          string
 		filterSet     []rune
 		index         int
-		want          PossibleLines
+		wantLines     []string // expected lines (semantically equivalent)
 		wantUnchanged bool
 	}{
-		{"unchanged with everything", everything('`', 'z'), 0, words, true},
-		{"unchanged with everything - different index", everything('`', 'z'), 1, words, true},
-		{"unchanged with all letters", everything('a', 'z'), 0, words, true},
-		{"unchanged with all letters - different index", everything('a', 'z'), 1, words, true},
-		{"impossible with nothing", []rune{}, 0, MakeImpossible(3), false},
-		{"impossible with nothing - different index", []rune{}, 1, MakeImpossible(3), false},
-		{"basically unchanged when filter matches all", []rune{'c'}, 0, words, false},
-		{"only regulars remain when we only match that", []rune{'a'}, 1, MakeWordsFromPreferredAndObscure([]string{"cat", "car"}, []string{}, 3), false},
-		{"one regular and one obscure remain", []rune{'t'}, 2, MakeWordsFromPreferredAndObscure([]string{"cat"}, []string{"cot"}, 3), false},
-		{"becomes a definite when only one remains - regular", []rune{'r'}, 2, &Definite{line: ConcreteLine{Line: []rune{'c', 'a', 'r'}, Words: []string{"car"}}}, false},
-		{"becomes a definite when only one remains - obscure", []rune{'p'}, 2, &Definite{line: ConcreteLine{Line: []rune{'c', 'o', 'p'}, Words: []string{"cop"}}}, false},
+		{"unchanged with everything", everything('`', 'z'), 0, nil, true},
+		{"unchanged with everything - different index", everything('`', 'z'), 1, nil, true},
+		{"unchanged with all letters", everything('a', 'z'), 0, nil, true},
+		{"unchanged with all letters - different index", everything('a', 'z'), 1, nil, true},
+		{"impossible with nothing", []rune{}, 0, []string{}, false},
+		{"impossible with nothing - different index", []rune{}, 1, []string{}, false},
+		{"basically unchanged when filter matches all", []rune{'c'}, 0, []string{"cat", "car", "cot", "cop"}, false},
+		{"only regulars remain when we only match that", []rune{'a'}, 1, []string{"cat", "car"}, false},
+		{"one regular and one obscure remain", []rune{'t'}, 2, []string{"cat", "cot"}, false},
+		{"becomes a definite when only one remains - regular", []rune{'r'}, 2, []string{"car"}, false},
+		{"becomes a definite when only one remains - obscure", []rune{'p'}, 2, []string{"cop"}, false},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			cs := DefaultCharSet()
@@ -303,8 +303,10 @@ func TestWords(t *testing.T) {
 			if tc.wantUnchanged {
 				return
 			}
-			if !reflect.DeepEqual(tc.want, got) {
-				t.Errorf("FilterAny(%v, %d) = %v, want %v", cs, tc.index, got, tc.want)
+			// Check semantic equivalence via collected lines
+			gotLines := collectLines(got)
+			if diff := cmp.Diff(tc.wantLines, gotLines); diff != "" {
+				t.Errorf("FilterAny(%v, %d) lines mismatch (-want +got):\n%s", cs, tc.index, diff)
 			}
 		})
 	}

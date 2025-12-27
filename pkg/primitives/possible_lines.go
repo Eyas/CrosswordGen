@@ -139,6 +139,17 @@ type Words struct {
 	// letterMasks caches, for each index, the bitmask of allowed runes across all words.
 	// It accelerates CharsAt and lets FilterAny early-return.
 	letterMasks []CharSet
+	// cachedLines caches ConcreteLine objects to avoid allocation during iteration.
+	cachedLines []ConcreteLine
+}
+
+// WordsFiltered is a memory-efficient variant of Words that stores indices
+// of valid words from a shared base list, avoiding slice-of-string allocations.
+type WordsFiltered struct {
+	base         *Words  // Reference to the base Words (shared, never modified)
+	indices      []int   // Indices of valid words in base.allWords
+	preferredCnt int     // Number of valid preferred words (indices[0:preferredCnt] are preferred)
+	cachedChars  []CharSet
 }
 
 func MakeWordsFromPreferredAndObscure(preferred, obscure []string, numLetters int) PossibleLines {
@@ -166,8 +177,300 @@ func MakeWords(allWords []string, obscureIdx int, numLetters int) PossibleLines 
 	return &Words{allWords: allWords, obscureIdx: obscureIdx}
 }
 
+func (w *WordsFiltered) NumLetters() int {
+	return w.base.NumLetters()
+}
+
+func (w *WordsFiltered) MaxPossibilities() int64 {
+	return int64(len(w.indices))
+}
+
+func (w *WordsFiltered) CharsAt(accumulate *CharSet, index int) {
+	if accumulate.IsFull() || (!accumulate.Contains(kBlocked) && (accumulate.Count()+1) == accumulate.Capacity()) {
+		return
+	}
+	// Build cached letter masks lazily
+	if w.cachedChars == nil {
+		w.cachedChars = make([]CharSet, w.NumLetters())
+	}
+	if w.cachedChars[index].bits == 0 && len(w.indices) > 0 {
+		for _, idx := range w.indices {
+			w.cachedChars[index].Add(rune(w.base.allWords[idx][index]))
+		}
+	}
+	accumulate.AddAll(&w.cachedChars[index])
+}
+
+func (w *WordsFiltered) DefinitelyBlockedAt(index int) bool {
+	return false
+}
+
+func (w *WordsFiltered) DefiniteWords() []string {
+	if len(w.indices) == 1 {
+		return []string{w.base.allWords[w.indices[0]]}
+	}
+	return nil
+}
+
+func (w *WordsFiltered) FilterAny(constraint *CharSet, index int) PossibleLines {
+	if constraint.IsFull() || (!constraint.Contains(kBlocked) && (constraint.Count()+1) == constraint.Capacity()) {
+		return w
+	}
+
+	// Check if cached chars are entirely contained by constraint
+	if w.cachedChars != nil && w.cachedChars[index].bits != 0 {
+		if constraint.ContainsAll(&w.cachedChars[index]) {
+			return w
+		}
+	}
+
+	// Check if any word needs filtering
+	needsFilter := false
+	for _, idx := range w.indices {
+		if !constraint.Contains(rune(w.base.allWords[idx][index])) {
+			needsFilter = true
+			break
+		}
+	}
+	if !needsFilter {
+		return w
+	}
+
+	// Create new indices with filtered words
+	newIndices := make([]int, 0, len(w.indices))
+	newPrefCnt := 0
+	for _, idx := range w.indices {
+		if constraint.Contains(rune(w.base.allWords[idx][index])) {
+			newIndices = append(newIndices, idx)
+			if idx < w.base.obscureIdx {
+				newPrefCnt++
+			}
+		}
+	}
+
+	if len(newIndices) == 0 {
+		return MakeImpossible(w.NumLetters())
+	}
+	if len(newIndices) == 1 {
+		w.base.ensureCachedLines()
+		return MakeDefinite(w.base.cachedLines[newIndices[0]])
+	}
+
+	return &WordsFiltered{
+		base:         w.base,
+		indices:      newIndices,
+		preferredCnt: newPrefCnt,
+	}
+}
+
+func (w *WordsFiltered) Filter(constraint rune, index int) PossibleLines {
+	if constraint == kBlocked {
+		return MakeImpossible(w.NumLetters())
+	}
+
+	// Check if all words already match
+	needsFilter := false
+	for _, idx := range w.indices {
+		if rune(w.base.allWords[idx][index]) != constraint {
+			needsFilter = true
+			break
+		}
+	}
+	if !needsFilter {
+		return w
+	}
+
+	// Create new indices with filtered words
+	newIndices := make([]int, 0, len(w.indices))
+	newPrefCnt := 0
+	for _, idx := range w.indices {
+		if rune(w.base.allWords[idx][index]) == constraint {
+			newIndices = append(newIndices, idx)
+			if idx < w.base.obscureIdx {
+				newPrefCnt++
+			}
+		}
+	}
+
+	if len(newIndices) == 0 {
+		return MakeImpossible(w.NumLetters())
+	}
+	if len(newIndices) == 1 {
+		w.base.ensureCachedLines()
+		return MakeDefinite(w.base.cachedLines[newIndices[0]])
+	}
+
+	return &WordsFiltered{
+		base:         w.base,
+		indices:      newIndices,
+		preferredCnt: newPrefCnt,
+	}
+}
+
+func (w *WordsFiltered) RemoveWordOptions(words []string) PossibleLines {
+	if len(words) == 0 {
+		return w
+	}
+
+	numLetters := w.NumLetters()
+
+	// Quick check if any of the words need filtering - using linear scan for small lists
+	needsFilter := false
+	for _, word := range words {
+		if len(word) != numLetters {
+			continue
+		}
+		for _, idx := range w.indices {
+			if w.base.allWords[idx] == word {
+				needsFilter = true
+				break
+			}
+		}
+		if needsFilter {
+			break
+		}
+	}
+	if !needsFilter {
+		return w
+	}
+
+	// For small word lists, use linear scan instead of map
+	var shouldRemove func(string) bool
+	if len(words) <= 4 {
+		shouldRemove = func(s string) bool {
+			for _, word := range words {
+				if len(word) == numLetters && word == s {
+					return true
+				}
+			}
+			return false
+		}
+	} else {
+		removeSet := make(map[string]bool, len(words))
+		for _, word := range words {
+			if len(word) == numLetters {
+				removeSet[word] = true
+			}
+		}
+		shouldRemove = func(s string) bool {
+			return removeSet[s]
+		}
+	}
+
+	newIndices := make([]int, 0, len(w.indices))
+	newPrefCnt := 0
+	for _, idx := range w.indices {
+		if !shouldRemove(w.base.allWords[idx]) {
+			newIndices = append(newIndices, idx)
+			if idx < w.base.obscureIdx {
+				newPrefCnt++
+			}
+		}
+	}
+
+	if len(newIndices) == 0 {
+		return MakeImpossible(w.NumLetters())
+	}
+	if len(newIndices) == 1 {
+		w.base.ensureCachedLines()
+		return MakeDefinite(w.base.cachedLines[newIndices[0]])
+	}
+
+	return &WordsFiltered{
+		base:         w.base,
+		indices:      newIndices,
+		preferredCnt: newPrefCnt,
+	}
+}
+
+func (w *WordsFiltered) Iterate() iter.Seq[ConcreteLine] {
+	return func(yield func(ConcreteLine) bool) {
+		w.base.ensureCachedLines()
+		for _, idx := range w.indices {
+			if !yield(w.base.cachedLines[idx]) {
+				return
+			}
+		}
+	}
+}
+
+func (w *WordsFiltered) FirstOrNull() *ConcreteLine {
+	if len(w.indices) == 0 {
+		return nil
+	}
+	w.base.ensureCachedLines()
+	return &w.base.cachedLines[w.indices[0]]
+}
+
+func (w *WordsFiltered) MakeChoice() ChoiceStep {
+	if len(w.indices) <= 1 {
+		panic("Cannot call MakeChoice on entity with 1 or less options")
+	}
+
+	// Split indices in half
+	half := len(w.indices) / 2
+	indices1 := w.indices[:half]
+	indices2 := w.indices[half:]
+
+	pref1 := 0
+	for _, idx := range indices1 {
+		if idx < w.base.obscureIdx {
+			pref1++
+		}
+	}
+	pref2 := 0
+	for _, idx := range indices2 {
+		if idx < w.base.obscureIdx {
+			pref2++
+		}
+	}
+
+	var choice, remaining PossibleLines
+	w.base.ensureCachedLines()
+	if len(indices1) == 1 {
+		choice = MakeDefinite(w.base.cachedLines[indices1[0]])
+	} else {
+		choice = &WordsFiltered{base: w.base, indices: indices1, preferredCnt: pref1}
+	}
+
+	if len(indices2) == 1 {
+		remaining = MakeDefinite(w.base.cachedLines[indices2[0]])
+	} else {
+		remaining = &WordsFiltered{base: w.base, indices: indices2, preferredCnt: pref2}
+	}
+
+	return ChoiceStep{
+		Choice:    choice,
+		Remaining: remaining,
+	}
+}
+
+func (w *WordsFiltered) String() string {
+	var preferred, obscure []string
+	for _, idx := range w.indices {
+		word := w.base.allWords[idx]
+		if idx < w.base.obscureIdx {
+			preferred = append(preferred, word)
+		} else {
+			obscure = append(obscure, word)
+		}
+	}
+	return fmt.Sprintf("WordsFiltered(%s, %s)", arrayStr(preferred), arrayStr(obscure))
+}
+
 func (w *Words) NumLetters() int {
 	return len(w.allWords[0])
+}
+
+// ensureCachedLines builds the cachedLines if not already built.
+func (w *Words) ensureCachedLines() {
+	if w.cachedLines != nil {
+		return
+	}
+	w.cachedLines = make([]ConcreteLine, len(w.allWords))
+	for i, word := range w.allWords {
+		w.cachedLines[i] = ConcreteLine{Line: []rune(word), Words: []string{word}}
+	}
 }
 
 func (w *Words) MaxPossibilities() int64 {
@@ -224,21 +527,31 @@ func (w *Words) FilterAny(constraint *CharSet, index int) PossibleLines {
 		return w
 	}
 
-	var filtered []string
-	var newNumPreferred int
+	// Use WordsFiltered to avoid allocating new string slices
+	newIndices := make([]int, 0, len(w.allWords))
+	newPrefCnt := 0
 	for idx, word := range w.allWords {
 		if constraint.Contains(rune(word[index])) {
+			newIndices = append(newIndices, idx)
 			if idx < w.obscureIdx {
-				newNumPreferred++
+				newPrefCnt++
 			}
-			if filtered == nil {
-				filtered = make([]string, 0, len(w.allWords)-idx)
-			}
-			filtered = append(filtered, word)
 		}
 	}
 
-	return MakeWords(filtered, newNumPreferred, w.NumLetters())
+	if len(newIndices) == 0 {
+		return MakeImpossible(w.NumLetters())
+	}
+	if len(newIndices) == 1 {
+		w.ensureCachedLines()
+		return MakeDefinite(w.cachedLines[newIndices[0]])
+	}
+
+	return &WordsFiltered{
+		base:         w,
+		indices:      newIndices,
+		preferredCnt: newPrefCnt,
+	}
 }
 
 func (w *Words) Filter(constraint rune, index int) PossibleLines {
@@ -257,66 +570,115 @@ func (w *Words) Filter(constraint rune, index int) PossibleLines {
 		}
 	}
 
-	var filtered []string
-	newNumPreferred := 0
+	// Use WordsFiltered to avoid allocating new string slices
+	newIndices := make([]int, 0, len(w.allWords))
+	newPrefCnt := 0
 	for idx, word := range w.allWords {
 		if rune(word[index]) == constraint {
+			newIndices = append(newIndices, idx)
 			if idx < w.obscureIdx {
-				newNumPreferred++
+				newPrefCnt++
 			}
-			// Lazy: allocate filtered list with capacity of allWords-idx only if we
-			// get here.
-			if filtered == nil {
-				filtered = make([]string, 0, len(w.allWords)-idx)
-			}
-			filtered = append(filtered, word)
 		}
 	}
 
-	return MakeWords(filtered, newNumPreferred, w.NumLetters())
+	if len(newIndices) == 0 {
+		return MakeImpossible(w.NumLetters())
+	}
+	if len(newIndices) == 1 {
+		w.ensureCachedLines()
+		return MakeDefinite(w.cachedLines[newIndices[0]])
+	}
+
+	return &WordsFiltered{
+		base:         w,
+		indices:      newIndices,
+		preferredCnt: newPrefCnt,
+	}
 }
 
 func (w *Words) RemoveWordOptions(words []string) PossibleLines {
-	// Figure out if any (or both) lists need filtering. For any that doesn't,
-	// we don't need to allocate a new list.
-	needsFiltering := slices.ContainsFunc(words, func(word string) bool {
-		if len(word) != w.NumLetters() {
+	if len(words) == 0 {
+		return w
+	}
+
+	numLetters := w.NumLetters()
+
+	// For small word lists, use linear scan instead of map
+	var shouldRemove func(string) bool
+	if len(words) <= 4 {
+		shouldRemove = func(s string) bool {
+			for _, word := range words {
+				if len(word) == numLetters && word == s {
+					return true
+				}
+			}
 			return false
 		}
-		return slices.Contains(w.allWords, word)
-	})
+	} else {
+		removeSet := make(map[string]bool, len(words))
+		for _, word := range words {
+			if len(word) == numLetters {
+				removeSet[word] = true
+			}
+		}
+		shouldRemove = func(s string) bool {
+			return removeSet[s]
+		}
+	}
 
+	// Check if any filtering needed
+	needsFiltering := false
+	for _, bw := range w.allWords {
+		if shouldRemove(bw) {
+			needsFiltering = true
+			break
+		}
+	}
 	if !needsFiltering {
 		return w
 	}
 
-	var fp []string
-	fPreferred := 0
-
-	fp = make([]string, 0, len(w.allWords)-1)
-	for idx, p := range w.allWords {
-		if !slices.Contains(words, p) {
-			fp = append(fp, p)
+	// Use WordsFiltered to avoid allocating new string slices
+	newIndices := make([]int, 0, len(w.allWords))
+	newPrefCnt := 0
+	for idx, word := range w.allWords {
+		if !shouldRemove(word) {
+			newIndices = append(newIndices, idx)
 			if idx < w.obscureIdx {
-				fPreferred++
+				newPrefCnt++
 			}
 		}
 	}
 
-	return MakeWords(fp, fPreferred, w.NumLetters())
+	if len(newIndices) == 0 {
+		return MakeImpossible(w.NumLetters())
+	}
+	if len(newIndices) == 1 {
+		w.ensureCachedLines()
+		return MakeDefinite(w.cachedLines[newIndices[0]])
+	}
+
+	return &WordsFiltered{
+		base:         w,
+		indices:      newIndices,
+		preferredCnt: newPrefCnt,
+	}
 }
 
 func (w *Words) FirstOrNull() *ConcreteLine {
 	if len(w.allWords) == 0 {
 		return nil
 	}
-	return &ConcreteLine{Line: []rune(w.allWords[0]), Words: []string{w.allWords[0]}}
+	w.ensureCachedLines()
+	return &w.cachedLines[0]
 }
 
 func (w *Words) Iterate() iter.Seq[ConcreteLine] {
 	return func(yield func(ConcreteLine) bool) {
-		for _, word := range w.allWords {
-			if !yield(ConcreteLine{Line: []rune(word), Words: []string{word}}) {
+		w.ensureCachedLines()
+		for i := range w.allWords {
+			if !yield(w.cachedLines[i]) {
 				return
 			}
 		}
