@@ -3,8 +3,10 @@ package primitives
 import (
 	"fmt"
 	"iter"
+	"math/bits"
 	"slices"
 	"strings"
+	"sync"
 )
 
 const kBlocked = '`'
@@ -134,11 +136,14 @@ func MakeImpossible(numLetters int) *Impossible {
 //
 // Each word in 'Words' is exactly the same length, fully occupying the line.
 type Words struct {
-	allWords   []string // All words, starting with preferred, then obscure
-	obscureIdx int      // Index of first obscure word, if 0, all words are obscure, if len(allWords), all words are preferred
-	// letterMasks caches, for each index, the bitmask of allowed runes across all words.
-	// It accelerates CharsAt and lets FilterAny early-return.
-	letterMasks []CharSet
+	u   *wordUniverse
+	set []uint64 // bitset over u.words; 1 => word is possible
+	max int64    // cached count of bits set in set
+
+	// charsCache caches the set of possible runes at each index for this word-set.
+	// This avoids re-scanning bitmasks repeatedly during prefiltering.
+	charsCache [25]CharSet
+	cacheValid uint32 // bit i => charsCache[i] is valid
 }
 
 func MakeWordsFromPreferredAndObscure(preferred, obscure []string, numLetters int) PossibleLines {
@@ -151,8 +156,14 @@ func MakeWordsFromPreferredAndObscure(preferred, obscure []string, numLetters in
 	if len(preferred) == 0 && len(obscure) == 1 {
 		return MakeDefinite(ConcreteLine{Line: []rune(obscure[0]), Words: []string{obscure[0]}})
 	}
-	// Lazily allocate letterMasks on first use to avoid upfront cost when not needed.
-	return &Words{allWords: append(preferred, obscure...), obscureIdx: len(preferred)}
+
+	allWords := append(preferred, obscure...)
+	u := newWordUniverse(allWords, len(preferred))
+	return &Words{
+		u:   u,
+		set: u.fullSet(),
+		max: int64(len(allWords)),
+	}
 }
 
 func MakeWords(allWords []string, obscureIdx int, numLetters int) PossibleLines {
@@ -162,34 +173,51 @@ func MakeWords(allWords []string, obscureIdx int, numLetters int) PossibleLines 
 	if len(allWords) == 1 {
 		return MakeDefinite(ConcreteLine{Line: []rune(allWords[0]), Words: []string{allWords[0]}})
 	}
-	// Lazily allocate letterMasks on first use to avoid upfront cost when not needed.
-	return &Words{allWords: allWords, obscureIdx: obscureIdx}
+
+	u := newWordUniverse(allWords, obscureIdx)
+	return &Words{
+		u:   u,
+		set: u.fullSet(),
+		max: int64(len(allWords)),
+	}
 }
 
 func (w *Words) NumLetters() int {
-	return len(w.allWords[0])
+	return w.u.numLetters
 }
 
 func (w *Words) MaxPossibilities() int64 {
-	return int64(len(w.allWords))
+	return w.max
 }
 
 func (w *Words) CharsAt(accumulate *CharSet, index int) {
 	if accumulate.IsFull() || (!accumulate.Contains(kBlocked) && (accumulate.Count()+1) == accumulate.Capacity()) {
 		return
 	}
-	// Build masks lazily.
-	if w.letterMasks == nil {
-		w.letterMasks = make([]CharSet, w.NumLetters())
+
+	if index >= 0 && index < len(w.charsCache) && (w.cacheValid&(1<<uint(index))) != 0 {
+		accumulate.AddAll(&w.charsCache[index])
+		return
 	}
-	if w.letterMasks[index].bits == 0 {
-		w.letterMasks[index] = CharSet{}
-		for _, word := range w.allWords {
-			r := rune(word[index])
-			w.letterMasks[index].Add(r)
+
+	// For each possible character, check if any word in our set supports it at this position.
+	// This is intentionally implemented without scanning every word.
+	w.u.ensureMasks()
+	var cs CharSet
+	for cidx := 0; cidx < int(numChars); cidx++ {
+		r := rune(minChar + rune(cidx))
+		// Words can never include blocked cells, so the mask for '`' will be empty; keep it anyway.
+		mask := w.u.maskForCharIdx(index, cidx)
+		if hasIntersection(w.set, mask) {
+			_ = cs.Add(r)
 		}
 	}
-	accumulate.AddAll(&w.letterMasks[index])
+
+	accumulate.AddAll(&cs)
+	if index >= 0 && index < len(w.charsCache) {
+		w.charsCache[index] = cs
+		w.cacheValid |= 1 << uint(index)
+	}
 }
 
 func (w *Words) DefinitelyBlockedAt(index int) bool {
@@ -197,10 +225,15 @@ func (w *Words) DefinitelyBlockedAt(index int) bool {
 }
 
 func (w *Words) DefiniteWords() []string {
-	if len(w.allWords) == 1 {
-		return []string{w.allWords[0]}
+	if w.max != 1 {
+		return nil
 	}
-	return nil
+
+	idx := firstSetBit(w.set)
+	if idx < 0 {
+		return nil
+	}
+	return []string{w.u.words[idx]}
 }
 
 func (w *Words) FilterAny(constraint *CharSet, index int) PossibleLines {
@@ -208,114 +241,208 @@ func (w *Words) FilterAny(constraint *CharSet, index int) PossibleLines {
 		return w
 	}
 
-	// If we have a mask and it is entirely contained by the constraint, nothing to filter.
-	if w.letterMasks != nil && w.letterMasks[index].bits != 0 {
-		mask := w.letterMasks[index]
-		if constraint.ContainsAll(&mask) {
+	if constraint.Count() == 0 {
+		return MakeImpossible(w.NumLetters())
+	}
+
+	w.u.ensureMasks()
+
+	// Convert the CharSet to a compact list of char indices once.
+	var idxs [numChars]int
+	nIdxs := 0
+	cbits := constraint.bits
+	for cbits != 0 {
+		tz := bits.TrailingZeros32(cbits)
+		idxs[nIdxs] = tz
+		nIdxs++
+		cbits &= cbits - 1
+	}
+
+	// Small fast-paths: common case is 1-2 constraints.
+	if nIdxs == 1 {
+		mask := w.u.maskForCharIdx(index, idxs[0])
+		newSet := make([]uint64, len(w.set))
+		newMax := int64(0)
+		unchanged := true
+		for i := range w.set {
+			ns := w.set[i] & mask[i]
+			newSet[i] = ns
+			if ns != w.set[i] {
+				unchanged = false
+			}
+			newMax += int64(bits.OnesCount64(ns))
+		}
+
+		if unchanged {
 			return w
 		}
+		if newMax == 0 {
+			return MakeImpossible(w.NumLetters())
+		}
+		if newMax == 1 {
+			idx := firstSetBit(newSet)
+			if idx < 0 {
+				return MakeImpossible(w.NumLetters())
+			}
+			word := w.u.words[idx]
+			return MakeDefinite(ConcreteLine{Line: []rune(word), Words: []string{word}})
+		}
+		return &Words{u: w.u, set: newSet, max: newMax}
 	}
 
-	// Lazy: First check if any of the words in the list don't match the filter.
-	// Otherwise we don't need to copy the lists
-	if !slices.ContainsFunc(w.allWords, func(word string) bool {
-		return !constraint.Contains(rune(word[index]))
-	}) {
+	newSet := make([]uint64, len(w.set))
+	newMax := int64(0)
+	unchanged := true
+	for i := range w.set {
+		allowed := uint64(0)
+		for j := 0; j < nIdxs; j++ {
+			allowed |= w.u.maskForCharIdx(index, idxs[j])[i]
+		}
+
+		ns := w.set[i] & allowed
+		newSet[i] = ns
+		if ns != w.set[i] {
+			unchanged = false
+		}
+		newMax += int64(bits.OnesCount64(ns))
+	}
+
+	if unchanged {
 		return w
 	}
-
-	var filtered []string
-	var newNumPreferred int
-	for idx, word := range w.allWords {
-		if constraint.Contains(rune(word[index])) {
-			if idx < w.obscureIdx {
-				newNumPreferred++
-			}
-			if filtered == nil {
-				filtered = make([]string, 0, len(w.allWords)-idx)
-			}
-			filtered = append(filtered, word)
+	if newMax == 0 {
+		return MakeImpossible(w.NumLetters())
+	}
+	if newMax == 1 {
+		idx := firstSetBit(newSet)
+		if idx < 0 {
+			return MakeImpossible(w.NumLetters())
 		}
+		word := w.u.words[idx]
+		return MakeDefinite(ConcreteLine{Line: []rune(word), Words: []string{word}})
 	}
 
-	return MakeWords(filtered, newNumPreferred, w.NumLetters())
+	return &Words{u: w.u, set: newSet, max: newMax}
 }
 
 func (w *Words) Filter(constraint rune, index int) PossibleLines {
 	if constraint == kBlocked {
 		return MakeImpossible(w.NumLetters())
 	}
-
-	// Optimization: Check if all words already match the constraint.
-	// If so, return w.
-	if w.MaxPossibilities() > 0 {
-		anyMismatch := slices.ContainsFunc(w.allWords, func(word string) bool {
-			return rune(word[index]) != constraint
-		})
-		if !anyMismatch {
-			return w
-		}
+	if constraint < minChar || constraint > maxChar {
+		return MakeImpossible(w.NumLetters())
 	}
 
-	var filtered []string
-	newNumPreferred := 0
-	for idx, word := range w.allWords {
-		if rune(word[index]) == constraint {
-			if idx < w.obscureIdx {
-				newNumPreferred++
-			}
-			// Lazy: allocate filtered list with capacity of allWords-idx only if we
-			// get here.
-			if filtered == nil {
-				filtered = make([]string, 0, len(w.allWords)-idx)
-			}
-			filtered = append(filtered, word)
+	w.u.ensureMasks()
+	cidx := int(constraint - minChar)
+	mask := w.u.maskForCharIdx(index, cidx)
+
+	newSet := make([]uint64, len(w.set))
+	newMax := int64(0)
+	unchanged := true
+	for i := range w.set {
+		ns := w.set[i] & mask[i]
+		newSet[i] = ns
+		if ns != w.set[i] {
+			unchanged = false
 		}
+		newMax += int64(bits.OnesCount64(ns))
 	}
 
-	return MakeWords(filtered, newNumPreferred, w.NumLetters())
+	if unchanged {
+		return w
+	}
+	if newMax == 0 {
+		return MakeImpossible(w.NumLetters())
+	}
+	if newMax == 1 {
+		idx := firstSetBit(newSet)
+		if idx < 0 {
+			return MakeImpossible(w.NumLetters())
+		}
+		word := w.u.words[idx]
+		return MakeDefinite(ConcreteLine{Line: []rune(word), Words: []string{word}})
+	}
+	return &Words{u: w.u, set: newSet, max: newMax}
 }
 
 func (w *Words) RemoveWordOptions(words []string) PossibleLines {
-	// Figure out if any (or both) lists need filtering. For any that doesn't,
-	// we don't need to allocate a new list.
-	needsFiltering := slices.ContainsFunc(words, func(word string) bool {
-		if len(word) != w.NumLetters() {
-			return false
-		}
-		return slices.Contains(w.allWords, word)
-	})
+	if len(words) == 0 {
+		return w
+	}
 
+	w.u.ensureIndexByWord()
+
+	// First, see if anything to remove is currently present.
+	needsFiltering := false
+	for _, word := range words {
+		if len(word) != w.u.numLetters {
+			continue
+		}
+		idx, ok := w.u.indexByWord[word]
+		if !ok {
+			continue
+		}
+		if hasBit(w.set, idx) {
+			needsFiltering = true
+			break
+		}
+	}
 	if !needsFiltering {
 		return w
 	}
 
-	var fp []string
-	fPreferred := 0
-
-	fp = make([]string, 0, len(w.allWords)-1)
-	for idx, p := range w.allWords {
-		if !slices.Contains(words, p) {
-			fp = append(fp, p)
-			if idx < w.obscureIdx {
-				fPreferred++
-			}
+	newSet := make([]uint64, len(w.set))
+	copy(newSet, w.set)
+	newMax := w.max
+	for _, word := range words {
+		if len(word) != w.u.numLetters {
+			continue
+		}
+		idx, ok := w.u.indexByWord[word]
+		if !ok {
+			continue
+		}
+		if clearBit(newSet, idx) {
+			newMax--
 		}
 	}
 
-	return MakeWords(fp, fPreferred, w.NumLetters())
+	if newMax == w.max {
+		return w
+	}
+	if newMax == 0 {
+		return MakeImpossible(w.NumLetters())
+	}
+	if newMax == 1 {
+		idx := firstSetBit(newSet)
+		if idx < 0 {
+			return MakeImpossible(w.NumLetters())
+		}
+		word := w.u.words[idx]
+		return MakeDefinite(ConcreteLine{Line: []rune(word), Words: []string{word}})
+	}
+
+	return &Words{u: w.u, set: newSet, max: newMax}
 }
 
 func (w *Words) FirstOrNull() *ConcreteLine {
-	if len(w.allWords) == 0 {
+	if w.max == 0 {
 		return nil
 	}
-	return &ConcreteLine{Line: []rune(w.allWords[0]), Words: []string{w.allWords[0]}}
+
+	idx := firstSetBit(w.set)
+	if idx < 0 {
+		return nil
+	}
+	word := w.u.words[idx]
+	return &ConcreteLine{Line: []rune(word), Words: []string{word}}
 }
 
 func (w *Words) Iterate() iter.Seq[ConcreteLine] {
 	return func(yield func(ConcreteLine) bool) {
-		for _, word := range w.allWords {
+		for idx := range iterateSetBits(w.set) {
+			word := w.u.words[idx]
 			if !yield(ConcreteLine{Line: []rune(word), Words: []string{word}}) {
 				return
 			}
@@ -328,21 +455,39 @@ func (w *Words) MakeChoice() ChoiceStep {
 		panic("Cannot call MakeChoice on entity with 1 or less options")
 	}
 
-	// Simply split allWords in half, and adjust obscureIdx accordingly.
-	w1, w2 := w.allWords[:len(w.allWords)/2], w.allWords[len(w.allWords)/2:]
-	var w1Idx, w2Idx int
-	if w.obscureIdx < len(w1) {
-		w1Idx = w.obscureIdx
-		w2Idx = 0
-	} else {
-		w1Idx = len(w1)
-		w2Idx = w.obscureIdx - len(w1)
+	half := w.max / 2
+	if half <= 0 {
+		half = 1
+	}
+	if half >= w.max {
+		half = w.max - 1
 	}
 
-	return ChoiceStep{
-		Choice:    MakeWords(w1, w1Idx, w.NumLetters()),
-		Remaining: MakeWords(w2, w2Idx, w.NumLetters()),
+	choiceSet := make([]uint64, len(w.set))
+	remainingSet := make([]uint64, len(w.set))
+
+	remainingToPick := half
+	for bi, block := range w.set {
+		if remainingToPick <= 0 {
+			remainingSet[bi] = block
+			continue
+		}
+
+		var picked uint64
+		b := block
+		for b != 0 && remainingToPick > 0 {
+			lsb := b & -b
+			picked |= lsb
+			b &= b - 1
+			remainingToPick--
+		}
+		choiceSet[bi] = picked
+		remainingSet[bi] = block &^ picked
 	}
+
+	choice := &Words{u: w.u, set: choiceSet, max: half}
+	remaining := &Words{u: w.u, set: remainingSet, max: w.max - half}
+	return ChoiceStep{Choice: choice, Remaining: remaining}
 }
 
 func arrayStr(arr []string) string {
@@ -360,7 +505,159 @@ func arrayStr(arr []string) string {
 }
 
 func (w *Words) String() string {
-	return fmt.Sprintf("Words(%s, %s)", arrayStr(w.allWords[0:w.obscureIdx]), arrayStr(w.allWords[w.obscureIdx:]))
+	preferred := make([]string, 0, 3)
+	obscure := make([]string, 0, 3)
+	for idx := range iterateSetBits(w.set) {
+		word := w.u.words[idx]
+		if idx < w.u.obscureIdx {
+			if len(preferred) < 3 {
+				preferred = append(preferred, word)
+			}
+		} else {
+			if len(obscure) < 3 {
+				obscure = append(obscure, word)
+			}
+		}
+		if len(preferred) >= 3 && len(obscure) >= 3 {
+			break
+		}
+	}
+	return fmt.Sprintf("Words(%s, %s)", arrayStr(preferred), arrayStr(obscure))
+}
+
+type wordUniverse struct {
+	words     []string
+	obscureIdx int
+	numLetters int
+
+	blocks int
+
+	masksOnce sync.Once
+	// masks is a flattened 3D tensor:
+	// masks[(pos*numChars + charIdx)*blocks + block] = bitmask for that char at that pos.
+	masks []uint64
+
+	indexOnce   sync.Once
+	indexByWord map[string]int
+}
+
+func newWordUniverse(words []string, obscureIdx int) *wordUniverse {
+	if len(words) == 0 {
+		return &wordUniverse{words: nil, obscureIdx: 0, numLetters: 0, blocks: 0}
+	}
+	n := len(words)
+	blocks := (n + 63) / 64
+	return &wordUniverse{
+		words:      words,
+		obscureIdx: obscureIdx,
+		numLetters: len(words[0]),
+		blocks:     blocks,
+	}
+}
+
+func (u *wordUniverse) ensureIndexByWord() {
+	u.indexOnce.Do(func() {
+		m := make(map[string]int, len(u.words))
+		for i, w := range u.words {
+			m[w] = i
+		}
+		u.indexByWord = m
+	})
+}
+
+func (u *wordUniverse) ensureMasks() {
+	u.masksOnce.Do(func() {
+		if len(u.words) == 0 {
+			u.masks = nil
+			return
+		}
+
+		total := u.numLetters * int(numChars) * u.blocks
+		u.masks = make([]uint64, total)
+
+		for wi, word := range u.words {
+			block := wi / 64
+			bit := uint(wi % 64)
+			for pos := 0; pos < u.numLetters; pos++ {
+				r := rune(word[pos])
+				if r < minChar || r > maxChar {
+					continue
+				}
+				cidx := int(r - minChar)
+				base := (pos*int(numChars) + cidx) * u.blocks
+				u.masks[base+block] |= 1 << bit
+			}
+		}
+	})
+}
+
+func (u *wordUniverse) maskForCharIdx(pos int, charIdx int) []uint64 {
+	base := (pos*int(numChars) + charIdx) * u.blocks
+	return u.masks[base : base+u.blocks]
+}
+
+func (u *wordUniverse) fullSet() []uint64 {
+	set := make([]uint64, u.blocks)
+	n := len(u.words)
+	for i := range set {
+		set[i] = ^uint64(0)
+	}
+	// clear unused bits in last word
+	if rem := n % 64; rem != 0 {
+		set[len(set)-1] = (uint64(1) << uint(rem)) - 1
+	}
+	return set
+}
+
+func firstSetBit(set []uint64) int {
+	for bi, block := range set {
+		if block == 0 {
+			continue
+		}
+		return bi*64 + bits.TrailingZeros64(block)
+	}
+	return -1
+}
+
+func iterateSetBits(set []uint64) iter.Seq[int] {
+	return func(yield func(int) bool) {
+		for bi, block := range set {
+			b := block
+			for b != 0 {
+				tz := bits.TrailingZeros64(b)
+				idx := bi*64 + tz
+				if !yield(idx) {
+					return
+				}
+				b &= b - 1
+			}
+		}
+	}
+}
+
+func hasIntersection(a, b []uint64) bool {
+	for i := range a {
+		if a[i]&b[i] != 0 {
+			return true
+		}
+	}
+	return false
+}
+
+func hasBit(set []uint64, idx int) bool {
+	bi := idx / 64
+	bit := uint(idx % 64)
+	return (set[bi] & (uint64(1) << bit)) != 0
+}
+
+// clearBit clears idx in set and returns true if it was previously set.
+func clearBit(set []uint64, idx int) bool {
+	bi := idx / 64
+	bit := uint(idx % 64)
+	mask := uint64(1) << bit
+	had := (set[bi] & mask) != 0
+	set[bi] &^= mask
+	return had
 }
 
 // BlockBefore represents a line that has a blocked cell at the beginning.
