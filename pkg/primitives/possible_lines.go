@@ -139,6 +139,15 @@ type Words struct {
 	// letterMasks caches, for each index, the bitmask of allowed runes across all words.
 	// It accelerates CharsAt and lets FilterAny early-return.
 	letterMasks []CharSet
+	// Small ring buffer cache for hot repeated FilterAny calls.
+	filterAnyMemo     [4]wordsFilterAnyMemoEntry
+	filterAnyMemoNext uint8
+}
+
+type wordsFilterAnyMemoEntry struct {
+	constraintBits uint32
+	index          int
+	result         PossibleLines
 }
 
 func MakeWordsFromPreferredAndObscure(preferred, obscure []string, numLetters int) PossibleLines {
@@ -208,6 +217,12 @@ func (w *Words) FilterAny(constraint *CharSet, index int) PossibleLines {
 		return w
 	}
 
+	for _, memo := range w.filterAnyMemo {
+		if memo.result != nil && memo.index == index && memo.constraintBits == constraint.bits {
+			return memo.result
+		}
+	}
+
 	// If we have a mask and it is entirely contained by the constraint, nothing to filter.
 	if w.letterMasks != nil && w.letterMasks[index].bits != 0 {
 		mask := w.letterMasks[index]
@@ -216,29 +231,53 @@ func (w *Words) FilterAny(constraint *CharSet, index int) PossibleLines {
 		}
 	}
 
-	// Lazy: First check if any of the words in the list don't match the filter.
-	// Otherwise we don't need to copy the lists
-	if !slices.ContainsFunc(w.allWords, func(word string) bool {
-		return !constraint.Contains(rune(word[index]))
-	}) {
-		return w
-	}
-
-	var filtered []string
-	var newNumPreferred int
+	// Count the number of words first before every allocating anything; we can lazily stop
+	// before allocations if return impossible or no change. Even if we have to allocate
+	// later, duplicating contraint.Contains() will be worth allocating exactly the right
+	// match count.
+	matchCount := 0
+	newNumPreferred := 0
 	for idx, word := range w.allWords {
 		if constraint.Contains(rune(word[index])) {
+			matchCount++
 			if idx < w.obscureIdx {
 				newNumPreferred++
 			}
-			if filtered == nil {
-				filtered = make([]string, 0, len(w.allWords)-idx)
-			}
+		}
+	}
+
+	// All words matched the filter; no allocation or copy needed.
+	if matchCount == len(w.allWords) {
+		w.storeFilterAnyMemo(constraint.bits, index, w)
+		return w
+	}
+
+	if matchCount == 0 {
+		result := MakeImpossible(w.NumLetters())
+		w.storeFilterAnyMemo(constraint.bits, index, result)
+		return result
+	}
+
+	filtered := make([]string, 0, matchCount)
+	for _, word := range w.allWords {
+		if constraint.Contains(rune(word[index])) {
 			filtered = append(filtered, word)
 		}
 	}
 
-	return MakeWords(filtered, newNumPreferred, w.NumLetters())
+	result := MakeWords(filtered, newNumPreferred, w.NumLetters())
+	w.storeFilterAnyMemo(constraint.bits, index, result)
+	return result
+}
+
+func (w *Words) storeFilterAnyMemo(constraintBits uint32, index int, result PossibleLines) {
+	memoIdx := w.filterAnyMemoNext % uint8(len(w.filterAnyMemo))
+	w.filterAnyMemo[memoIdx] = wordsFilterAnyMemoEntry{
+		constraintBits: constraintBits,
+		index:          index,
+		result:         result,
+	}
+	w.filterAnyMemoNext++
 }
 
 func (w *Words) Filter(constraint rune, index int) PossibleLines {
@@ -246,29 +285,28 @@ func (w *Words) Filter(constraint rune, index int) PossibleLines {
 		return MakeImpossible(w.NumLetters())
 	}
 
-	// Optimization: Check if all words already match the constraint.
-	// If so, return w.
-	if w.MaxPossibilities() > 0 {
-		anyMismatch := slices.ContainsFunc(w.allWords, func(word string) bool {
-			return rune(word[index]) != constraint
-		})
-		if !anyMismatch {
-			return w
-		}
-	}
-
-	var filtered []string
+	matchCount := 0
 	newNumPreferred := 0
 	for idx, word := range w.allWords {
 		if rune(word[index]) == constraint {
+			matchCount++
 			if idx < w.obscureIdx {
 				newNumPreferred++
 			}
-			// Lazy: allocate filtered list with capacity of allWords-idx only if we
-			// get here.
-			if filtered == nil {
-				filtered = make([]string, 0, len(w.allWords)-idx)
-			}
+		}
+	}
+
+	if matchCount == len(w.allWords) {
+		return w
+	}
+
+	if matchCount == 0 {
+		return MakeImpossible(w.NumLetters())
+	}
+
+	filtered := make([]string, 0, matchCount)
+	for _, word := range w.allWords {
+		if rune(word[index]) == constraint {
 			filtered = append(filtered, word)
 		}
 	}
