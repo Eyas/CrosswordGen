@@ -140,14 +140,8 @@ type Words struct {
 	// It accelerates CharsAt and lets FilterAny early-return.
 	letterMasks []CharSet
 	// Small ring buffer cache for hot repeated FilterAny calls.
-	filterAnyMemo     [4]wordsFilterAnyMemoEntry
+	filterAnyMemo     [4]filterAnyMemoEntry
 	filterAnyMemoNext uint8
-}
-
-type wordsFilterAnyMemoEntry struct {
-	constraintBits uint32
-	index          int
-	result         PossibleLines
 }
 
 func MakeWordsFromPreferredAndObscure(preferred, obscure []string, numLetters int) PossibleLines {
@@ -272,7 +266,7 @@ func (w *Words) FilterAny(constraint *CharSet, index int) PossibleLines {
 
 func (w *Words) storeFilterAnyMemo(constraintBits uint32, index int, result PossibleLines) {
 	memoIdx := w.filterAnyMemoNext % uint8(len(w.filterAnyMemo))
-	w.filterAnyMemo[memoIdx] = wordsFilterAnyMemoEntry{
+	w.filterAnyMemo[memoIdx] = filterAnyMemoEntry{
 		constraintBits: constraintBits,
 		index:          index,
 		result:         result,
@@ -404,6 +398,9 @@ func (w *Words) String() string {
 // BlockBefore represents a line that has a blocked cell at the beginning.
 type BlockBefore struct {
 	lines PossibleLines
+
+	filterAnyMemo     [1]filterAnyMemoEntry
+	filterAnyMemoNext uint8
 }
 
 func MakeBlockBefore(lines PossibleLines) PossibleLines {
@@ -458,13 +455,34 @@ func (b *BlockBefore) FilterAny(constraint *CharSet, index int) PossibleLines {
 		return b
 	}
 
+	for _, memo := range b.filterAnyMemo {
+		if memo.result != nil && memo.index == index && memo.constraintBits == constraint.bits {
+			return memo.result
+		}
+	}
+
+	var result PossibleLines
 	if index == 0 {
 		if constraint.Contains(kBlocked) {
-			return b
+			result = b
+		} else {
+			result = MakeImpossible(b.NumLetters())
 		}
-		return MakeImpossible(b.NumLetters())
+	} else {
+		result = b.build(b.lines.FilterAny(constraint, index-1))
 	}
-	return b.build(b.lines.FilterAny(constraint, index-1))
+	b.storeFilterAnyMemo(constraint.bits, index, result)
+	return result
+}
+
+func (b *BlockBefore) storeFilterAnyMemo(constraintBits uint32, index int, result PossibleLines) {
+	memoIdx := b.filterAnyMemoNext % uint8(len(b.filterAnyMemo))
+	b.filterAnyMemo[memoIdx] = filterAnyMemoEntry{
+		constraintBits: constraintBits,
+		index:          index,
+		result:         result,
+	}
+	b.filterAnyMemoNext++
 }
 
 func (b *BlockBefore) Filter(constraint rune, index int) PossibleLines {
@@ -514,6 +532,9 @@ func (b *BlockBefore) String() string {
 // BlockAfter represents a line that has a blocked cell at the end.
 type BlockAfter struct {
 	lines PossibleLines
+
+	filterAnyMemo     [1]filterAnyMemoEntry
+	filterAnyMemoNext uint8
 }
 
 func MakeBlockAfter(lines PossibleLines) PossibleLines {
@@ -568,13 +589,34 @@ func (b *BlockAfter) FilterAny(constraint *CharSet, index int) PossibleLines {
 		return b
 	}
 
+	for _, memo := range b.filterAnyMemo {
+		if memo.result != nil && memo.index == index && memo.constraintBits == constraint.bits {
+			return memo.result
+		}
+	}
+
+	var result PossibleLines
 	if index == b.lines.NumLetters() {
 		if constraint.Contains(kBlocked) {
-			return b
+			result = b
+		} else {
+			result = MakeImpossible(b.NumLetters())
 		}
-		return MakeImpossible(b.NumLetters())
+	} else {
+		result = b.build(b.lines.FilterAny(constraint, index))
 	}
-	return b.build(b.lines.FilterAny(constraint, index))
+	b.storeFilterAnyMemo(constraint.bits, index, result)
+	return result
+}
+
+func (b *BlockAfter) storeFilterAnyMemo(constraintBits uint32, index int, result PossibleLines) {
+	memoIdx := b.filterAnyMemoNext % uint8(len(b.filterAnyMemo))
+	b.filterAnyMemo[memoIdx] = filterAnyMemoEntry{
+		constraintBits: constraintBits,
+		index:          index,
+		result:         result,
+	}
+	b.filterAnyMemoNext++
 }
 
 func (b *BlockAfter) Filter(constraint rune, index int) PossibleLines {
@@ -772,6 +814,9 @@ func (b *BlockBetween) String() string {
 // Compound represents a set of possible lines that are the union of the given sets.
 type Compound struct {
 	possibilities []PossibleLines
+
+	filterAnyMemo     [1]filterAnyMemoEntry
+	filterAnyMemoNext uint8
 }
 
 func MakeCompound(possibilities []PossibleLines, numLetters int) PossibleLines {
@@ -860,6 +905,12 @@ func (c *Compound) FilterAny(constraint *CharSet, index int) PossibleLines {
 		return c
 	}
 
+	for _, memo := range c.filterAnyMemo {
+		if memo.result != nil && memo.index == index && memo.constraintBits == constraint.bits {
+			return memo.result
+		}
+	}
+
 	var filtered []PossibleLines
 	anyChangeInSubParts := false
 	for ip, p := range c.possibilities {
@@ -867,7 +918,8 @@ func (c *Compound) FilterAny(constraint *CharSet, index int) PossibleLines {
 		if !anyChangeInSubParts && p != f {
 			// This is the first change, so we're gonna start building 'filtered' instead.
 			anyChangeInSubParts = true
-			filtered = append(filtered, c.possibilities[:ip]...)
+			filtered = make([]PossibleLines, ip, len(c.possibilities))
+			copy(filtered, c.possibilities[:ip])
 		}
 
 		if isImpossible(f) {
@@ -885,16 +937,34 @@ func (c *Compound) FilterAny(constraint *CharSet, index int) PossibleLines {
 		}
 	}
 	if !anyChangeInSubParts {
+		c.storeFilterAnyMemo(constraint.bits, index, c)
 		return c
 	}
 
+	var result PossibleLines
 	if len(filtered) == 0 {
-		return MakeImpossible(c.NumLetters())
+		result = MakeImpossible(c.NumLetters())
+		c.storeFilterAnyMemo(constraint.bits, index, result)
+		return result
 	}
 	if len(filtered) == 1 {
-		return filtered[0]
+		result = filtered[0]
+		c.storeFilterAnyMemo(constraint.bits, index, result)
+		return result
 	}
-	return MakeCompound(filtered, c.NumLetters())
+	result = MakeCompound(filtered, c.NumLetters())
+	c.storeFilterAnyMemo(constraint.bits, index, result)
+	return result
+}
+
+func (c *Compound) storeFilterAnyMemo(constraintBits uint32, index int, result PossibleLines) {
+	memoIdx := c.filterAnyMemoNext % uint8(len(c.filterAnyMemo))
+	c.filterAnyMemo[memoIdx] = filterAnyMemoEntry{
+		constraintBits: constraintBits,
+		index:          index,
+		result:         result,
+	}
+	c.filterAnyMemoNext++
 }
 
 func (c *Compound) Filter(constraint rune, index int) PossibleLines {
@@ -1092,4 +1162,10 @@ func (d *Definite) MakeChoice() ChoiceStep {
 
 func (d *Definite) String() string {
 	return fmt.Sprintf("Definite(%s)", string(d.line.Line))
+}
+
+type filterAnyMemoEntry struct {
+	constraintBits uint32
+	index          int
+	result         PossibleLines
 }
