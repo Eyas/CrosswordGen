@@ -134,8 +134,9 @@ func MakeImpossible(numLetters int) *Impossible {
 //
 // Each word in 'Words' is exactly the same length, fully occupying the line.
 type Words struct {
-	allWords   []string // All words, starting with preferred, then obscure
-	obscureIdx int      // Index of first obscure word, if 0, all words are obscure, if len(allWords), all words are preferred
+	wordTable []string // Shared immutable table of words.
+	wordIDs   []wordID // IDs into wordTable for this Words view.
+	obscureIdx int     // Index of first obscure word, if 0, all words are obscure, if len(wordIDs), all words are preferred
 	// letterMasks caches, for each index, the bitmask of allowed runes across all words.
 	// It accelerates CharsAt and lets FilterAny early-return.
 	letterMasks []CharSet
@@ -147,37 +148,46 @@ type Words struct {
 	filterMemoNext uint8
 }
 
+type wordID uint32
+
 func MakeWordsFromPreferredAndObscure(preferred, obscure []string, numLetters int) PossibleLines {
-	if len(preferred) == 0 && len(obscure) == 0 {
-		return MakeImpossible(numLetters)
-	}
-	if len(preferred) == 1 && len(obscure) == 0 {
-		return MakeDefinite(ConcreteLine{Line: []rune(preferred[0]), Words: []string{preferred[0]}})
-	}
-	if len(preferred) == 0 && len(obscure) == 1 {
-		return MakeDefinite(ConcreteLine{Line: []rune(obscure[0]), Words: []string{obscure[0]}})
-	}
-	// Lazily allocate letterMasks on first use to avoid upfront cost when not needed.
-	return &Words{allWords: append(preferred, obscure...), obscureIdx: len(preferred)}
+	allWords := append(append(make([]string, 0, len(preferred)+len(obscure)), preferred...), obscure...)
+	return makeWordsFromTable(allWords, makeSequentialWordIDs(len(allWords)), len(preferred), numLetters)
 }
 
 func MakeWords(allWords []string, obscureIdx int, numLetters int) PossibleLines {
-	if len(allWords) == 0 {
+	return makeWordsFromTable(allWords, makeSequentialWordIDs(len(allWords)), obscureIdx, numLetters)
+}
+
+func makeWordsFromTable(wordTable []string, wordIDs []wordID, obscureIdx int, numLetters int) PossibleLines {
+	if len(wordIDs) == 0 {
 		return MakeImpossible(numLetters)
 	}
-	if len(allWords) == 1 {
-		return MakeDefinite(ConcreteLine{Line: []rune(allWords[0]), Words: []string{allWords[0]}})
+	if len(wordIDs) == 1 {
+		word := wordTable[wordIDs[0]]
+		return MakeDefinite(ConcreteLine{Line: []rune(word), Words: []string{word}})
 	}
-	// Lazily allocate letterMasks on first use to avoid upfront cost when not needed.
-	return &Words{allWords: allWords, obscureIdx: obscureIdx}
+	return &Words{
+		wordTable:  wordTable,
+		wordIDs:    wordIDs,
+		obscureIdx: obscureIdx,
+	}
+}
+
+func makeSequentialWordIDs(length int) []wordID {
+	wordIDs := make([]wordID, length)
+	for i := range length {
+		wordIDs[i] = wordID(i)
+	}
+	return wordIDs
 }
 
 func (w *Words) NumLetters() int {
-	return len(w.allWords[0])
+	return len(w.wordTable[w.wordIDs[0]])
 }
 
 func (w *Words) MaxPossibilities() int64 {
-	return int64(len(w.allWords))
+	return int64(len(w.wordIDs))
 }
 
 func (w *Words) CharsAt(accumulate *CharSet, index int) {
@@ -190,7 +200,8 @@ func (w *Words) CharsAt(accumulate *CharSet, index int) {
 	}
 	if w.letterMasks[index].bits == 0 {
 		w.letterMasks[index] = CharSet{}
-		for _, word := range w.allWords {
+		for _, id := range w.wordIDs {
+			word := w.wordTable[id]
 			r := rune(word[index])
 			w.letterMasks[index].Add(r)
 		}
@@ -203,8 +214,8 @@ func (w *Words) DefinitelyBlockedAt(index int) bool {
 }
 
 func (w *Words) DefiniteWords() []string {
-	if len(w.allWords) == 1 {
-		return []string{w.allWords[0]}
+	if len(w.wordIDs) == 1 {
+		return []string{w.wordTable[w.wordIDs[0]]}
 	}
 	return nil
 }
@@ -234,7 +245,8 @@ func (w *Words) FilterAny(constraint *CharSet, index int) PossibleLines {
 	// match count.
 	matchCount := 0
 	newNumPreferred := 0
-	for idx, word := range w.allWords {
+	for idx, id := range w.wordIDs {
+		word := w.wordTable[id]
 		if constraint.Contains(rune(word[index])) {
 			matchCount++
 			if idx < w.obscureIdx {
@@ -244,7 +256,7 @@ func (w *Words) FilterAny(constraint *CharSet, index int) PossibleLines {
 	}
 
 	// All words matched the filter; no allocation or copy needed.
-	if matchCount == len(w.allWords) {
+	if matchCount == len(w.wordIDs) {
 		w.storeFilterAnyMemo(constraint.bits, index, w)
 		return w
 	}
@@ -255,14 +267,15 @@ func (w *Words) FilterAny(constraint *CharSet, index int) PossibleLines {
 		return result
 	}
 
-	filtered := make([]string, 0, matchCount)
-	for _, word := range w.allWords {
+	filtered := make([]wordID, 0, matchCount)
+	for _, id := range w.wordIDs {
+		word := w.wordTable[id]
 		if constraint.Contains(rune(word[index])) {
-			filtered = append(filtered, word)
+			filtered = append(filtered, id)
 		}
 	}
 
-	result := MakeWords(filtered, newNumPreferred, w.NumLetters())
+	result := makeWordsFromTable(w.wordTable, filtered, newNumPreferred, w.NumLetters())
 	w.storeFilterAnyMemo(constraint.bits, index, result)
 	return result
 }
@@ -290,7 +303,8 @@ func (w *Words) Filter(constraint rune, index int) PossibleLines {
 
 	matchCount := 0
 	newNumPreferred := 0
-	for idx, word := range w.allWords {
+	for idx, id := range w.wordIDs {
+		word := w.wordTable[id]
 		if rune(word[index]) == constraint {
 			matchCount++
 			if idx < w.obscureIdx {
@@ -299,7 +313,7 @@ func (w *Words) Filter(constraint rune, index int) PossibleLines {
 		}
 	}
 
-	if matchCount == len(w.allWords) {
+	if matchCount == len(w.wordIDs) {
 		w.storeFilterMemo(constraint, index, w)
 		return w
 	}
@@ -310,14 +324,15 @@ func (w *Words) Filter(constraint rune, index int) PossibleLines {
 		return result
 	}
 
-	filtered := make([]string, 0, matchCount)
-	for _, word := range w.allWords {
+	filtered := make([]wordID, 0, matchCount)
+	for _, id := range w.wordIDs {
+		word := w.wordTable[id]
 		if rune(word[index]) == constraint {
-			filtered = append(filtered, word)
+			filtered = append(filtered, id)
 		}
 	}
 
-	result := MakeWords(filtered, newNumPreferred, w.NumLetters())
+	result := makeWordsFromTable(w.wordTable, filtered, newNumPreferred, w.NumLetters())
 	w.storeFilterMemo(constraint, index, result)
 	return result
 }
@@ -339,39 +354,44 @@ func (w *Words) RemoveWordOptions(words []string) PossibleLines {
 		if len(word) != w.NumLetters() {
 			return false
 		}
-		return slices.Contains(w.allWords, word)
+		return slices.ContainsFunc(w.wordIDs, func(id wordID) bool {
+			return w.wordTable[id] == word
+		})
 	})
 
 	if !needsFiltering {
 		return w
 	}
 
-	var fp []string
+	var fp []wordID
 	fPreferred := 0
 
-	fp = make([]string, 0, len(w.allWords)-1)
-	for idx, p := range w.allWords {
+	fp = make([]wordID, 0, len(w.wordIDs)-1)
+	for idx, id := range w.wordIDs {
+		p := w.wordTable[id]
 		if !slices.Contains(words, p) {
-			fp = append(fp, p)
+			fp = append(fp, id)
 			if idx < w.obscureIdx {
 				fPreferred++
 			}
 		}
 	}
 
-	return MakeWords(fp, fPreferred, w.NumLetters())
+	return makeWordsFromTable(w.wordTable, fp, fPreferred, w.NumLetters())
 }
 
 func (w *Words) FirstOrNull() *ConcreteLine {
-	if len(w.allWords) == 0 {
+	if len(w.wordIDs) == 0 {
 		return nil
 	}
-	return &ConcreteLine{Line: []rune(w.allWords[0]), Words: []string{w.allWords[0]}}
+	word := w.wordTable[w.wordIDs[0]]
+	return &ConcreteLine{Line: []rune(word), Words: []string{word}}
 }
 
 func (w *Words) Iterate() iter.Seq[ConcreteLine] {
 	return func(yield func(ConcreteLine) bool) {
-		for _, word := range w.allWords {
+		for _, id := range w.wordIDs {
+			word := w.wordTable[id]
 			if !yield(ConcreteLine{Line: []rune(word), Words: []string{word}}) {
 				return
 			}
@@ -384,8 +404,8 @@ func (w *Words) MakeChoice() ChoiceStep {
 		panic("Cannot call MakeChoice on entity with 1 or less options")
 	}
 
-	// Simply split allWords in half, and adjust obscureIdx accordingly.
-	w1, w2 := w.allWords[:len(w.allWords)/2], w.allWords[len(w.allWords)/2:]
+	// Simply split words in half, and adjust obscureIdx accordingly.
+	w1, w2 := w.wordIDs[:len(w.wordIDs)/2], w.wordIDs[len(w.wordIDs)/2:]
 	var w1Idx, w2Idx int
 	if w.obscureIdx < len(w1) {
 		w1Idx = w.obscureIdx
@@ -396,8 +416,8 @@ func (w *Words) MakeChoice() ChoiceStep {
 	}
 
 	return ChoiceStep{
-		Choice:    MakeWords(w1, w1Idx, w.NumLetters()),
-		Remaining: MakeWords(w2, w2Idx, w.NumLetters()),
+		Choice:    makeWordsFromTable(w.wordTable, w1, w1Idx, w.NumLetters()),
+		Remaining: makeWordsFromTable(w.wordTable, w2, w2Idx, w.NumLetters()),
 	}
 }
 
@@ -416,7 +436,11 @@ func arrayStr(arr []string) string {
 }
 
 func (w *Words) String() string {
-	return fmt.Sprintf("Words(%s, %s)", arrayStr(w.allWords[0:w.obscureIdx]), arrayStr(w.allWords[w.obscureIdx:]))
+	asWords := make([]string, len(w.wordIDs))
+	for i, id := range w.wordIDs {
+		asWords[i] = w.wordTable[id]
+	}
+	return fmt.Sprintf("Words(%s, %s)", arrayStr(asWords[0:w.obscureIdx]), arrayStr(asWords[w.obscureIdx:]))
 }
 
 // BlockBefore represents a line that has a blocked cell at the beginning.

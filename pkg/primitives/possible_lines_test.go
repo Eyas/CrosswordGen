@@ -14,6 +14,28 @@ func isActuallyImpossible(pl PossibleLines) bool {
 	return ok
 }
 
+func possibleLinesEquivalent(a, b PossibleLines) bool {
+	if reflect.DeepEqual(a, b) {
+		return true
+	}
+	if a == nil || b == nil {
+		return a == b
+	}
+	if a.NumLetters() != b.NumLetters() || a.MaxPossibilities() != b.MaxPossibilities() {
+		return false
+	}
+
+	collect := func(pl PossibleLines) []ConcreteLine {
+		lines := make([]ConcreteLine, 0, pl.MaxPossibilities())
+		for line := range pl.Iterate() {
+			lines = append(lines, line)
+		}
+		return lines
+	}
+
+	return cmp.Equal(collect(a), collect(b))
+}
+
 func everything(from, to rune) []rune {
 	chars := make([]rune, 0, to-from+1)
 	for c := from; c <= to; c++ {
@@ -133,7 +155,7 @@ func TestWords_FilterAny(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			got := test.pl.FilterAny(test.cs, test.index)
-			if !reflect.DeepEqual(got, test.expected) {
+			if !possibleLinesEquivalent(got, test.expected) {
 				t.Errorf("FilterAny(%v, %d) = %v, want %v", test.cs, test.index, got, test.expected)
 			}
 			if test.expected.MaxPossibilities() != test.pl.MaxPossibilities() {
@@ -303,7 +325,7 @@ func TestWords(t *testing.T) {
 			if tc.wantUnchanged {
 				return
 			}
-			if !reflect.DeepEqual(tc.want, got) {
+			if !possibleLinesEquivalent(tc.want, got) {
 				t.Errorf("FilterAny(%v, %d) = %v, want %v", cs, tc.index, got, tc.want)
 			}
 		})
