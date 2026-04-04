@@ -142,6 +142,9 @@ type Words struct {
 	// Small ring buffer cache for hot repeated FilterAny calls.
 	filterAnyMemo     [4]filterAnyMemoEntry
 	filterAnyMemoNext uint8
+
+	filterMemo     [1]filterMemoEntry
+	filterMemoNext uint8
 }
 
 func MakeWordsFromPreferredAndObscure(preferred, obscure []string, numLetters int) PossibleLines {
@@ -279,6 +282,12 @@ func (w *Words) Filter(constraint rune, index int) PossibleLines {
 		return MakeImpossible(w.NumLetters())
 	}
 
+	for _, memo := range w.filterMemo {
+		if memo.result != nil && memo.index == index && memo.constraint == constraint {
+			return memo.result
+		}
+	}
+
 	matchCount := 0
 	newNumPreferred := 0
 	for idx, word := range w.allWords {
@@ -291,11 +300,14 @@ func (w *Words) Filter(constraint rune, index int) PossibleLines {
 	}
 
 	if matchCount == len(w.allWords) {
+		w.storeFilterMemo(constraint, index, w)
 		return w
 	}
 
 	if matchCount == 0 {
-		return MakeImpossible(w.NumLetters())
+		result := MakeImpossible(w.NumLetters())
+		w.storeFilterMemo(constraint, index, result)
+		return result
 	}
 
 	filtered := make([]string, 0, matchCount)
@@ -305,7 +317,19 @@ func (w *Words) Filter(constraint rune, index int) PossibleLines {
 		}
 	}
 
-	return MakeWords(filtered, newNumPreferred, w.NumLetters())
+	result := MakeWords(filtered, newNumPreferred, w.NumLetters())
+	w.storeFilterMemo(constraint, index, result)
+	return result
+}
+
+func (w *Words) storeFilterMemo(constraint rune, index int, result PossibleLines) {
+	memoIdx := w.filterMemoNext % uint8(len(w.filterMemo))
+	w.filterMemo[memoIdx] = filterMemoEntry{
+		constraint: constraint,
+		index:      index,
+		result:     result,
+	}
+	w.filterMemoNext++
 }
 
 func (w *Words) RemoveWordOptions(words []string) PossibleLines {
@@ -401,6 +425,9 @@ type BlockBefore struct {
 
 	filterAnyMemo     [1]filterAnyMemoEntry
 	filterAnyMemoNext uint8
+
+	filterMemo     [1]filterMemoEntry
+	filterMemoNext uint8
 }
 
 func MakeBlockBefore(lines PossibleLines) PossibleLines {
@@ -455,22 +482,20 @@ func (b *BlockBefore) FilterAny(constraint *CharSet, index int) PossibleLines {
 		return b
 	}
 
+	if index == 0 {
+		if constraint.Contains(kBlocked) {
+			return b
+		}
+		return MakeImpossible(b.NumLetters())
+	}
+
 	for _, memo := range b.filterAnyMemo {
 		if memo.result != nil && memo.index == index && memo.constraintBits == constraint.bits {
 			return memo.result
 		}
 	}
 
-	var result PossibleLines
-	if index == 0 {
-		if constraint.Contains(kBlocked) {
-			result = b
-		} else {
-			result = MakeImpossible(b.NumLetters())
-		}
-	} else {
-		result = b.build(b.lines.FilterAny(constraint, index-1))
-	}
+	result := b.build(b.lines.FilterAny(constraint, index-1))
 	b.storeFilterAnyMemo(constraint.bits, index, result)
 	return result
 }
@@ -492,7 +517,26 @@ func (b *BlockBefore) Filter(constraint rune, index int) PossibleLines {
 		}
 		return MakeImpossible(b.NumLetters())
 	}
-	return b.build(b.lines.Filter(constraint, index-1))
+
+	for _, memo := range b.filterMemo {
+		if memo.result != nil && memo.index == index && memo.constraint == constraint {
+			return memo.result
+		}
+	}
+
+	result := b.build(b.lines.Filter(constraint, index-1))
+	b.storeFilterMemo(constraint, index, result)
+	return result
+}
+
+func (b *BlockBefore) storeFilterMemo(constraint rune, index int, result PossibleLines) {
+	memoIdx := b.filterMemoNext % uint8(len(b.filterMemo))
+	b.filterMemo[memoIdx] = filterMemoEntry{
+		constraint: constraint,
+		index:      index,
+		result:     result,
+	}
+	b.filterMemoNext++
 }
 
 func (b *BlockBefore) RemoveWordOptions(words []string) PossibleLines {
@@ -535,6 +579,9 @@ type BlockAfter struct {
 
 	filterAnyMemo     [1]filterAnyMemoEntry
 	filterAnyMemoNext uint8
+
+	filterMemo     [1]filterMemoEntry
+	filterMemoNext uint8
 }
 
 func MakeBlockAfter(lines PossibleLines) PossibleLines {
@@ -589,22 +636,20 @@ func (b *BlockAfter) FilterAny(constraint *CharSet, index int) PossibleLines {
 		return b
 	}
 
+	if index == b.lines.NumLetters() {
+		if constraint.Contains(kBlocked) {
+			return b
+		}
+		return MakeImpossible(b.NumLetters())
+	}
+
 	for _, memo := range b.filterAnyMemo {
 		if memo.result != nil && memo.index == index && memo.constraintBits == constraint.bits {
 			return memo.result
 		}
 	}
 
-	var result PossibleLines
-	if index == b.lines.NumLetters() {
-		if constraint.Contains(kBlocked) {
-			result = b
-		} else {
-			result = MakeImpossible(b.NumLetters())
-		}
-	} else {
-		result = b.build(b.lines.FilterAny(constraint, index))
-	}
+	result := b.build(b.lines.FilterAny(constraint, index))
 	b.storeFilterAnyMemo(constraint.bits, index, result)
 	return result
 }
@@ -626,7 +671,35 @@ func (b *BlockAfter) Filter(constraint rune, index int) PossibleLines {
 		}
 		return MakeImpossible(b.NumLetters())
 	}
-	return b.build(b.lines.Filter(constraint, index))
+
+	for _, memo := range b.filterMemo {
+		if memo.result != nil && memo.index == index && memo.constraint == constraint {
+			return memo.result
+		}
+	}
+
+	var result PossibleLines
+	if index == b.lines.NumLetters() {
+		if constraint == kBlocked {
+			result = b
+		} else {
+			result = MakeImpossible(b.NumLetters())
+		}
+	} else {
+		result = b.build(b.lines.Filter(constraint, index))
+	}
+	b.storeFilterMemo(constraint, index, result)
+	return result
+}
+
+func (b *BlockAfter) storeFilterMemo(constraint rune, index int, result PossibleLines) {
+	memoIdx := b.filterMemoNext % uint8(len(b.filterMemo))
+	b.filterMemo[memoIdx] = filterMemoEntry{
+		constraint: constraint,
+		index:      index,
+		result:     result,
+	}
+	b.filterMemoNext++
 }
 
 func (b *BlockAfter) RemoveWordOptions(words []string) PossibleLines {
@@ -817,6 +890,9 @@ type Compound struct {
 
 	filterAnyMemo     [1]filterAnyMemoEntry
 	filterAnyMemoNext uint8
+
+	filterMemo     [1]filterMemoEntry
+	filterMemoNext uint8
 }
 
 func MakeCompound(possibilities []PossibleLines, numLetters int) PossibleLines {
@@ -968,6 +1044,12 @@ func (c *Compound) storeFilterAnyMemo(constraintBits uint32, index int, result P
 }
 
 func (c *Compound) Filter(constraint rune, index int) PossibleLines {
+	for _, memo := range c.filterMemo {
+		if memo.result != nil && memo.index == index && memo.constraint == constraint {
+			return memo.result
+		}
+	}
+
 	var filtered []PossibleLines
 	anyChangeInSubParts := false
 
@@ -976,7 +1058,8 @@ func (c *Compound) Filter(constraint rune, index int) PossibleLines {
 		if !anyChangeInSubParts && p != f {
 			// This is the first change, so we're gonna start building 'filtered' instead.
 			anyChangeInSubParts = true
-			filtered = append(filtered, c.possibilities[:ip]...)
+			filtered = make([]PossibleLines, ip, len(c.possibilities))
+			copy(filtered, c.possibilities[:ip])
 		}
 
 		if isImpossible(f) {
@@ -989,10 +1072,23 @@ func (c *Compound) Filter(constraint rune, index int) PossibleLines {
 	}
 
 	if !anyChangeInSubParts {
+		c.storeFilterMemo(constraint, index, c)
 		return c
 	}
 
-	return MakeCompound(filtered, c.NumLetters())
+	result := MakeCompound(filtered, c.NumLetters())
+	c.storeFilterMemo(constraint, index, result)
+	return result
+}
+
+func (c *Compound) storeFilterMemo(constraint rune, index int, result PossibleLines) {
+	memoIdx := c.filterMemoNext % uint8(len(c.filterMemo))
+	c.filterMemo[memoIdx] = filterMemoEntry{
+		constraint: constraint,
+		index:      index,
+		result:     result,
+	}
+	c.filterMemoNext++
 }
 
 func isImpossible(p PossibleLines) bool {
@@ -1168,4 +1264,10 @@ type filterAnyMemoEntry struct {
 	constraintBits uint32
 	index          int
 	result         PossibleLines
+}
+
+type filterMemoEntry struct {
+	constraint rune
+	index      int
+	result     PossibleLines
 }
